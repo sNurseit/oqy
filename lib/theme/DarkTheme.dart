@@ -16,7 +16,7 @@ class DarkTheme {
           titleLarge: TextStyle(
             color: AppFontColors.fontWhite,
             fontSize: 40,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w700,
             fontFamily: AppFonts.mainFont,
           ),
           bodySmall: TextStyle(
@@ -33,11 +33,12 @@ class DarkTheme {
             color: AppFontColors.fontLink,
             fontSize: 16,
             fontFamily: AppFonts.mainFont,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w700,
           ),
           displayLarge:TextStyle(
             color: AppFontColors.fontWhite,
             fontSize: 18,
+            fontWeight: FontWeight.w500,
             fontFamily: AppFonts.mainFont,
           ),
         ),
