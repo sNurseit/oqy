@@ -6,6 +6,8 @@ abstract class AppLightColors{
   static const mainBackground = Color.fromRGBO(242, 242, 242, 1);
   static const unselectedItem = Color.fromRGBO(51, 51, 51, 0.8);
   static const main= Color.fromRGBO(48, 123, 166, 1);
+  static const mainCard= Color.fromRGBO(255, 255, 255, 1);
+  static const scCard = Color.fromRGBO(255, 255, 255, 1);
   static const bottomBarBackground= Color.fromRGBO(255,255,255,0.8);
 }
 
@@ -18,9 +20,10 @@ abstract class AppFontColors{
 }
 
 abstract class AppDarkColors{
-  static const mainBackground = Color.fromRGBO(26, 26, 26, 1);
-  static const unselectedItem = Color.fromRGBO(242, 242, 242, 1);
-  static const mainCard= Color.fromRGBO(51, 51, 51, 1);
+  static const mainBackground = Color.fromRGBO(17, 17, 17, 1);
+  static const unselectedItem = Color.fromRGBO(242, 242, 242, 0.6);
+  static const mainCard= Color.fromRGBO(38, 38, 38, 1);
+  static const scCard = Color.fromRGBO(51, 51, 51, 1);
   static const main= Color.fromRGBO(48, 123, 166, 1);
   static const bottomBarBackground= Color.fromRGBO(51, 51, 51, 0.8);
 }

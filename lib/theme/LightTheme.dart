@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:oqy/theme/app_colors.dart';
 import 'package:oqy/theme/app_fonts.dart';
 
@@ -7,6 +8,7 @@ class LightTheme {
   static ThemeData get themeData {
     return  ThemeData(
         primaryColor: AppLightColors.main,
+        cardColor: AppLightColors.mainCard,
         scaffoldBackgroundColor:  AppLightColors.mainBackground,
         appBarTheme: const AppBarTheme(
           color: AppLightColors.main,
@@ -22,6 +24,12 @@ class LightTheme {
             color: AppFontColors.fontMid,
             fontSize: 14,
             fontFamily: AppFonts.mainFont,
+          ),
+          labelMedium:  TextStyle(
+            color: AppFontColors.fontLink,
+            fontSize: 16,
+            fontFamily: AppFonts.mainFont,
+            fontWeight: FontWeight.bold,
           ),
           labelSmall: TextStyle(
             color: AppFontColors.fontLink,
@@ -39,6 +47,7 @@ class LightTheme {
             backgroundColor: MaterialStateProperty.all<Color?>(AppDarkColors.main),
           ),
         ),
+
         focusColor: AppFontColors.mainFont,
         hintColor: AppFontColors.fontMid,
         unselectedWidgetColor: AppLightColors.unselectedItem,

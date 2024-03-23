@@ -7,9 +7,10 @@ class DarkTheme {
   static ThemeData get themeData {
     return ThemeData(
         primaryColor: AppDarkColors.main,
+        cardColor: AppDarkColors.mainCard,
         scaffoldBackgroundColor: AppDarkColors.mainBackground,
         appBarTheme:const AppBarTheme(
-          color: AppDarkColors.main,
+          color: AppDarkColors.bottomBarBackground,
         ),
         textTheme: const TextTheme(
           titleLarge: TextStyle(
@@ -28,6 +29,12 @@ class DarkTheme {
             fontSize: 14,
             fontFamily: AppFonts.mainFont,
           ),
+          labelMedium:  TextStyle(
+            color: AppFontColors.fontLink,
+            fontSize: 16,
+            fontFamily: AppFonts.mainFont,
+            fontWeight: FontWeight.bold,
+          ),
           displayLarge:TextStyle(
             color: AppFontColors.fontWhite,
             fontSize: 18,
@@ -43,6 +50,7 @@ class DarkTheme {
         hintColor: AppFontColors.fontLight,
         secondaryHeaderColor:AppDarkColors.bottomBarBackground,
         unselectedWidgetColor: AppDarkColors.unselectedItem,
+
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
         hoverColor: Colors.transparent,
