@@ -19,13 +19,13 @@ class InputPassword extends StatelessWidget {
               borderSide: BorderSide(color: Theme.of(context).focusColor),
               borderRadius: BorderRadius.circular(6.0),
             ),
-            labelText: "Email",
+            labelText: "Password",
             contentPadding: const EdgeInsets.symmetric(horizontal: 17,vertical: 20),
             labelStyle:  TextStyle(
               color:  Theme.of(context).hintColor,
-            ),
+            ), 
           focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Theme.of(context).primaryColor), // Цвет рамки при активном состоянии
+            borderSide: BorderSide(color: Theme.of(context).primaryColor),
             borderRadius: BorderRadius.circular(6.0),
           ),
       ),

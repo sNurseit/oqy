@@ -13,16 +13,17 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: theme.secondaryHeaderColor,
         elevation: 0, 
-        titleTextStyle: const TextStyle(
-
-        ),
         title: const Text('OQY'),
+        titleTextStyle: theme.textTheme.titleMedium,
         actions: [
           IconButton(onPressed: () {}, icon: const Icon(Icons.notifications_outlined)),
         ],
+        toolbarHeight: 60,
       ),
       body: ListCourses.create(),
     );

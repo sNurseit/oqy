@@ -18,8 +18,7 @@ class ListCourses extends StatelessWidget {
   Widget build(BuildContext context) {
     final courses = Provider.of<HomeModel>(context).model;
     final model = Provider.of<HomeModel>(context);
-    final width = MediaQuery.of(context).size.width;
-    final height = width*9/16;
+    final myContext = context;
     final theme = Theme.of(context);
     if (courses == null || courses.isEmpty) {
       return const Center(child: CircularProgressIndicator());
@@ -32,25 +31,25 @@ class ListCourses extends StatelessWidget {
         final course = courses[index];
 
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
           child: GestureDetector(
             
-            onTap: ()=>model.navigateToCourseDetails(context, course.id, course.title),
+            onTap: ()=>model.navigateToCourseDetails(myContext, course.id),
             child: Card.filled(
-              margin: const EdgeInsets.all(16),
               color: theme.cardColor,
               child: Column(
                 children: [
                   Container(
-                    height: height,
-                    width: width,
+                    constraints: const BoxConstraints(
+                      maxHeight: 480
+                    ),
                     decoration: const BoxDecoration(
                     ),
                     child: ClipRRect(
                       borderRadius: const BorderRadius.only(topRight: Radius.circular(12), topLeft: Radius.circular(12)),
                       child: Image.memory(
                         course.imageBytes,
-                        fit: BoxFit.cover,
+                        fit: BoxFit.fitWidth,
                       ),
                     ),
                   ),

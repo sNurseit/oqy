@@ -10,14 +10,20 @@ class LightTheme {
         primaryColor: AppLightColors.main,
         cardColor: AppLightColors.mainCard,
         scaffoldBackgroundColor:  AppLightColors.mainBackground,
-        appBarTheme: const AppBarTheme(
-          color: AppLightColors.main,
+        appBarTheme:  const AppBarTheme(
+          backgroundColor: AppLightColors.bottomBarBackground, 
         ),
         textTheme: const TextTheme(
           titleLarge: TextStyle(
             color: AppFontColors.mainFont,
             fontSize: 40,
             fontWeight: FontWeight.w600,
+            fontFamily: AppFonts.mainFont,
+          ),
+          titleMedium: TextStyle( 
+            color: AppFontColors.mainFont,
+            fontSize: 26,
+            fontWeight: FontWeight.w700,
             fontFamily: AppFonts.mainFont,
           ),
           bodySmall: TextStyle(
@@ -29,7 +35,7 @@ class LightTheme {
             color: AppFontColors.fontLink,
             fontSize: 16,
             fontFamily: AppFonts.mainFont,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.w700,
           ),
           labelSmall: TextStyle(
             color: AppFontColors.fontLink,
@@ -39,6 +45,7 @@ class LightTheme {
           displayLarge:TextStyle(
             color: AppFontColors.mainFont,
             fontSize: 18,
+            fontWeight: FontWeight.w500,
             fontFamily: AppFonts.mainFont,
           ),
         ),

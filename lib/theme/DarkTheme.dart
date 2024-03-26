@@ -9,13 +9,20 @@ class DarkTheme {
         primaryColor: AppDarkColors.main,
         cardColor: AppDarkColors.mainCard,
         scaffoldBackgroundColor: AppDarkColors.mainBackground,
-        appBarTheme:const AppBarTheme(
-          color: AppDarkColors.bottomBarBackground,
+        appBarTheme: const AppBarTheme(
+          foregroundColor: AppFontColors.fontWhite,
+          backgroundColor: AppDarkColors.bottomBarBackground,
         ),
         textTheme: const TextTheme(
           titleLarge: TextStyle(
             color: AppFontColors.fontWhite,
             fontSize: 40,
+            fontWeight: FontWeight.w700,
+            fontFamily: AppFonts.mainFont,
+          ),
+          titleMedium: TextStyle( 
+            color: AppFontColors.fontWhite,
+            fontSize: 26,
             fontWeight: FontWeight.w700,
             fontFamily: AppFonts.mainFont,
           ),
