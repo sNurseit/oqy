@@ -26,11 +26,17 @@ class DarkTheme {
             fontWeight: FontWeight.w700,
             fontFamily: AppFonts.mainFont,
           ),
+          bodyMedium: TextStyle(
+            color: AppFontColors.fontLight,
+            fontSize: 16,
+            fontFamily: AppFonts.mainFont,
+          ),
           bodySmall: TextStyle(
             color: AppFontColors.fontLight,
             fontSize: 14,
             fontFamily: AppFonts.mainFont,
           ),
+          
           labelSmall: TextStyle(
             color: AppFontColors.fontLink,
             fontSize: 14,
@@ -48,17 +54,32 @@ class DarkTheme {
             fontWeight: FontWeight.w500,
             fontFamily: AppFonts.mainFont,
           ),
+          displayMedium: TextStyle(
+            color: AppFontColors.fontWhite,
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            fontFamily: AppFonts.mainFont,
+          ),
+          displaySmall: TextStyle(
+            color: AppFontColors.fontLight,
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            fontFamily: AppFonts.mainFont,
+          ),
         ),
         filledButtonTheme: FilledButtonThemeData(
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all<Color?>(AppDarkColors.main),
           ),
         ),
+
         focusColor: AppFontColors.fontLight,
         hintColor: AppFontColors.fontLight,
         secondaryHeaderColor:AppDarkColors.bottomBarBackground,
         unselectedWidgetColor: AppDarkColors.unselectedItem,
+        primaryColorDark: AppDarkColors.unselectedItem,
 
+        
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
         hoverColor: Colors.transparent,

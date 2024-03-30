@@ -1,4 +1,3 @@
-
 class AuthResponse {
    String token;
    int userId;

@@ -1,6 +1,6 @@
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:oqy/domain/entity/AuthResponse.dart';
+import 'package:oqy/domain/entity/auth_response.dart';
 
 
 abstract class _Keys{

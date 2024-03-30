@@ -5,7 +5,6 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:oqy/features/auth/auth.dart';
 import 'package:oqy/router/router.dart';
 
 @RoutePage()
@@ -20,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Timer(const Duration(seconds: 5), (){
+    Timer(const Duration(milliseconds: 350), (){
       AutoRouter.of(context).replace(const AuthRoute());
     });
 

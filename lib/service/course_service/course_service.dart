@@ -1,11 +1,11 @@
 
 import 'package:dio/dio.dart';
-import 'package:oqy/domain/entity/AuthRequest.dart';
-import 'package:oqy/domain/entity/Course.dart';
+import 'package:oqy/domain/api_constant/api_constants.dart';
+import 'package:oqy/domain/entity/course.dart';
 import 'package:oqy/domain/provider/session_provider.dart';
 
 class CourseService {
-    late  Dio _dio = Dio();
+    final  Dio _dio = Dio();
     final String GET_ALL_COURSES = ApiConstants.GET_ALL_COURSES;
     final String GET_ONE_COURSE = ApiConstants.GET_ONE_COURSE;
 
@@ -23,7 +23,6 @@ class CourseService {
                 throw Exception('Failed to load content. Status code: ${response.statusCode}');
             }
         } catch (error) {
-            print('Error in CourseService: $error');
             throw Exception('Failed to make the request: $error');
         }
     }
@@ -41,7 +40,6 @@ class CourseService {
                 throw Exception('Failed to load content. Status code: ${response.statusCode}');
             }
         } catch (error) {
-            print('Error in CourseService: $error');
             throw Exception('Failed to make the request: $error');
         }
     }

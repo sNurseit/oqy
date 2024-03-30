@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:oqy/domain/entity/Course.dart';
+import 'package:oqy/domain/entity/course.dart';
+import 'package:oqy/domain/entity/module_item.dart';
 import 'package:oqy/service/course_service/course_service.dart';
+
+
+
 
 class CourseModel extends ChangeNotifier{
   int courseId;
-  
-  final _courseService = CourseService();
   Course? _course;
   get course=>_course;
+
+  List<ModuleItem>? _modules;
+  get modules =>_modules;
+
+  final _courseService = CourseService();
+  
 
   CourseModel({required this.courseId}){
     setup();
@@ -15,8 +23,20 @@ class CourseModel extends ChangeNotifier{
 
   Future<void> setup() async {
     _course = (await _courseService.getOneCourse(courseId));
-    print(_course?.price);
+    if (_course != null && _course!.modules != null) {
+      _modules = List.generate(
+        _course!.modules!.length,
+        (int index) => ModuleItem(module: _course!.modules![index]),
+      );
+    }
     notifyListeners();
+  }
+
+  void expand(int index) {
+    if (_modules != null && index >= 0 && index < _modules!.length) {
+      _modules![index].isExpanded = !_modules![index].isExpanded ;
+      notifyListeners();
+    }
   }
 
 }
@@ -42,7 +62,5 @@ class CourseProvider extends InheritedNotifier {
   }
 
   @override
-  bool updateShouldNotify(CourseProvider old) {
-    return true;
-  }
+  bool updateShouldNotify(CourseProvider old) => old != child;
 }

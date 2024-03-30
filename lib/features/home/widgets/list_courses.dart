@@ -47,9 +47,12 @@ class ListCourses extends StatelessWidget {
                     ),
                     child: ClipRRect(
                       borderRadius: const BorderRadius.only(topRight: Radius.circular(12), topLeft: Radius.circular(12)),
-                      child: Image.memory(
-                        course.imageBytes,
-                        fit: BoxFit.fitWidth,
+                      child: Hero(
+                        tag: 'course_image_${course.id}',
+                        child: Image.memory(
+                          course.imageBytes,
+                          fit: BoxFit.fitWidth,
+                        ),
                       ),
                     ),
                   ),
@@ -57,14 +60,14 @@ class ListCourses extends StatelessWidget {
                       padding: const EdgeInsets.all(16),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
+                      
                         children: [
                           Flexible(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-
+                      
                                   course.title,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 2,
@@ -101,7 +104,7 @@ class ListCourses extends StatelessWidget {
                           ),
                           
                         ],
-
+                      
                       ),
                     ),
                 ],
