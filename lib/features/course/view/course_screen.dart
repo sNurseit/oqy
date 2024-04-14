@@ -1,9 +1,11 @@
 import 'dart:typed_data';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:oqy/features/course/model/course_model.dart';
 import 'package:oqy/features/course/widgets/course_module_list.dart';
+import 'package:oqy/theme/app_colors.dart';
+import 'package:provider/provider.dart';
 @immutable
 @RoutePage()  
 class CourseScreen extends StatefulWidget {
@@ -31,55 +33,60 @@ class _CourseScreenState extends State<CourseScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return CourseProvider(
-      model: _model,
+    return ChangeNotifierProvider(
+      create: (_)=>_model,
       child:  CourseDetails(courseId: widget.courseId),
     );
   }
 
-  @override
-  void dispose() async {
-     _model.dispose();
-    super.dispose();
-  }
+
 }
 
 
-class CourseDetails extends StatelessWidget {
-   final int courseId;
+class CourseDetails extends StatefulWidget {
+  final int courseId;
 
   const CourseDetails({Key? key, required this.courseId}) : super(key: key);
+
+  @override
+  State<CourseDetails> createState() => _CourseDetailsState();
+}
+
+class _CourseDetailsState extends State<CourseDetails> {
  @override
   Widget build(BuildContext context) {
+
     final theme = Theme.of(context);
-    final course = CourseProvider.watch(context).model.course;
+    final course = context.watch<CourseModel>().course;
+    final model = context.read<CourseModel>();
+    final scrollController = ScrollController();
 
-
-    if (course == null) {
-      return const Center(child: CircularProgressIndicator());
-    }
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: theme.secondaryHeaderColor,
         title: Text(
-          course.title ?? "",
+          course == null ? " ": course.title,
           maxLines: 2,
           style: theme.textTheme.displayLarge,
         ),
       ),
       backgroundColor: theme.scaffoldBackgroundColor,
-      body: ListView(
+      body: course == null ? const Center(child: CircularProgressIndicator()) 
+      : ListView(
+        controller: scrollController,
         children: <Widget>[
           Hero(
-            tag: 'course_image_$courseId', 
+            tag: 'course_image_${widget.courseId}', 
             child: Container(
               decoration: const BoxDecoration(
                 borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20),bottomRight: Radius.circular(20)),
               ),
-              child: Image.memory(
-                Uint8List.fromList(course.imageBytes ?? []),
-                fit: BoxFit.fitWidth,
+              child: InteractiveViewer(
+                child: Image.memory(
+                  Uint8List.fromList(course.imageBytes ?? []),
+                  fit: BoxFit.fitWidth,
+                ),
               ),
             ),
           ),
@@ -96,6 +103,24 @@ class CourseDetails extends StatelessWidget {
                   maxLines: 3,
                   style: theme.textTheme.titleMedium,
                 ),
+                Row(
+                  children: [
+                    RatingBarIndicator(
+                      rating: course.averageRating,
+                      itemBuilder: (context, index) => const Icon(
+                      Icons.star,
+                      color: AppFontColors.fontLink,
+                      ),
+                      itemCount: 5,
+                      itemSize: 24.0,
+                      direction: Axis.horizontal,
+                      unratedColor: theme.unselectedWidgetColor,
+                    ),
+                    const SizedBox(width: 10,),
+                    Text("${course.averageRating}(${course.reviewCount})", style: theme.textTheme.displaySmall,),
+
+                  ],
+                ),
                 const SizedBox(
                   height: 20,
                 ),
@@ -110,15 +135,7 @@ class CourseDetails extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          Center(
-            child: Text(
-              "${course.enrollmentCount} Students",
-              style: theme.textTheme.bodyMedium,
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
+
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
@@ -142,11 +159,11 @@ class CourseDetails extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            course.price !=null ? 
+            course != null? 
             Text('${course.price}',style: theme.textTheme.labelMedium) 
             :const Text("Free"),
             FilledButton(
-              onPressed: (){},
+              onPressed:() => model.buyCourse(course.id, context),
               child: Text('Buy now', style: theme.textTheme.displayLarge,)
             )
           ],

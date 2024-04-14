@@ -46,6 +46,19 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const MainScreen(),
       );
     },
+    MyTrainingRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<MyTrainingRouteArgs>(
+          orElse: () =>
+              MyTrainingRouteArgs(courseId: pathParams.getInt('courseId')));
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: MyTrainingScreen(
+          key: args.key,
+          courseId: args.courseId,
+        ),
+      );
+    },
     ProfileRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -157,6 +170,45 @@ class MainRoute extends PageRouteInfo<void> {
   static const String name = 'MainRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [MyTrainingScreen]
+class MyTrainingRoute extends PageRouteInfo<MyTrainingRouteArgs> {
+  MyTrainingRoute({
+    Key? key,
+    required int courseId,
+    List<PageRouteInfo>? children,
+  }) : super(
+          MyTrainingRoute.name,
+          args: MyTrainingRouteArgs(
+            key: key,
+            courseId: courseId,
+          ),
+          rawPathParams: {'courseId': courseId},
+          initialChildren: children,
+        );
+
+  static const String name = 'MyTrainingRoute';
+
+  static const PageInfo<MyTrainingRouteArgs> page =
+      PageInfo<MyTrainingRouteArgs>(name);
+}
+
+class MyTrainingRouteArgs {
+  const MyTrainingRouteArgs({
+    this.key,
+    required this.courseId,
+  });
+
+  final Key? key;
+
+  final int courseId;
+
+  @override
+  String toString() {
+    return 'MyTrainingRouteArgs{key: $key, courseId: $courseId}';
+  }
 }
 
 /// generated route for

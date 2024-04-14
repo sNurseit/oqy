@@ -26,14 +26,16 @@ class DarkTheme {
             fontWeight: FontWeight.w700,
             fontFamily: AppFonts.mainFont,
           ),
-          bodyMedium: TextStyle(
-            color: AppFontColors.fontLight,
-            fontSize: 16,
-            fontFamily: AppFonts.mainFont,
-          ),
+
+
           bodySmall: TextStyle(
             color: AppFontColors.fontLight,
             fontSize: 14,
+            fontFamily: AppFonts.mainFont,
+          ),
+          bodyMedium: TextStyle(
+            color: AppFontColors.fontLight,
+            fontSize: 16,
             fontFamily: AppFonts.mainFont,
           ),
           
@@ -48,12 +50,8 @@ class DarkTheme {
             fontFamily: AppFonts.mainFont,
             fontWeight: FontWeight.w700,
           ),
-          displayLarge:TextStyle(
-            color: AppFontColors.fontWhite,
-            fontSize: 18,
-            fontWeight: FontWeight.w500,
-            fontFamily: AppFonts.mainFont,
-          ),
+
+
           displayMedium: TextStyle(
             color: AppFontColors.fontWhite,
             fontSize: 16,
@@ -66,7 +64,15 @@ class DarkTheme {
             fontWeight: FontWeight.w500,
             fontFamily: AppFonts.mainFont,
           ),
+          displayLarge:TextStyle(
+            color: AppFontColors.fontWhite,
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
+            fontFamily: AppFonts.mainFont,
+          ),
         ),
+
+
         filledButtonTheme: FilledButtonThemeData(
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all<Color?>(AppDarkColors.main),

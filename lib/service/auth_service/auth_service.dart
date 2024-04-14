@@ -25,9 +25,7 @@ class AuthService {
       return response.statusCode;
     }
   }
-
     
-  
   Future<void> logout() async{
     _sessionProvider.clearApiKey();
   }

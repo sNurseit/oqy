@@ -27,6 +27,7 @@ class SessionDataProvider{
 
   Future<void> setSessionId(String sessionId, int userId) async {
       final id='$userId';
+      print(sessionId);
       (await _secureStorage.write(key: _Keys.sessionId, value: sessionId));
       (await _secureStorage.write(key: _Keys.userId, value: id));
   }

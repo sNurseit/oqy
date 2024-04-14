@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'Module.dart';
+import 'module.dart';
 
 class Course {
   final int?  id;

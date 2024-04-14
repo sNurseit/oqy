@@ -23,15 +23,16 @@ class _MainScreenState extends State<MainScreen> {
           ProfileRoute(),
         ],
     builder: (context, child){
+      final theme =  Theme.of(context);
           final tabsRouter = AutoTabsRouter.of(context);
           return Scaffold(
             body: child,
             bottomNavigationBar: BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
-              backgroundColor: Theme.of(context).secondaryHeaderColor,
+              backgroundColor: theme.secondaryHeaderColor,
               currentIndex: tabsRouter.activeIndex,
-              selectedItemColor: Theme.of(context).primaryColor,
-              unselectedItemColor:  Theme.of(context).unselectedWidgetColor,
+              selectedItemColor: theme.primaryColor,
+              unselectedItemColor:  theme.unselectedWidgetColor,
               selectedFontSize: 12,
               unselectedFontSize: 12,
               elevation: 0,
@@ -51,7 +52,7 @@ class _MainScreenState extends State<MainScreen> {
                 BottomNavigationBarItem(
                     icon: Icon(Icons.menu_book_outlined),
                     activeIcon: Icon(Icons.menu_book_rounded),
-                    label: 'My Training'
+                    label: 'Training'
                 ),
                 BottomNavigationBarItem(
                     icon: Icon(Icons.account_circle_outlined),

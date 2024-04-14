@@ -14,23 +14,37 @@ class LightTheme {
           backgroundColor: AppLightColors.bottomBarBackground, 
         ),
         textTheme: const TextTheme(
-          titleLarge: TextStyle(
-            color: AppFontColors.mainFont,
-            fontSize: 40,
-            fontWeight: FontWeight.w600,
-            fontFamily: AppFonts.mainFont,
-          ),
+
+
           titleMedium: TextStyle( 
             color: AppFontColors.mainFont,
             fontSize: 26,
             fontWeight: FontWeight.w700,
             fontFamily: AppFonts.mainFont,
           ),
+          titleLarge: TextStyle(
+            color: AppFontColors.mainFont,
+            fontSize: 40,
+            fontWeight: FontWeight.w600,
+            fontFamily: AppFonts.mainFont,
+          ),
+
+
+
+
           bodySmall: TextStyle(
             color: AppFontColors.fontMid,
             fontSize: 14,
             fontFamily: AppFonts.mainFont,
           ),
+          bodyMedium: TextStyle(
+            color: AppFontColors.fontMid,
+            fontSize: 16,
+            fontFamily: AppFonts.mainFont,
+          ),
+
+
+
           labelMedium:  TextStyle(
             color: AppFontColors.fontLink,
             fontSize: 16,
@@ -42,6 +56,21 @@ class LightTheme {
             fontSize: 14,
             fontFamily: AppFonts.mainFont,
           ),
+
+
+
+          displayMedium: TextStyle(
+            color: AppFontColors.mainFont,
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            fontFamily: AppFonts.mainFont,
+          ),
+          displaySmall: TextStyle(
+            color: AppFontColors.fontMid,
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            fontFamily: AppFonts.mainFont,
+          ),
           displayLarge:TextStyle(
             color: AppFontColors.mainFont,
             fontSize: 18,
@@ -49,6 +78,8 @@ class LightTheme {
             fontFamily: AppFonts.mainFont,
           ),
         ),
+
+
         filledButtonTheme: FilledButtonThemeData(
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all<Color?>(AppDarkColors.main),
@@ -57,8 +88,10 @@ class LightTheme {
 
         focusColor: AppFontColors.mainFont,
         hintColor: AppFontColors.fontMid,
-        unselectedWidgetColor: AppLightColors.unselectedItem,
         secondaryHeaderColor: AppLightColors.bottomBarBackground,
+        unselectedWidgetColor: AppLightColors.unselectedItem,
+        primaryColorDark: AppLightColors.bottomBarBackground,
+
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
         hoverColor: Colors.transparent,

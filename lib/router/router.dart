@@ -8,6 +8,7 @@ import 'package:oqy/features/home/view/home_screen.dart';
 import 'package:oqy/features/main/view/main_screen.dart';
 import 'package:oqy/features/profile/view/profile_screen.dart';
 import 'package:oqy/features/search/view/search_screen.dart';
+import 'package:oqy/features/training/view/my_training_screen.dart';
 import 'package:oqy/features/training/view/training_screen.dart';
 import 'package:oqy/splash_screen.dart';
 part 'router.gr.dart';
@@ -30,7 +31,6 @@ class AppRouter extends _$AppRouter{
       page: RegisterRoute.page,
       path: '/register',
     ),
-
     AutoRoute(
       page: MainRoute.page,
       path: '/main/',
@@ -56,9 +56,13 @@ class AppRouter extends _$AppRouter{
 
       ],
     ),
-            AutoRoute(
-          page: CourseRoute.page,
-          path: '/course',
-        ),
+    AutoRoute(
+      page: CourseRoute.page,
+      path: '/course',
+    ),
+    AutoRoute(
+      page: MyTrainingRoute.page,
+      path: '/my-training',
+    )
   ];
 }
