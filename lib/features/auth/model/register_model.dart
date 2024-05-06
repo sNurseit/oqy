@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:oqy/service/auth_service/auth_service.dart';
+import 'package:oqy/service/impl/auth_service_impl.dart';
 
 
 class RegisterModel extends ChangeNotifier{

@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:oqy/domain/entity/module.dart';
-import 'package:oqy/domain/entity/material.dart';
+
 import 'package:oqy/features/training/model/my_training_model.dart';
 import 'package:oqy/features/training/widgets/course_modules.dart';
 import 'package:provider/provider.dart';

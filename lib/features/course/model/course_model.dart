@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:oqy/domain/entity/module.dart';
 import 'package:oqy/domain/entity/course.dart';
 import 'package:oqy/router/router.dart';
-import 'package:oqy/service/course_service/course_service.dart';
+import 'package:oqy/service/course_service_impl.dart';
 
 
 class CourseModel extends ChangeNotifier{

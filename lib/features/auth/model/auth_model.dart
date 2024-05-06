@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:oqy/router/router.dart';
-import 'package:oqy/service/auth_service/auth_service.dart';
+import 'package:oqy/service/impl/auth_service_impl.dart';
 
 
 class AuthModel extends ChangeNotifier{

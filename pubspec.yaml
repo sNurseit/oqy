@@ -18,6 +18,10 @@ dependencies:
   auto_route: ^7.9.2
   cupertino_icons: ^1.0.2
   lottie: ^3.1.0
+  flutter_quill: ^9.3.6
+  flutter_bloc: ^8.1.5
+  get_it: ^7.7.0
+
 
 dev_dependencies:
   pedantic_mono: any

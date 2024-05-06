@@ -8,7 +8,7 @@ class Reviews extends StatelessWidget {
   Widget build(BuildContext context) {
     return  Container(
             height: 200.0,
-            padding: EdgeInsets.symmetric(vertical : 20),
+            padding: const EdgeInsets.symmetric(vertical : 20),
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: 4,
@@ -24,6 +24,6 @@ class Reviews extends StatelessWidget {
                 );
               },
             ),
-          );;
+          );
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:oqy/domain/entity/course.dart';
 import 'package:oqy/domain/entity/material.dart';
-import 'package:oqy/service/course_service/course_service.dart';
+import 'package:oqy/service/course_service_impl.dart';
 
 class MyTrainingModel extends ChangeNotifier {
   int courseId;
