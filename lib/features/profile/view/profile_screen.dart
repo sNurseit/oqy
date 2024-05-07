@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:oqy/features/profile/bloc/profile_bloc.dart';
+import 'package:oqy/features/profile/widgets/profile_picture.dart';
 import 'package:oqy/service/profile_service.dart';
 import 'package:oqy/widgets/error_loading_widget.dart';
 
@@ -60,10 +61,11 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                         bloc: _profileBloc,
                         builder: (context, state) {
                           if(state is ProfileLoaded){
+                    
                             return Column(
                               children: [
                                 const SizedBox(height: 40,),
-                                CircleAvatar(radius: 60,),
+                                ProfilePictureWidget(picture:state.profile.picture),
                                 const SizedBox(height: 10,),
                                 Text( 
                                   '${state.profile.firstname} ${state.profile.lastname}',
@@ -87,16 +89,17 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
 
                       ),
                   bottom: PreferredSize(
-                          preferredSize: const Size.fromHeight(0),
-                          child: TabBar(
-                              controller: _controller,
-                              labelColor: Colors.black,
-                              indicatorColor: Colors.black,
-                              unselectedLabelColor: Colors.grey,
-                              tabs: _tabs
-                                  .map((String name) => Tab(text: name))
-                                  .toList()),
-                        ),
+                    preferredSize: const Size.fromHeight(0),
+                    child: TabBar(
+                      controller: _controller,
+                      labelColor: Colors.black,
+                      indicatorColor: Colors.black,
+                      unselectedLabelColor: Colors.grey,
+                      tabs: _tabs
+                        .map((String name) => Tab(text: name))
+                        .toList()
+                    ),
+                  ),
                 ),
               ),
             ];
@@ -107,15 +110,15 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
               return SingleChildScrollView( // Добавлено, чтобы прокручивать содержимое внутри TabBarView
                 child: Column(
                   children: [
-                    SizedBox(height: 200),
+                    const SizedBox(height: 200),
                     Center(child: Text("Содержимое $tab")),
-                    SizedBox(height: 200),
+                    const SizedBox(height: 200),
                     Center(child: Text("Содержимое $tab")),
-                    SizedBox(height: 200),
+                    const SizedBox(height: 200),
                     Center(child: Text("Содержимое $tab")),
-                    SizedBox(height: 200),
+                    const SizedBox(height: 200),
                     Center(child: Text("Содержимое $tab")),
-                    SizedBox(height: 200),
+                    const SizedBox(height: 200),
                   ],
                 ),
               );

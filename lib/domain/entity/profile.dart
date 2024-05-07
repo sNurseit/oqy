@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:oqy/domain/entity/course.dart';
 
 class Profile {

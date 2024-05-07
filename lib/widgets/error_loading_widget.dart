@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ErrorLoadingWidget extends StatelessWidget {
   final VoidCallback onTryAgain;
-  const ErrorLoadingWidget({super.key,required this.onTryAgain});
+  const ErrorLoadingWidget({super.key,required this.onTryAgain, });
 
   @override
   Widget build(BuildContext context) {
