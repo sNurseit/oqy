@@ -9,8 +9,13 @@ part 'profile_state.dart';
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc(this.profileService) : super(ProfileInitial()) {
     on<ProfileEvent>((event, emit) async {
-      final profile = await profileService.getProfile();
-      emit(ProfileLoaded(profile: profile));
+      try{
+        emit(ProfileLoading());
+        final profile = await profileService.getProfile();
+        emit(ProfileLoaded(profile: profile));
+      } catch (e){
+        emit(ProfileLoadingFailure(exception: e));
+      }
     });
   }
 

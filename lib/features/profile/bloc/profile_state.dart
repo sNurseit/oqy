@@ -11,3 +11,9 @@ class ProfileLoaded extends ProfileState{
 
   ProfileLoaded({required this.profile});
 }
+
+class ProfileLoadingFailure extends ProfileState{
+  final Object? exception;
+
+  ProfileLoadingFailure({required this.exception});
+}

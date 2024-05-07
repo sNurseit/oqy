@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:oqy/features/profile/bloc/profile_bloc.dart';
 import 'package:oqy/service/profile_service.dart';
+import 'package:oqy/widgets/error_loading_widget.dart';
 
 @RoutePage()
 class ProfileScreen extends StatefulWidget {
@@ -16,7 +17,8 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProviderStateMixin {
   late TabController _controller; // Используем опциональную переменную для инициализации в initState
-  final List<String> _tabs = ["Tab 1", "Tab 2", "Tab 3"]; // Ваши вкладки
+  final List<String> _tabs = ["Tab 1", "Tab 2"]; // Ваши вкладки
+  final scrollController = ScrollController();
 
 
   final _profileBloc = ProfileBloc(GetIt.I<ProfileService>());
@@ -34,43 +36,67 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
         child: NestedScrollView(
           headerSliverBuilder: (context, innerBoxIsScrolled) {
             return [
-              SliverAppBar(
-                pinned: true,
-                floating: false,
-                expandedHeight: 200.0, // В зависимости от вашего дизайна
-                flexibleSpace: FlexibleSpaceBar(
-                  title: BlocBuilder<ProfileBloc, ProfileState>(
-                  bloc: _profileBloc,
-                  builder: (context, state) {
-                    if(state is ProfileLoaded){
-                      return Text( 
-                        '${state.profile.firstname} ${state.profile.lastname}',
+              SliverOverlapAbsorber(
+                handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                sliver: SliverAppBar(
+                  actions: [
+                    IconButton(
+                      onPressed: (){}, 
+                      icon: const Icon(Icons.share)
+                    ),
+                    IconButton(
+                      onPressed: (){}, 
+                      icon: const Icon(Icons.settings)
+                    ),
+                  ],
+                  pinned: true,
+                  floating: false,
+                  expandedHeight: 270, 
+                  flexibleSpace: FlexibleSpaceBar(
+                    collapseMode: CollapseMode.pin,
+                    expandedTitleScale:1,
+                    background: Center(
+                      child: BlocBuilder<ProfileBloc, ProfileState>(
+                        bloc: _profileBloc,
+                        builder: (context, state) {
+                          if(state is ProfileLoaded){
+                            return Column(
+                              children: [
+                                const SizedBox(height: 40,),
+                                CircleAvatar(radius: 60,),
+                                const SizedBox(height: 10,),
+                                Text( 
+                                  '${state.profile.firstname} ${state.profile.lastname}',
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                ),
+                                
+                              ],
+                            );
+                          }
+                          if(state is ProfileLoadingFailure){
+                            return ErrorLoadingWidget(
+                              onTryAgain: () => _profileBloc.add(LoadProfile()), // Передаем функцию
+                            );
+                          }
+                          return const Text(
+                            'Loading'
+                          );
+                        },
+                      ),
+                      ),
 
-                      );
-                    }
-                    return const Text(
-                      'Loading'
-                    );
-                  },
-                ),
-                  background: Container(
-                    decoration: const BoxDecoration(
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-                bottom: PreferredSize(
-                  preferredSize: const Size.fromHeight(50.0), // Размер для табов
-                  child: Material(
-                    color: Colors.white,
-                    child: TabBar(
-                      controller: _controller,
-                      labelColor: Colors.black,
-                      indicatorColor: Colors.black,
-                      unselectedLabelColor: Colors.grey,
-                      tabs: _tabs.map((String name) => Tab(text: name)).toList(),
-                    ),
-                  ),
+                      ),
+                  bottom: PreferredSize(
+                          preferredSize: const Size.fromHeight(0),
+                          child: TabBar(
+                              controller: _controller,
+                              labelColor: Colors.black,
+                              indicatorColor: Colors.black,
+                              unselectedLabelColor: Colors.grey,
+                              tabs: _tabs
+                                  .map((String name) => Tab(text: name))
+                                  .toList()),
+                        ),
                 ),
               ),
             ];
@@ -78,7 +104,21 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
           body: TabBarView(
             controller: _controller,
             children: _tabs.map((String tab) {
-              return Center(child: Text("Содержимое $tab"));
+              return SingleChildScrollView( // Добавлено, чтобы прокручивать содержимое внутри TabBarView
+                child: Column(
+                  children: [
+                    SizedBox(height: 200),
+                    Center(child: Text("Содержимое $tab")),
+                    SizedBox(height: 200),
+                    Center(child: Text("Содержимое $tab")),
+                    SizedBox(height: 200),
+                    Center(child: Text("Содержимое $tab")),
+                    SizedBox(height: 200),
+                    Center(child: Text("Содержимое $tab")),
+                    SizedBox(height: 200),
+                  ],
+                ),
+              );
             }).toList(),
           ),
         ),

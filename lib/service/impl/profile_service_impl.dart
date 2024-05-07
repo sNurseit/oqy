@@ -17,12 +17,9 @@ class ProfileServiceImpl implements ProfileService{
   Future<Profile> getProfile() async {
     Response response = await dio.get(_api);
     try{
-        if (response.statusCode == 200) {
-        Profile profile = Profile.fromJson(response.data);
-        return profile;
-      } else {
-        throw Exception('Failed to load content. Status code: ${response.statusCode}');
-      }
+      Profile profile = Profile.fromJson(response.data);
+      print(profile.firstname);
+      return profile;
     } catch(e){
       throw Exception('Failed to load content. Status code: ${response.statusCode}');
     }
