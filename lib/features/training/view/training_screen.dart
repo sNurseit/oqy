@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:oqy/features/training/model/training_model.dart';
+import 'package:oqy/features/training/widgets/my_created_list_widget.dart';
 import 'package:oqy/features/training/widgets/my_training_list_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -54,7 +55,7 @@ class TrainingWidget extends StatelessWidget {
           body: const TabBarView(
             children: [
               MyTrainingListWidget(),
-              Icon(Icons.directions_transit),
+              MyCreatedListWidget(),
             ],
           ),
         ),

@@ -9,16 +9,32 @@ class TrainingModel extends ChangeNotifier {
   List<Course> _courses = [];
   get courses=>_courses;
 
+  List<Course> _cretatedCourses =[];
+  get createdCourses=>_cretatedCourses;
+
   TrainingModel(){
     getTrainingCourses();
-  }
-  Future<void> getTrainingCourses()async {
-    _courses = (await _courseService.myTraining())!;
+    getCreatedCourses();
     notifyListeners();
   }
 
+  Future<List<Course>> getTrainingCourses() async {
+    _courses = (await _courseService.myTraining())!;
+    return _courses;
+  }
+
+  Future<List<Course>> getCreatedCourses() async {
+    _cretatedCourses = (await _courseService.myCreated())!;
+    return _cretatedCourses;
+  }
+
   void navigateToCourseTraining (BuildContext context, int index) {
-    AutoRouter.of(context).push( MyTrainingRoute(courseId: index));
+    AutoRouter.of(context).push( MyLearningRoute(courseId: index));
+  }
+
+  void navigateTeCourseCreating(BuildContext context, int? index) {
+    index ??= 0;
+    AutoRouter.of(context).push(CourseCreatingRoute(courseId: index));
   }
   
 }

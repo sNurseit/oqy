@@ -26,4 +26,14 @@ class MaterialEntity{
     );
   }
 
+    Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'moduleId': moduleId,
+      'title': title,
+      'content': content,
+      'type': type != null ? type.toString().split('.').last : null,
+    };
+  }
+
 }

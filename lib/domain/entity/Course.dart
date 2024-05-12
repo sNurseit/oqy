@@ -15,7 +15,9 @@ class Course {
   final double?  averageRating;
   final int?  enrollmentCount;
   final int?  reviewCount;
+  final String? categoryCode;
   final List<int>? imageBytes;
+  final String? image;
   Course({
     this.id,
     this.title,
@@ -30,6 +32,8 @@ class Course {
     this.enrollmentCount,
     this.reviewCount,
     this.imageBytes,
+    this.categoryCode,
+    this.image,
   });
 
   factory Course.fromJson(Map<String, dynamic> json) {
@@ -43,7 +47,6 @@ class Course {
     if (json['modules'] != null) {
       modules = List<Module>.from(json['modules'].map((module) => Module.fromJson(module)));
     }
-
     return Course(
       id: json['id'],
       title: json['title'],
@@ -57,8 +60,31 @@ class Course {
       averageRating: json['averageRating'].toDouble(),
       enrollmentCount: json['enrollmentCount'],
       reviewCount: json['reviewCount'],
+      categoryCode: json['categoryCode'],
       imageBytes: base64.decode(pic),
+      image: null,
     );
+  }
+
+
+  Map<String,dynamic> toJson(){
+    List<Map<String, dynamic>> modulesJson = [];
+    if (modules != null) {
+      modulesJson = modules!.map((module) => module.toJson()).toList();
+    }
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'language': language,
+      'price': price,
+      'modules': modulesJson,
+      'averageRating': averageRating,
+      'enrollmentCount': enrollmentCount,
+      'reviewCount': reviewCount,
+      'categoryCode': categoryCode,
+      'coursePicture': image,
+    };
   }
 
 }

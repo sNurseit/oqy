@@ -10,7 +10,6 @@ class InputLogin extends StatelessWidget {
     final model = context.read<AuthModel>();
     return  TextField(
       controller: model.loginTextController,
-      style: Theme.of(context).textTheme.displayLarge,
       decoration: InputDecoration(
         filled: false,
             border:  OutlineInputBorder(

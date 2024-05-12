@@ -1,14 +1,17 @@
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:oqy/domain/entity/profile.dart';
 import 'package:oqy/features/auth/view/auth_screen.dart';
 import 'package:oqy/features/auth/view/register_screen.dart';
 import 'package:oqy/features/course/view/course_screen.dart';
+import 'package:oqy/features/course_creating/view/course_creating_screen.dart';
+import 'package:oqy/features/course_learning/view/my_learning_screen.dart';
 import 'package:oqy/features/home/view/home_screen.dart';
 import 'package:oqy/features/main/view/main_screen.dart';
 import 'package:oqy/features/profile/view/profile_screen.dart';
+import 'package:oqy/features/profile/view/settings_screen.dart';
 import 'package:oqy/features/search/view/search_screen.dart';
-import 'package:oqy/features/training/view/my_training_screen.dart';
 import 'package:oqy/features/training/view/training_screen.dart';
 import 'package:oqy/splash_screen.dart';
 part 'router.gr.dart';
@@ -61,8 +64,16 @@ class AppRouter extends _$AppRouter{
       path: '/course',
     ),
     AutoRoute(
-      page: MyTrainingRoute.page,
-      path: '/my-training',
-    )
+      page: CourseCreatingRoute.page,
+      path: '/creating',
+    ),
+    AutoRoute(
+      page: MyLearningRoute.page,
+      path: '/learning',
+    ),
+    AutoRoute(
+      page: SettingsRoute.page,
+      path: '/settings',
+    ),
   ];
 }

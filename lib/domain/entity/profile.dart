@@ -1,8 +1,8 @@
-import 'dart:convert';
 
+import 'package:equatable/equatable.dart';
 import 'package:oqy/domain/entity/course.dart';
 
-class Profile {
+class Profile extends Equatable{
   String? firstname;
   String? lastname;
   String? email;
@@ -29,4 +29,8 @@ class Profile {
       courses: (json['courses'] as List).map((courseJson) => Course.fromJson(courseJson)).toList(),
     );
   }
+  
+  @override
+  List<Object?> get props => [firstname, lastname,email,dateOfBirth,picture,courses];
+  
 }

@@ -27,4 +27,19 @@ class Module{
       materials: json['materials'],
     );
   }
+  
+  Map<String, dynamic> toJson() {
+    List<Map<String, dynamic>>? materialsJson;
+    if (materials != null) {
+      materialsJson = materials!.map((material) => material.toJson()).toList();
+    }
+    return {
+      'id': id,
+      'courseId': courseId,
+      'title': title,
+      'description': description,
+      'totalSteps': totalSteps,
+      'materials': materialsJson,
+    };
+  }
 }

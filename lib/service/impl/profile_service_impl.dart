@@ -6,7 +6,8 @@ import 'package:oqy/domain/entity/profile.dart';
 import 'package:oqy/service/profile_service.dart';
 
 class ProfileServiceImpl implements ProfileService{
-  final String _api = ApiConstants.myProfile;
+  final String urlGetProfile = ApiConstants.myProfile;
+  final String urlUpdateProfile = ApiConstants.myProfile;
   final Dio dio;
 
   ProfileServiceImpl({required this.dio}){
@@ -15,13 +16,25 @@ class ProfileServiceImpl implements ProfileService{
 
   @override
   Future<Profile> getProfile() async {
-    Response response = await dio.get(_api);
+    Response response = await dio.get(urlGetProfile);
     try{
       Profile profile = Profile.fromJson(response.data);
       print(profile.firstname);
       return profile;
     } catch(e){
       print(e.toString());
+      throw Exception('Failed to load content. Status code: ${response.statusCode}');
+    }
+  }
+  
+  @override
+  Future<Profile> updateProfile(Profile profile) async {
+    Response response = await dio.put(urlUpdateProfile, data: profile);
+    try{
+      Profile profile = Profile.fromJson(response.data);
+      return profile;
+    }
+    catch(e){
       throw Exception('Failed to load content. Status code: ${response.statusCode}');
     }
   }  

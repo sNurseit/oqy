@@ -38,13 +38,15 @@ class CourseModel extends ChangeNotifier{
       .then((status) {
         if (status! >= 200 && status < 300) {
           _errorText = "Successfully logged in";
-          AutoRouter.of(context).replace(const MainRoute());
+          print(_errorText);
         } 
         else if (status >= 400 && status < 500) {
           _errorText = "Login or password is incorrect";
+          print(_errorText);
         } 
         else {
           _errorText = "Problems in server, please try again after 5 minutes";
+          print(_errorText);
         }
       });
   }

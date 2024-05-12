@@ -4,9 +4,9 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 
 class ProfilePictureWidget extends StatelessWidget {
-  String? picture;
+  final String? picture;
 
-  ProfilePictureWidget({super.key, required this.picture});
+  const ProfilePictureWidget({super.key, required this.picture});
 
   @override
   Widget build(BuildContext context) {
@@ -15,8 +15,8 @@ class ProfilePictureWidget extends StatelessWidget {
         radius: 60,
       );
     } else{
-      return CircleAvatar(
-        radius: 60,
+      return ClipRRect(
+        borderRadius: const BorderRadius.all(Radius.circular(65)),
         child: Image.memory(
         Uint8List.fromList(base64.decode(picture!.split(",")[1] )), 
           fit: BoxFit.cover, 
