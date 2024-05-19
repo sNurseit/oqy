@@ -6,8 +6,8 @@ import 'package:image_picker/image_picker.dart';
 
 class PhotoLoader extends StatefulWidget {
   final Function(String)? onPhotoSelected;
-
-  const PhotoLoader({Key? key, this.onPhotoSelected}) : super(key: key);
+  final List<int>? image;
+  const PhotoLoader({Key? key, this.onPhotoSelected, this.image}) : super(key: key);
 
   @override
   _PhotoLoaderState createState() => _PhotoLoaderState();

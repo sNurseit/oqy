@@ -9,6 +9,7 @@ import 'package:oqy/features/profile/widgets/profile_picture.dart';
 import 'package:oqy/features/profile/widgets/setting_drawer_widget.dart';
 import 'package:oqy/service/profile_service.dart';
 import 'package:oqy/widgets/error_loading_widget.dart';
+import 'package:provider/provider.dart';
 
 @RoutePage()
 class ProfileScreen extends StatefulWidget {
@@ -23,17 +24,19 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
   final List<String> _tabs = ["Tab 1", "Tab 2"];
   final scrollController = ScrollController();
 
-  final _profileBloc = ProfileBloc(GetIt.I<ProfileService>());
 
   @override
   void initState() {
     super.initState();
     _controller = TabController(length: _tabs.length, vsync: this);
-    _profileBloc.add(LoadProfile());
+    final profileBloc = Provider.of<ProfileBloc>(context, listen: false);
+    profileBloc.add(LoadProfile());
   }
 
   @override
   Widget build(BuildContext context) {
+
+    final _profileBloc = Provider.of<ProfileBloc>(context, listen: false);
     return Scaffold(
       endDrawer: const SettingDrawerWidget(),
       body: RefreshIndicator(

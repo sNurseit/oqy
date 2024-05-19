@@ -18,9 +18,8 @@ class ChangeDataProfile extends ProfileEvent{
 }
 
 class NavigateToSettings extends ProfileEvent{
-  final Profile? profile;
-  final BuildContext? context;
-  NavigateToSettings({ required this.profile, required this.context});
+  final BuildContext context;
+  NavigateToSettings({required this.context});
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [context];
 }

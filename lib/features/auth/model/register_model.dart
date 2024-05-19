@@ -3,14 +3,17 @@ import 'package:oqy/service/impl/auth_service_impl.dart';
 
 
 class RegisterModel extends ChangeNotifier{
-  final loginTextController =TextEditingController();
+  final email =TextEditingController();
   final passwordTextController = TextEditingController();
+  final firstnameTextController =TextEditingController();
+  final secondnameTextController = TextEditingController();
+
   String errorText = "";
   final _authService = AuthService();
 
   Future<void> login(BuildContext context) async{
-    print('${loginTextController.text}${passwordTextController.text}');
-    final status = await _authService.login(loginTextController.text, passwordTextController.text);
+    print('${email.text}${passwordTextController.text}');
+    final status = await _authService.login(email.text, passwordTextController.text);
     if(status! >= 200 && status < 300){
       errorText ="Sucessfully logged in";
     }

@@ -31,7 +31,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     });
 
     on<NavigateToSettings>((event, emit) {
-      AutoRouter.of(event.context!).replace( SettingsRoute(profile: profile!));
+      AutoRouter.of(event.context).push( SettingsRoute(profile: profile!));
     });
     
     //update profile 

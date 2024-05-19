@@ -1,24 +1,33 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:oqy/domain/entity/module.dart';
 import 'package:oqy/domain/entity/course.dart';
-import 'package:oqy/router/router.dart';
+import 'package:oqy/domain/entity/review.dart';
 import 'package:oqy/service/course_service_impl.dart';
+import 'package:oqy/service/review_service.dart';
 
 
 class CourseModel extends ChangeNotifier{
   int courseId;
+
   Course? _course;
   get course=>_course;
+
   List<Module>? _modules;
   get modules =>_modules;
+
   String _errorText = "";
   get errorText=>_errorText;
+
+  List<Review>? _reviews;
+  get reviews=>_reviews;
+
   
   final _courseService = CourseService();
-
+  final _reviewService = GetIt.I<ReviewService>();
   CourseModel({required this.courseId}){
     setup();
+    getReviews();
   }
 
   Future<void> setup() async {
@@ -32,8 +41,12 @@ class CourseModel extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future<void> buyCourse(int courseId, BuildContext context)async {
+  Future<void> getReviews() async {
+    _reviews = await _reviewService.findReviewsByCourseId(courseId);
+    notifyListeners();
+  }
 
+  Future<void> buyCourse(int courseId, BuildContext context)async {
     await _courseService.buyCourse(courseId)
       .then((status) {
         if (status! >= 200 && status < 300) {

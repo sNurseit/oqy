@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:oqy/features/course/model/course_model.dart';
 import 'package:oqy/features/course/widgets/course_module_list.dart';
+import 'package:oqy/features/course/widgets/horizontal_comment.dart';
 import 'package:oqy/theme/app_colors.dart';
 import 'package:provider/provider.dart';
 @immutable
@@ -104,23 +105,24 @@ class _CourseDetailsState extends State<CourseDetails> {
                   style: theme.textTheme.titleMedium,
                 ),
                 Row(
-                  children: [
-                    RatingBarIndicator(
-                      rating: course.averageRating,
-                      itemBuilder: (context, index) => const Icon(
-                      Icons.star,
-                      color: AppFontColors.fontLink,
+                    children: [
+                      RatingBarIndicator(
+                        rating: course.averageRating,
+                        itemBuilder: (context, index) => const Icon(
+                        Icons.star,
+                        color: AppFontColors.fontLink,
+                        ),
+                        itemCount: 5,
+                        itemSize: 24.0,
+                        direction: Axis.horizontal,
+                        unratedColor: theme.unselectedWidgetColor,
                       ),
-                      itemCount: 5,
-                      itemSize: 24.0,
-                      direction: Axis.horizontal,
-                      unratedColor: theme.unselectedWidgetColor,
-                    ),
-                    const SizedBox(width: 10,),
-                    Text("${course.averageRating}(${course.reviewCount})", style: theme.textTheme.displaySmall,),
-
-                  ],
-                ),
+                      const SizedBox(width: 10,),
+                      Text("${course.averageRating}(${course.reviewCount})", style: theme.textTheme.displaySmall,),
+                  
+                    ],
+                  ),
+                
                 const SizedBox(
                   height: 20,
                 ),
@@ -135,7 +137,10 @@ class _CourseDetailsState extends State<CourseDetails> {
           const SizedBox(
             height: 20,
           ),
-
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: HorizontalCommentScroll(),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(

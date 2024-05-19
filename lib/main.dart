@@ -6,7 +6,9 @@ import 'package:oqy/service/course_category_service.dart';
 import 'package:oqy/service/course_service_impl.dart';
 import 'package:oqy/service/impl/course_category_service_impl.dart';
 import 'package:oqy/service/impl/profile_service_impl.dart';
+import 'package:oqy/service/impl/review_service_impl.dart';
 import 'package:oqy/service/profile_service.dart';
+import 'package:oqy/service/review_service.dart';
 
 void main() {
   GetIt.I.registerLazySingleton<ProfileService>(
@@ -14,6 +16,9 @@ void main() {
   );
   GetIt.I.registerLazySingleton<CourseCategoryService>(
     ()=>CourseCategoryServiceImpl(dio: Dio())
+  );
+  GetIt.I.registerLazySingleton<ReviewService>(
+    ()=>ReviewServiceImpl(dio: Dio())
   );
   GetIt.I.registerLazySingleton<CourseService>(()=>CourseService());
 

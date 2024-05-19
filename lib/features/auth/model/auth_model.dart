@@ -35,7 +35,6 @@ class AuthModel extends ChangeNotifier{
         }
       });
       notifyListeners();
-
   }
 
 

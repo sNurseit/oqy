@@ -7,8 +7,7 @@ class ErrorText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<AuthModel>();
 
-    return Text(model.errorText);
+    return Text("oshibka");
   }
 }
