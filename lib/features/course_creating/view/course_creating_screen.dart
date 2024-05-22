@@ -11,6 +11,7 @@ import 'package:oqy/features/course_creating/widgets/course_creating_drawer_widg
 import 'package:oqy/features/course_creating/widgets/searchable_dropdown_widget.dart';
 import 'package:oqy/service/course_category_service.dart';
 import 'package:oqy/service/course_service_impl.dart';
+import 'package:oqy/widgets/custom_switch_list_tile.dart';
 import 'package:oqy/widgets/error_loading_widget.dart';
 import 'package:oqy/widgets/photo_loader_widget.dart';
 
@@ -31,7 +32,10 @@ class _CourseCreatingScreenState extends State<CourseCreatingScreen> {
   final _descriptionController = TextEditingController();
   final _languageController = TextEditingController();
   final _priceController = TextEditingController();
+  bool _onlineLesson = false;
+
   String? picture;
+
   @override
   void initState() {
     super.initState();
@@ -39,29 +43,30 @@ class _CourseCreatingScreenState extends State<CourseCreatingScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {  
+  Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(
-      ),
+      appBar: AppBar(),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 10),
+          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
           child: RefreshIndicator(
             onRefresh: () async {
               final completer = Completer();
-              _courseCreatingBloc.add(LoadCourseCreating(completer:completer));
+              _courseCreatingBloc.add(LoadCourseCreating(completer: completer));
               return completer.future;
             },
             child: BlocBuilder<CourseCreatingBloc, CourseCreatingState>(
               bloc: _courseCreatingBloc,
               builder: (context, state) {
-                if(state is CourseCreatingLoaded){
+                if (state is CourseCreatingLoaded) {
                   final course = state.course;
-                  _titleController.text = course?.title ?? '';
-                  _descriptionController.text = course?.description ?? '';
-                  _languageController.text = course?.language ?? '';
-                  _priceController.text = course?.price ?? '';
+                  if (course != null) {
+                    _titleController.text = course.title!;
+                    _descriptionController.text = course.description!;
+                    _languageController.text = course.language!;
+                    _priceController.text = course.price!;
+                  }
                   return ListView(
                     children: [
                       const SizedBox(height: 20),
@@ -95,21 +100,32 @@ class _CourseCreatingScreenState extends State<CourseCreatingScreen> {
                           _selectedCategory = selectedCategory;
                         },
                       ),
+                      const SizedBox(height: 20),
+                      const SizedBox(height: 10),
+                      CustomSwitch(
+                        value: _onlineLesson,
+                        onChanged: (bool value) {
+                          setState(() {
+                            _onlineLesson = value;
+                          });
+                        },
+                      ),
+                      const SizedBox(height: 50),
                     ],
                   );
                 }
-                if(state is CourseCreatingError){
+                if (state is CourseCreatingError) {
                   return ErrorLoadingWidget(
                     onTryAgain: () => _courseCreatingBloc.add(LoadCourseCreating()),
                   );
                 }
                 return const CircularProgressIndicator();
-              }
+              },
             ),
           ),
         ),
       ),
-      endDrawer: const CourseCreatingDrawerWidget(index: -1,),
+      endDrawer: const CourseCreatingDrawerWidget(index: -1),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           final course = Course(
@@ -151,6 +167,7 @@ class _CourseCreatingScreenState extends State<CourseCreatingScreen> {
       ),
     );
   }
+
   @override
   void dispose() {
     _titleController.dispose();

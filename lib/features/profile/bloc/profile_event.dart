@@ -10,12 +10,28 @@ class LoadProfile extends ProfileEvent{
   List<Object?> get props => [completer];
 }
 
+class GetProfile extends ProfileEvent{
+  final Completer? completer;
+  GetProfile({this.completer});
+  
+  @override
+  List<Object?> get props => [completer];
+}
+
 class ChangeDataProfile extends ProfileEvent{
   final Profile? profile;
   ChangeDataProfile({ required this.profile});
   @override
   List<Object?> get props => [profile];
 }
+
+class ChangeProfileAvatar extends ProfileEvent{
+  final Profile? profile;
+  ChangeProfileAvatar({ required this.profile});
+  @override
+  List<Object?> get props => [profile];
+}
+
 
 class NavigateToSettings extends ProfileEvent{
   final BuildContext context;

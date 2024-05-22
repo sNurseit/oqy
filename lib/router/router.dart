@@ -28,7 +28,7 @@ class AppRouter extends _$AppRouter{
     ),
     AutoRoute(
       page: AuthRoute.page,
-      path: '/auth',
+      path: '/auth/',
     ),
     AutoRoute(
       page: RegisterRoute.page,

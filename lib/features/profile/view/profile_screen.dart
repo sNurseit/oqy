@@ -3,11 +3,9 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:oqy/features/profile/bloc/profile_bloc.dart';
 import 'package:oqy/features/profile/widgets/profile_picture.dart';
 import 'package:oqy/features/profile/widgets/setting_drawer_widget.dart';
-import 'package:oqy/service/profile_service.dart';
 import 'package:oqy/widgets/error_loading_widget.dart';
 import 'package:provider/provider.dart';
 

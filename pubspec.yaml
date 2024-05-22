@@ -23,14 +23,14 @@ dependencies:
   get_it: ^7.7.0
   equatable: ^2.0.5
   uuid: ^4.4.0
+  awesome_select: ^6.0.0
   image_picker: ^0.8.4+4
-
-
-
+  flutter_localizations:
+    sdk: flutter
 
 dev_dependencies:
   pedantic_mono: any
-  build_runner:
+  build_runner: null
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
@@ -50,3 +50,5 @@ flutter:
           weight: 700
         - asset: assets/fonts/GothicA1-Regular.ttf
           weight: 400
+flutter_intl:
+  enabled: true

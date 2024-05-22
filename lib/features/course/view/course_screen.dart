@@ -5,6 +5,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:oqy/features/course/model/course_model.dart';
 import 'package:oqy/features/course/widgets/course_module_list.dart';
 import 'package:oqy/features/course/widgets/horizontal_comment.dart';
+import 'package:oqy/generated/l10n.dart';
 import 'package:oqy/theme/app_colors.dart';
 import 'package:provider/provider.dart';
 @immutable
@@ -146,8 +147,8 @@ class _CourseDetailsState extends State<CourseDetails> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Study plan:", style: theme.textTheme.displayLarge,),
-                Text("${course.moduleCount} mudles, ${course.quizCount ?? 0} quizes, ${course.materialCount ?? 0} materials"),
+                Text(S.of(context).studyPlan, style: theme.textTheme.displayLarge,),
+                Text("${course.moduleCount} modules, ${course.quizCount ?? 0} quizes, ${course.materialCount ?? 0} materials"),
               ],
             )
           ),

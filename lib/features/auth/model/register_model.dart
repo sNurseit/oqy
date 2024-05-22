@@ -1,29 +1,62 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:oqy/domain/dto/confirmation_dto.dart';
+import 'package:oqy/domain/entity/register.dart';
+import 'package:oqy/router/router.dart';
 import 'package:oqy/service/impl/auth_service_impl.dart';
 
 
-class RegisterModel extends ChangeNotifier{
-  final email =TextEditingController();
+class RegisterModel extends ChangeNotifier {
+  final emailTextController = TextEditingController();
   final passwordTextController = TextEditingController();
-  final firstnameTextController =TextEditingController();
-  final secondnameTextController = TextEditingController();
+  final firstnameTextController = TextEditingController();
+  final lastnameTextController = TextEditingController();
+  final dateOfBirthTextController = TextEditingController();
+  final codeTextController = TextEditingController();
+  late ConfirmationDto? confirmationDto;
 
   String errorText = "";
   final _authService = AuthService();
+  bool isLoading = false;
+  bool openBottomSheet =false;
+  bool registered = false;
+  Future<void> register() async {
+    isLoading = true;
+    notifyListeners();
 
-  Future<void> login(BuildContext context) async{
-    print('${email.text}${passwordTextController.text}');
-    final status = await _authService.login(email.text, passwordTextController.text);
-    if(status! >= 200 && status < 300){
-      errorText ="Sucessfully logged in";
+    final registerEntity = Register(
+      firstname: firstnameTextController.text, 
+      lastname: lastnameTextController.text,
+      email: emailTextController.text,
+      password: passwordTextController.text,
+      dateOfBirth: dateOfBirthTextController.text.isEmpty? null: DateTime.parse(dateOfBirthTextController.text),
+    );
+    if(firstnameTextController.text.isNotEmpty
+     && lastnameTextController.text.isNotEmpty 
+     && emailTextController.text.isNotEmpty
+     && passwordTextController.text.isNotEmpty) {
+      confirmationDto = (await _authService.register(registerEntity));
     }
-    else if(status >= 400 && status < 500){
-      errorText ="Login or password is incorrect";
-    }
-    else {
-      errorText = "Problems in server, please try again after 5 minutes";
+    isLoading = false;
+    if (confirmationDto!=null) {
+      openBottomSheet =true;
+      notifyListeners();
     }
     notifyListeners();
   }
 
+  void setDateOfBirth(DateTime date) {
+    dateOfBirthTextController.text = date.toIso8601String();
+  }
+
+  Future<void> verifyConfirmationCode(BuildContext context) async {
+    
+      final response = await _authService.checkVerificationCode(confirmationDto!, codeTextController.text);
+      if(response != null){
+        registered=true;
+        Navigator.of(context).pop();
+      }
+    
+  } 
 }

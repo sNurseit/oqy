@@ -1,7 +1,7 @@
 class ApiConstants{
   static const String API="http://10.0.2.2:8000/gateway";
-  static const String AUTH='http://10.0.2.2:8000/gateway/auth/token';
-  static const String register='http://10.0.2.2:8000/gateway/auth/register';
+
+  static const String auth='http://10.0.2.2:8000/gateway/auth';
 
   static const String GET_ALL_COURSES='http://10.0.2.2:8000/gateway/core/api/courses/search';
   static const String course ='http://10.0.2.2:8000/gateway/core/api/courses';

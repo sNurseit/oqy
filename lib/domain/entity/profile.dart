@@ -20,7 +20,6 @@ class Profile extends Equatable{
   });
 
   factory Profile.fromJson(Map<String, dynamic> json) {
-    print (json);
     return Profile(
       firstname: json['firstname'],
       lastname: json['lastname'],

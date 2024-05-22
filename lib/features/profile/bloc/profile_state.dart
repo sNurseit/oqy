@@ -53,3 +53,13 @@ class ProfileUpdateFailure extends ProfileState{
   @override 
   List<Object?> get props => [exception];
 }
+
+
+class ProfileAvatarChanged extends ProfileState{
+  final Profile profile;
+
+  ProfileAvatarChanged({required this.profile});
+
+  @override
+  List<Object?> get props => [profile];
+}

@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:oqy/features/profile/bloc/profile_bloc.dart';
 import 'package:oqy/router/router.dart';
 import 'package:oqy/service/profile_service.dart';
+import 'package:oqy/widgets/custom_list_tile.dart';
 
 class SettingDrawerWidget extends StatelessWidget {
 
@@ -36,26 +37,27 @@ class SettingDrawerWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              ListTile(
-                title: const Text('Change personal data'),
-                onTap: ()=> context.read<ProfileBloc>().add(NavigateToSettings(context: context)),
+              CustomListTile(
+                icon: Icons.edit_outlined, title: 'Change personal data', 
+                onTap: ()=> context.read<ProfileBloc>().add(NavigateToSettings(context: context)), 
+                trailing: false
               ),
-              ListTile(
-                title: Text('FAQ'),
-                onTap: () {
-                },
+              CustomListTile(
+                icon: Icons.question_mark_outlined, title: 'FAQ', 
+                onTap: ()=> context.read<ProfileBloc>().add(NavigateToSettings(context: context)), 
+                trailing: false
               ),
-              ListTile(
-                title: const Text('Chat with support'),
-                onTap: () {
-                },
+              CustomListTile(
+                icon: Icons.chat_outlined, title: 'Chat with sapport', 
+                onTap: ()=> context.read<ProfileBloc>().add(NavigateToSettings(context: context)), 
+                trailing: false
               ),
-              ListTile(
-                title: const Text('Log out'),
-                onTap: () {
-                  AutoRouter.of(context).replace(const AuthRoute());
-                },
+              CustomListTile(
+                icon: Icons.exit_to_app_rounded, title: 'Log out', 
+                onTap: (){AutoRouter.of(context).replace(const AuthRoute());}, 
+                trailing: false
               ),
+
             ],
           ),
       ),

@@ -19,7 +19,9 @@ class CourseCreatingBloc extends Bloc<CourseCreatingEvent, CourseCreatingState> 
       if(event.courseId != null && event.courseId! > 0){
         try{
           emit(CourseCreatingLoading());
-          course = await courseService.myCreatedCourse(event.courseId!);
+          print(course?.id);
+          this.course = await courseService.myCreatedCourse(event.courseId!);
+          print(course?.id);
           final List<CourseCategory> categoryList = await courseCategoryService.getAllCategories();
           emit(CourseCreatingLoaded(course: course, category: categoryList));
         } catch(e){
@@ -28,6 +30,7 @@ class CourseCreatingBloc extends Bloc<CourseCreatingEvent, CourseCreatingState> 
           event.completer?.complete();
         }
       } else{
+        emit(CourseCreatingLoading());
         final List<CourseCategory> categoryList = await courseCategoryService.getAllCategories();
         emit(CourseCreatingLoaded(course: course, category: categoryList));
       }
@@ -52,6 +55,8 @@ class CourseCreatingBloc extends Bloc<CourseCreatingEvent, CourseCreatingState> 
       } else {
         try {
           emit(CourseCreatingLoading());
+          event.course.id = course?.id;
+          print(event.course.id);
           int status = await courseService.create(event.course);
           if(status >=200 && status < 300) {
             final List<CourseCategory> categoryList = await courseCategoryService.getAllCategories();
@@ -65,6 +70,7 @@ class CourseCreatingBloc extends Bloc<CourseCreatingEvent, CourseCreatingState> 
       }
     });
   }
+
 
   Map<String, String> validateInput(Course myCourse){
     Map<String, String> inputValidations ={};

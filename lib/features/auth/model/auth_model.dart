@@ -25,7 +25,7 @@ class AuthModel extends ChangeNotifier{
       .then((status) {
         if (status! >= 200 && status < 300) {
           errorText = "Successfully logged in";
-          AutoRouter.of(context).replace(const MainRoute());
+          AutoRouter.of(context).replace( MainRoute());
         } 
         else if (status >= 400 && status < 500) {
           errorText = "Login or password is incorrect";
