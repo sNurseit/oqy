@@ -34,7 +34,6 @@ class AuthService {
         '$url/register',
         data: register.toJson()
       );
-      print(response.data);
       return ConfirmationDto.fromJson(response.data as Map<String, dynamic>);
     } catch (e){
       Exception(e);

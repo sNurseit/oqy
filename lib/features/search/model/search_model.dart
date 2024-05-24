@@ -26,7 +26,6 @@ class SearchModel extends ChangeNotifier {
   
   Future<void> navigateToCourseDetails (BuildContext context, int? index) async {
     if (index != null){
-      print(index);
       AutoRouter.of(context).push(CourseRoute(courseId: index));
     }
   }

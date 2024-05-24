@@ -20,7 +20,6 @@ class CourseService {
     Future<List<Course>?> getAllCourses() async {
         try {
             Response response = await _dio.get(GET_ALL_COURSES);
-            print(response.data);
             if (response.statusCode == 200) {
                 List<Course> courses = (response.data['content'] as List)
                     .map((courseJson) => Course.fromJson(courseJson))

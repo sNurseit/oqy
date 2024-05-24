@@ -13,15 +13,15 @@ class SessionDataProvider{
   static const _secureStorage = FlutterSecureStorage();
 
 
-  Future<AuthResponse?>getSessions()async {
-    final token= _secureStorage.read(key: _Keys.sessionId) as String;
-    final userId = _secureStorage.read(key: _Keys.userId) as String;
-    final roleString = _secureStorage.read(key: _Keys.userRoles) as String;
+  Future<AuthResponse> getSessions()async {
+    final token = await _secureStorage.read(key: _Keys.sessionId);
+    final userId =  await _secureStorage.read(key: _Keys.userId);
+    final roleString = await _secureStorage.read(key: _Keys.userRoles);
 
-    roleString.split('|');  
-    int id=int.parse(userId);
+    List<String> roles = roleString!.split('|');  
+    int id=int.parse(userId!);
 
-    final response = AuthResponse(token: token, userId: id, roles: roleString as List<String>);
+    final response = AuthResponse(token: token!, userId: id, roles: roles);
     return  response;
   }
 

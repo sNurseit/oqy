@@ -1,17 +1,14 @@
 import 'dart:async';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:oqy/domain/entity/course.dart';
 import 'package:oqy/domain/entity/course_category.dart';
 import 'package:oqy/features/course_creating/bloc/course_creating_bloc.dart';
 import 'package:oqy/features/course_creating/widgets/course_creating_drawer_widget.dart';
 import 'package:oqy/features/course_creating/widgets/searchable_dropdown_widget.dart';
-import 'package:oqy/service/course_category_service.dart';
-import 'package:oqy/service/course_service_impl.dart';
 import 'package:oqy/widgets/custom_switch_list_tile.dart';
+import 'package:oqy/widgets/custom_text_field.dart';
 import 'package:oqy/widgets/error_loading_widget.dart';
 import 'package:oqy/widgets/photo_loader_widget.dart';
 
@@ -26,26 +23,61 @@ class CourseCreatingScreen extends StatefulWidget {
 }
 
 class _CourseCreatingScreenState extends State<CourseCreatingScreen> {
-  final _courseCreatingBloc = CourseCreatingBloc(courseService: GetIt.I<CourseService>(), courseCategoryService: GetIt.I<CourseCategoryService>());
   CourseCategory? _selectedCategory;
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _languageController = TextEditingController();
   final _priceController = TextEditingController();
-  bool _onlineLesson = false;
 
+  final FocusNode _titleFocus = FocusNode();
+
+  bool _onlineLesson = false;
   String? picture;
 
   @override
   void initState() {
     super.initState();
-    _courseCreatingBloc.add(LoadCourseCreating(courseId: widget.courseId));
+    context.read<CourseCreatingBloc>().add(LoadCourseCreating(courseId: widget.courseId));
+    _titleFocus.requestFocus();
   }
 
   @override
   Widget build(BuildContext context) {
+    final courseCreatingBloc = context.read<CourseCreatingBloc>();
     final theme = Theme.of(context);
     return Scaffold(
+      bottomNavigationBar: BottomAppBar(
+        color: theme.secondaryHeaderColor,
+      
+        child: ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all<Color?>(theme.primaryColor),
+          ),
+          onPressed: () {
+            final course = Course(
+              image: picture,
+              title: _titleController.text,
+              description: _descriptionController.text,
+              language: _languageController.text,
+              price: _priceController.text,
+              categoryCode: _selectedCategory?.code,
+            );
+            final inputValidations = courseCreatingBloc.validateInput(course);
+            if (inputValidations.isNotEmpty) {
+              _showValidationErrors(inputValidations);
+            } else {
+              courseCreatingBloc.add(PostCourseMainInformation(course: course));
+            }
+          },
+          child: const Text(
+            'Save',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+            ),
+          ),
+        )
+      ),
       appBar: AppBar(),
       body: SafeArea(
         child: Padding(
@@ -53,11 +85,10 @@ class _CourseCreatingScreenState extends State<CourseCreatingScreen> {
           child: RefreshIndicator(
             onRefresh: () async {
               final completer = Completer();
-              _courseCreatingBloc.add(LoadCourseCreating(completer: completer));
+              courseCreatingBloc.add(LoadCourseCreating(courseId: widget.courseId, completer: completer));
               return completer.future;
             },
             child: BlocBuilder<CourseCreatingBloc, CourseCreatingState>(
-              bloc: _courseCreatingBloc,
               builder: (context, state) {
                 if (state is CourseCreatingLoaded) {
                   final course = state.course;
@@ -75,10 +106,17 @@ class _CourseCreatingScreenState extends State<CourseCreatingScreen> {
                           picture = base64Photo;
                         },
                       ),
-                      const SizedBox(height: 20),
-                      const Text('Title *'),
                       const SizedBox(height: 10),
-                      TextField(controller: _titleController),
+                      CustomTextField(
+                        labelText: 'Title', 
+                        maxLines: 1, 
+                        maxLength: 50, 
+                        hintText: 'Enter title', 
+                        controller: _titleController,
+                        onChanged: (value) {
+                          _titleController.text = value;
+                        },
+                      ),
                       const SizedBox(height: 20),
                       const Text('Description *'),
                       const SizedBox(height: 10),
@@ -116,35 +154,17 @@ class _CourseCreatingScreenState extends State<CourseCreatingScreen> {
                 }
                 if (state is CourseCreatingError) {
                   return ErrorLoadingWidget(
-                    onTryAgain: () => _courseCreatingBloc.add(LoadCourseCreating()),
+                    onTryAgain: () => courseCreatingBloc.add(LoadCourseCreating(courseId: widget.courseId)),
                   );
                 }
-                return const CircularProgressIndicator();
+                return const Center(child: CircularProgressIndicator());
               },
             ),
           ),
         ),
       ),
       endDrawer: const CourseCreatingDrawerWidget(index: -1),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          final course = Course(
-            image: picture,
-            title: _titleController.text,
-            description: _descriptionController.text,
-            language: _languageController.text,
-            price: _priceController.text,
-            categoryCode: _selectedCategory?.code,
-          );
-          final inputValidations = _courseCreatingBloc.validateInput(course);
-          if (inputValidations.isNotEmpty) {
-            _showValidationErrors(inputValidations);
-          } else {
-            _courseCreatingBloc.add(PostCourseMainInformation(course: course));
-          }
-        },
-        child: const Icon(Icons.save),
-      ),
+      
     );
   }
 

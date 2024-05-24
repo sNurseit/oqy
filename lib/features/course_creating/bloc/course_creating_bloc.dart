@@ -18,10 +18,10 @@ class CourseCreatingBloc extends Bloc<CourseCreatingEvent, CourseCreatingState> 
     on<LoadCourseCreating>((event, emit) async {
       if(event.courseId != null && event.courseId! > 0){
         try{
-          emit(CourseCreatingLoading());
-          print(course?.id);
-          this.course = await courseService.myCreatedCourse(event.courseId!);
-          print(course?.id);
+          if(event.completer==null){
+            emit(CourseCreatingLoading());
+          }
+          course = await courseService.myCreatedCourse(event.courseId!);
           final List<CourseCategory> categoryList = await courseCategoryService.getAllCategories();
           emit(CourseCreatingLoaded(course: course, category: categoryList));
         } catch(e){
@@ -33,6 +33,7 @@ class CourseCreatingBloc extends Bloc<CourseCreatingEvent, CourseCreatingState> 
         emit(CourseCreatingLoading());
         final List<CourseCategory> categoryList = await courseCategoryService.getAllCategories();
         emit(CourseCreatingLoaded(course: course, category: categoryList));
+        event.completer?.complete();
       }
     });
     //------------------Course Category--------------------------------//
@@ -59,6 +60,7 @@ class CourseCreatingBloc extends Bloc<CourseCreatingEvent, CourseCreatingState> 
           print(event.course.id);
           int status = await courseService.create(event.course);
           if(status >=200 && status < 300) {
+            course = await courseService.myCreatedCourse(event.course.id!);
             final List<CourseCategory> categoryList = await courseCategoryService.getAllCategories();
             emit(CourseCreatingLoaded(course: course, category: categoryList));
           }

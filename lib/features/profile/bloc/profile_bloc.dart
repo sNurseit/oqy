@@ -36,7 +36,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     });
 
     on<NavigateToSettings>((event, emit) {
-      AutoRouter.of(event.context).push( SettingsRoute(profile: profile!));
+      AutoRouter.of(event.context).push( SettingsRoute(profile: profile));
     });
     
     //update profile 
@@ -45,8 +45,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         if (state is !ProfileUpdated) {
           emit(ProfileUpdating());
         }
-        final profile = await profileService.updateProfile(event.profile!);
-        emit(ProfileUpdated(profile: profile));
+        profile = await profileService.updateProfile(event.profile!);
+        emit(ProfileUpdated(profile: profile!));
       } catch (e){
         emit(ProfileUpdateFailure(exception: e));
       } 
@@ -54,7 +54,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
    
     on<ChangeProfileAvatar>((event,emit) async{
       try{
-        final profile = await profileService.updateProfile(event.profile!);
+        profile = await profileService.updateProfile(event.profile!);
       } catch (e){
         emit(ProfileUpdateFailure(exception: e));
       } 

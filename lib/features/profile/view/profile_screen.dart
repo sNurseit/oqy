@@ -59,7 +59,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                             padding: const EdgeInsets.only(right: 20.0),
                             child: IconButton(
                               onPressed: ()=> Scaffold.of(context).openEndDrawer(), 
-                              icon: const Icon(Icons.settings),
+                              icon: const Icon(Icons.menu_rounded),
                             )
                           ),
                         ],

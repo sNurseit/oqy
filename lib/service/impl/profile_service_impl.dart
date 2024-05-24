@@ -19,10 +19,8 @@ class ProfileServiceImpl implements ProfileService{
     Response response = await dio.get(urlGetProfile);
     try{
       Profile profile = Profile.fromJson(response.data);
-      print(profile.firstname);
       return profile;
     } catch(e){
-      print(e.toString());
       throw Exception('Failed to load content. Status code: ${response.statusCode}');
     }
   }

@@ -7,10 +7,10 @@ import 'module.dart';
 
 class Course {
   int?  id;
-  String?  title;
-  String?  description;
-  String?  language;
-  String?  price;
+  String? title;
+  String? description;
+  String? language;
+  String? price;
   List<Module>? modules;
   List<OnlineLesson>? onlineLessons;
   List<Quiz>? quizzes;
