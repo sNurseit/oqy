@@ -2,15 +2,15 @@ import 'package:oqy/domain/entity/question.dart';
 import 'package:oqy/domain/entity/quiz_point.dart';
 
 class Quiz {
-  final int? id;
-  final int? courseId;
-  final Duration? duration;
-  final String? durationString;
-  final String? title;
-  final String? instruction;
-  final int? step;
-  final List<Question>? questions;
-  final QuizPoint? quizPoint;
+   int? id;
+   int? courseId;
+   Duration? duration;
+   String? durationString;
+   String? title;
+   String? instruction;
+   int? step;
+   List<Question>? questions;
+   QuizPoint? quizPoint;
 
   Quiz({
     this.id,

@@ -1,19 +1,21 @@
 import 'package:oqy/domain/entity/material.dart';
 
 class Module{
-  final int id;
-  final int courseId;
-  final String title;
-  final String description;
-  final int? totalSteps;
-  final List<MaterialEntity>? materials;
+  int? id;
+  int? courseId;
+  String? title;
+  String? description;
+  int? step;
+  int? totalSteps;
+  List<MaterialEntity>? materials;
 
   Module({
-    required this.id,
-    required this.courseId,
-    required this.title,
-    required this.description,
-    required this.materials,
+    this.id,
+    this.courseId,
+    this.title,
+    this.description,
+    this.materials,
+    this.step,
     this.totalSteps,
   });
 
@@ -23,6 +25,7 @@ class Module{
       courseId: json['courseId'],
       title: json['title'],
       description: json['description'],
+      step: json['step'],
       totalSteps: json['totalSteps'],
       materials: json['materials'],
     );
@@ -39,6 +42,7 @@ class Module{
       'title': title,
       'description': description,
       'totalSteps': totalSteps,
+      'step': step,
       'materials': materialsJson,
     };
   }

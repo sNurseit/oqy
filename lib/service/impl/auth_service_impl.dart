@@ -44,7 +44,7 @@ class AuthService {
   Future<int?> checkVerificationCode(ConfirmationDto confirmation, String code) async {
     try{
       confirmation.verificationCode = code;
-      final response = await Dio().get(
+      final response = await Dio().post(
         '$url/check-verification-code',
         data: confirmation.toJson() 
       );

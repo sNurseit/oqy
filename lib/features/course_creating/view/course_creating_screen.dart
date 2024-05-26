@@ -46,34 +46,41 @@ class _CourseCreatingScreenState extends State<CourseCreatingScreen> {
     final courseCreatingBloc = context.read<CourseCreatingBloc>();
     final theme = Theme.of(context);
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       bottomNavigationBar: BottomAppBar(
         color: theme.secondaryHeaderColor,
       
-        child: ElevatedButton(
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color?>(theme.primaryColor),
-          ),
-          onPressed: () {
-            final course = Course(
-              image: picture,
-              title: _titleController.text,
-              description: _descriptionController.text,
-              language: _languageController.text,
-              price: _priceController.text,
-              categoryCode: _selectedCategory?.code,
-            );
-            final inputValidations = courseCreatingBloc.validateInput(course);
-            if (inputValidations.isNotEmpty) {
-              _showValidationErrors(inputValidations);
-            } else {
-              courseCreatingBloc.add(PostCourseMainInformation(course: course));
-            }
-          },
-          child: const Text(
-            'Save',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: ElevatedButton(
+            style:  ElevatedButton.styleFrom(
+              backgroundColor: theme.primaryColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            onPressed: () {
+              final course = Course(
+                image: picture,
+                title: _titleController.text,
+                description: _descriptionController.text,
+                language: _languageController.text,
+                price: _priceController.text,
+                categoryCode: _selectedCategory?.code,
+              );
+              final inputValidations = courseCreatingBloc.validateInput(course);
+              if (inputValidations.isNotEmpty) {
+                _showValidationErrors(inputValidations);
+              } else {
+                courseCreatingBloc.add(PostCourseMainInformation(course: course));
+              }
+            },
+            child: const Text(
+              'Save',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+              ),
             ),
           ),
         )
@@ -93,14 +100,14 @@ class _CourseCreatingScreenState extends State<CourseCreatingScreen> {
                 if (state is CourseCreatingLoaded) {
                   final course = state.course;
                   if (course != null) {
-                    _titleController.text = course.title!;
-                    _descriptionController.text = course.description!;
-                    _languageController.text = course.language!;
-                    _priceController.text = course.price!;
+                    _titleController.text = course.title?? '';
+                    _descriptionController.text = course.description?? '';
+                    _languageController.text = course.language?? '';
+                    _priceController.text = course.price?? '';
                   }
                   return ListView(
                     children: [
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 10),
                       PhotoLoader(
                         onPhotoSelected: (base64Photo) {
                           picture = base64Photo;
@@ -117,19 +124,40 @@ class _CourseCreatingScreenState extends State<CourseCreatingScreen> {
                           _titleController.text = value;
                         },
                       ),
-                      const SizedBox(height: 20),
-                      const Text('Description *'),
                       const SizedBox(height: 10),
-                      TextField(controller: _descriptionController),
-                      const SizedBox(height: 20),
-                      const Text('Language *'),
+                      CustomTextField(
+                        labelText: 'Descirption', 
+                        maxLines: 5, 
+                        maxLength: 200, 
+                        hintText: 'Enter descirption', 
+                        controller: _descriptionController,
+                        onChanged: (value) {
+                          _descriptionController.text = value;
+                        },
+                      ),
                       const SizedBox(height: 10),
-                      TextField(controller: _languageController),
-                      const SizedBox(height: 20),
-                      const Text('Price *'),
+                      CustomTextField(
+                        labelText: 'Language', 
+                        maxLines: 1, 
+                        maxLength: 50, 
+                        hintText: 'Enter language', 
+                        controller: _languageController,
+                        onChanged: (value) {
+                          _languageController.text = value;
+                        },
+                      ),
                       const SizedBox(height: 10),
-                      TextField(controller: _priceController),
-                      const SizedBox(height: 20),
+                      CustomTextField(
+                        labelText: 'Price', 
+                        maxLines: 1, 
+                        maxLength: 6, 
+                        hintText: 'Enter price', 
+                        controller: _priceController,
+                        onChanged: (value) {
+                          _priceController.text = value;
+                        },
+                        keyboardType: TextInputType.number,
+                      ),
                       const Text('Type *'),
                       const SizedBox(height: 10),
                       CategoryDropDown(
@@ -163,7 +191,7 @@ class _CourseCreatingScreenState extends State<CourseCreatingScreen> {
           ),
         ),
       ),
-      endDrawer: const CourseCreatingDrawerWidget(index: -1),
+      endDrawer:  CourseCreatingDrawerWidget( index: -1),
       
     );
   }

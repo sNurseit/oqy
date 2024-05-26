@@ -24,9 +24,19 @@ final class CourseCreatingPost extends CourseCreatingState {
 final class CourseCreatingLoaded extends CourseCreatingState {
   final Course? course;
   final List<CourseCategory> category;
-  CourseCreatingLoaded({required this.course,required this.category});
+  final List<ModuleType> courseModules;
+  CourseCreatingLoaded({required this.course,required this.category, required this.courseModules});
   @override
-  List<Object?> get props => [course, category];
+  List<Object?> get props => [course, category, courseModules];
+}
+
+final class ModuleAdded extends CourseCreatingState{
+  final List<ModuleType>? modules;
+
+  ModuleAdded({required this.modules});
+
+  @override
+  List<Object?> get props => [modules];
 }
 
 final class CourseCreatingError extends CourseCreatingState {

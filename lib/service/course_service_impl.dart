@@ -116,20 +116,22 @@ class CourseService {
       return course;
     } 
     catch (error) {
+      print(error.toString);
       throw Exception();
     }
   }
 
-  Future<int> create(Course course) async{
+  Future<Course> create(Course course) async{
     try {
       Response response = await _dio.post(
         courseApi,
         data: course.toJson(),
       );
-      return response.statusCode!;
+      return Course.fromJson(response.data);
     } 
     catch (error) {
-      throw Exception();
+      print(error.toString);
+      throw  Exception(error);
     }
   }
 

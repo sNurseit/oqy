@@ -11,15 +11,15 @@ class Course {
   String? description;
   String? language;
   String? price;
-  List<Module>? modules;
-  List<OnlineLesson>? onlineLessons;
-  List<Quiz>? quizzes;
+  List<Module>? modules =[];
+  List<OnlineLesson>? onlineLessons =[];
+  List<Quiz>? quizzes =[];
   int? moduleCount;
   int? materialCount;
   int? quizCount;
   double?  averageRating;
-  int?  enrollmentCount;
-  int?  reviewCount;
+  int? enrollmentCount;
+  int? reviewCount;
   String? categoryCode;
   List<int>? imageBytes;
   String? image;
@@ -43,7 +43,13 @@ class Course {
     this.image,
   });
 
-
+  factory Course.empty(){
+    return Course(
+      modules: [],
+      quizzes: [],
+      onlineLessons: [],
+    );
+  }
 
   factory Course.fromJson(Map<String, dynamic> json) {
     String pic;
@@ -60,11 +66,11 @@ class Course {
       language: json['language'],
       price: json['price'],
       modules: json['modules']!=null 
-        ? List<Module>.from(json['modules'].map((module) => Module.fromJson(module))): null,
+        ? List<Module>.from(json['modules'].map((module) => Module.fromJson(module))): [],
       onlineLessons: json['onlineLessons']!=null 
-        ? List<OnlineLesson>.from(json['onlineLessons'].map((module) => Module.fromJson(module))): null,
+        ? List<OnlineLesson>.from(json['onlineLessons'].map((module) => Module.fromJson(module))): [],
       quizzes: json['quizes']!=null
-        ? List<Quiz>.from(json['quizes'].map((module) => Module.fromJson(module))) : null,
+        ? List<Quiz>.from(json['quizes'].map((module) => Module.fromJson(module))) : [],
       moduleCount: json['moduleCount'],
       materialCount: json['materialCount'],
       quizCount: json['quizCount'],

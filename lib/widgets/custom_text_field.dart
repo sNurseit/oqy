@@ -7,6 +7,7 @@ class CustomTextField extends StatelessWidget {
   final int maxLength;
   final TextEditingController controller;
   final ValueChanged<String>? onChanged;
+  final TextInputType keyboardType;
 
   const CustomTextField({
     Key? key,
@@ -14,8 +15,9 @@ class CustomTextField extends StatelessWidget {
     required this.hintText,
     required this.maxLines,
     required this.maxLength,
-    required this.controller, 
+    required this.controller,
     this.onChanged,
+    this.keyboardType = TextInputType.text, 
   }) : super(key: key);
 
   @override
@@ -27,10 +29,9 @@ class CustomTextField extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 5),
           child: Text(
-            "$labelText *",
+            labelText,
             style: const TextStyle(
               fontSize: 14,
-              color: Colors.grey,
             ),
           ),
         ),
@@ -38,8 +39,8 @@ class CustomTextField extends StatelessWidget {
         TextField(
           onChanged: onChanged,
           maxLines: maxLines,
-          maxLength: maxLength,
           controller: controller,
+          keyboardType: keyboardType,
           cursorColor: theme.primaryColor,
           decoration: InputDecoration(
             isCollapsed: true,

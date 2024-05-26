@@ -19,6 +19,27 @@ class LoadCourseCategory extends CourseCreatingEvent{
   List<Object?> get props => [completer];
 }
 
+class AddModule extends CourseCreatingEvent{
+  
+  final String title;
+  final String description;
+  final int type;
+  AddModule({required this.title, required this.description, required this.type,});
+
+  @override
+  List<Object?> get props =>[title, description, type];
+}
+
+class ChangeModuleStep extends CourseCreatingEvent{
+  final List<ModuleType> moduleTypes;
+
+  ChangeModuleStep({required this.moduleTypes});
+
+  @override
+  List<Object?> get props => [moduleTypes];
+
+}
+
 class PostCourseMainInformation extends CourseCreatingEvent {
   final Course course;
   final Completer? completer;

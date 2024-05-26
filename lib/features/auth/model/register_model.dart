@@ -1,9 +1,6 @@
-import 'package:auto_route/auto_route.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:oqy/domain/dto/confirmation_dto.dart';
 import 'package:oqy/domain/entity/register.dart';
-import 'package:oqy/router/router.dart';
 import 'package:oqy/service/impl/auth_service_impl.dart';
 
 
@@ -55,6 +52,7 @@ class RegisterModel extends ChangeNotifier {
       final response = await _authService.checkVerificationCode(confirmationDto!, codeTextController.text);
       if(response != null){
         registered=true;
+        Navigator.of(context).pop();
         Navigator.of(context).pop();
       }
     
