@@ -1,39 +1,39 @@
-
-import 'package:oqy/domain/enums/material_type.dart';
-
-class MaterialEntity{
+class MaterialEntity {
   int? id;
   int? moduleId;
   String? title;
+  int? step;
   String? content;
-  MaterialType? type;
+  String? type;
 
   MaterialEntity({
-    required this.id,
-    required this.moduleId,
-    required this.title,
-    required this.content,
-    required this.type
+    this.id,
+    this.moduleId,
+    this.title,
+    this.step,
+    this.content,
+    this.type,
   });
-  
+
   factory MaterialEntity.fromJson(Map<String, dynamic> json) {
     return MaterialEntity(
       id: json['id'],
       moduleId: json['moduleId'],
       title: json['title'],
+      step: json['step'],
       content: json['content'],
       type: json['type'],
     );
   }
 
-    Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson() {
     return {
       'id': id,
       'moduleId': moduleId,
       'title': title,
+      'step': step,
       'content': content,
-      'type': type != null ? type.toString().split('.').last : null,
+      'type': type,
     };
   }
-
 }

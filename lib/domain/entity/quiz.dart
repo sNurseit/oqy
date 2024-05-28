@@ -1,39 +1,44 @@
+import 'package:oqy/domain/dto/module_type.dart';
 import 'package:oqy/domain/entity/question.dart';
 import 'package:oqy/domain/entity/quiz_point.dart';
 
-class Quiz {
-   int? id;
-   int? courseId;
-   Duration? duration;
-   String? durationString;
-   String? title;
-   String? instruction;
-   int? step;
-   List<Question>? questions;
-   QuizPoint? quizPoint;
+class Quiz extends StepItem {
+  @override
+  int? id;
+  int? courseId;
+  Duration? duration;
+  String? durationString;
+  @override
+  String title;
+  String? instruction;
+  @override
+  int step;
+  List<Question>? questions;
+  QuizPoint? quizPoint;
+  String? uuid;
 
   Quiz({
-    this.id,
+    required this.id,
     this.courseId,
     this.duration,
     this.durationString,
-    this.title,
+    required this.title,
     this.instruction,
-    this.step,
+    required this.step,
     this.questions,
     this.quizPoint,
+    this.uuid,
   });
 
-  // From JSON
   factory Quiz.fromJson(Map<String, dynamic> json) {
     return Quiz(
-      id: json['id'] as int?,
-      courseId: json['courseId'] as int?,
+      id: json['id'],
+      courseId: json['courseId'] ,
       duration: json['duration'] != null ? Duration(seconds: json['duration']) : null,
-      durationString: json['durationString'] as String?,
-      title: json['title'] as String?,
-      instruction: json['instruction'] as String?,
-      step: json['step'] as int?,
+      durationString: json['durationString'],
+      title: json['title'],
+      instruction: json['instruction'] ,
+      step: json['step'],
       questions: (json['questions'] as List<dynamic>?)
           ?.map((questionJson) => Question.fromJson(questionJson as Map<String, dynamic>))
           .toList(),
@@ -41,7 +46,6 @@ class Quiz {
     );
   }
 
-  // To JSON
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -53,6 +57,7 @@ class Quiz {
       'step': step,
       'questions': questions?.map((question) => question.toJson()).toList(),
       'quizPoint': quizPoint?.toJson(),
+      'moduleType':'quiz',
     };
   }
 }

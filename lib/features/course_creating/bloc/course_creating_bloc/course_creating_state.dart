@@ -2,7 +2,6 @@ part of 'course_creating_bloc.dart';
 
 abstract class CourseCreatingState extends Equatable {}
 
-
 //-------------------Created Course------------------------//
 final class CourseCreatingInitial extends CourseCreatingState {
   @override
@@ -25,7 +24,8 @@ final class CourseCreatingLoaded extends CourseCreatingState {
   final Course? course;
   final List<CourseCategory> category;
   final List<ModuleType> courseModules;
-  CourseCreatingLoaded({required this.course,required this.category, required this.courseModules});
+  CourseCreatingLoaded({required this.course,required this.category, required this.courseModules,});
+
   @override
   List<Object?> get props => [course, category, courseModules];
 }
@@ -37,6 +37,36 @@ final class ModuleAdded extends CourseCreatingState{
 
   @override
   List<Object?> get props => [modules];
+}
+
+final class ModuleLoaded extends CourseCreatingState{
+  final Module module;
+  ModuleLoaded({required this.module});
+  @override
+  List<Object?> get props => [module];
+}
+
+final class ModuleLoading extends CourseCreatingState {
+  @override
+  List<Object?> get props => [];
+}
+
+final class MaterialLoaded extends CourseCreatingState{
+  final MaterialEntity material;
+  MaterialLoaded({required this.material});
+  @override
+  List<Object?> get props => [material];
+}
+
+final class MaterialLoading extends CourseCreatingState {
+  @override
+  List<Object?> get props => [];
+}
+final class  MaterialLoadingError extends CourseCreatingState {
+  final String message;
+  MaterialLoadingError(this.message);
+  @override
+  List<Object?> get props => [message];
 }
 
 final class CourseCreatingError extends CourseCreatingState {

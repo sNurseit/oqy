@@ -15,11 +15,13 @@ class CustomListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return trailing ? ListTile(
       leading: Icon(icon),
       title: Text(
         title,
-        style: const TextStyle(fontSize: 14.0),
+         maxLines: 2,
+        style: theme.textTheme.bodySmall,
       ),
       trailing: const Icon(Icons.keyboard_arrow_right),
       onTap: () {
@@ -30,7 +32,8 @@ class CustomListTile extends StatelessWidget {
       leading: Icon(icon),
       title: Text(
         title,
-        style: const TextStyle(fontSize: 14.0),
+        maxLines: 2,
+        style: theme.textTheme.bodySmall,
       ),
       onTap: () {
         onTap();

@@ -1,7 +1,8 @@
 part of 'course_creating_bloc.dart';
 
-
+//---------------------------CourseCreating--------------------------------
 abstract class CourseCreatingEvent extends Equatable{}
+
 
 class LoadCourseCreating extends CourseCreatingEvent{
   final int? courseId;
@@ -12,6 +13,37 @@ class LoadCourseCreating extends CourseCreatingEvent{
   List<Object?> get props => [courseId, completer];
 }
 
+class LoadModule extends CourseCreatingEvent{
+  
+  final Completer? completer;
+  final int step;
+
+  LoadModule({required this.step, this.completer});
+  @override
+  List<Object?> get props => [completer, step];
+}
+
+class PopNavigate extends CourseCreatingEvent{
+  final BuildContext buildContext;
+
+  PopNavigate({required this.buildContext});
+
+  @override
+  List<Object?> get props => [buildContext];
+
+}
+
+class LoadMaterial extends CourseCreatingEvent{
+  
+  final Completer? completer;
+  final int step;
+  final int moduleStep;
+
+  LoadMaterial({required this.step, required this.moduleStep, this.completer});
+  @override
+  List<Object?> get props => [completer,step,moduleStep];
+}
+
 class LoadCourseCategory extends CourseCreatingEvent{
   final Completer? completer;
   LoadCourseCategory({this.completer});
@@ -20,11 +52,12 @@ class LoadCourseCategory extends CourseCreatingEvent{
 }
 
 class AddModule extends CourseCreatingEvent{
-  
+  final BuildContext context;
   final String title;
   final String description;
   final int type;
-  AddModule({required this.title, required this.description, required this.type,});
+
+  AddModule({required this.context,required this.title, required this.description, required this.type,});
 
   @override
   List<Object?> get props =>[title, description, type];
@@ -47,6 +80,25 @@ class PostCourseMainInformation extends CourseCreatingEvent {
 
   @override
   List<Object?> get props => [course, completer];
+}
+
+class NavigateToMaterial extends CourseCreatingEvent{
+  final BuildContext buildContext;
+  final int materialStep;
+  final int moduleStep;
+  
+  NavigateToMaterial({required this.buildContext, required this.materialStep, required this.moduleStep});
+  @override
+  List<Object?> get props => [buildContext,materialStep,moduleStep];
+}
+
+class NavigateToModule extends CourseCreatingEvent {
+  final BuildContext buildContext;
+  final StepItem moduleType;
+  
+  NavigateToModule({required this.buildContext, required this.moduleType});
+  @override
+  List<Object?> get props =>[buildContext, moduleType];
 }
 
 

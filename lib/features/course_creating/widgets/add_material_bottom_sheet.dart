@@ -2,18 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:oqy/domain/dto/module_type.dart';
 import 'package:oqy/features/course_creating/bloc/course_creating_bloc/course_creating_bloc.dart';
+import 'package:oqy/features/course_creating/bloc/module_edit_bloc/module_edit_bloc.dart';
 import 'package:oqy/widgets/custom_text_field.dart';
 import 'package:provider/provider.dart';
 
-class AddModuleButtomSheet extends StatefulWidget {
-  final StepItem? stepItem;
-  const AddModuleButtomSheet({this.stepItem, Key? key}) : super(key: key);
+class AddMaterialBottomSheet extends StatefulWidget {
+  final ModuleType? moduleType;
+  const AddMaterialBottomSheet({this.moduleType, Key? key}) : super(key: key);
 
   @override
-  _AddModuleButtomSheetState createState() => _AddModuleButtomSheetState();
+  _AddMaterialBottomSheetState createState() => _AddMaterialBottomSheetState();
 }
 
-class _AddModuleButtomSheetState extends State<AddModuleButtomSheet> {
+class _AddMaterialBottomSheetState extends State<AddMaterialBottomSheet> {
   int _selectedIndex = 0;
 
   void _closeBottomSheet(BuildContext context) {
@@ -21,18 +22,14 @@ class _AddModuleButtomSheetState extends State<AddModuleButtomSheet> {
   }
 
   @override
-  void initState() {
-    super.initState();
-  
-  }
-  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final courseCreatingBloc = Provider.of<CourseCreatingBloc>(context, listen: false);
+    final bloc = Provider.of<ModuleEditBloc>(context, listen: false);
+
     final titleController = TextEditingController();
     final descriptionController = TextEditingController();
-    if(widget.stepItem!=null){
-      titleController.text = widget.stepItem!.title;
+    if(widget.moduleType!=null){
+      titleController.text = widget.moduleType!.title;
     }
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -42,6 +39,9 @@ class _AddModuleButtomSheetState extends State<AddModuleButtomSheet> {
             constraints: BoxConstraints(maxHeight: constraints.maxHeight),
             child: BlocBuilder<CourseCreatingBloc, CourseCreatingState>(
               builder: (context, state) {
+                if (state is ModuleAdded){
+                  _closeBottomSheet(context);
+                }
                 return IntrinsicHeight(
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
@@ -55,7 +55,7 @@ class _AddModuleButtomSheetState extends State<AddModuleButtomSheet> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               const SizedBox(width: 45,),
-                              const Text('Module'),
+                              const Text('Material'),
                               GestureDetector(
                                 child: const Icon(Icons.close_outlined),
                                 onTap: () => _closeBottomSheet(context),
@@ -104,14 +104,7 @@ class _AddModuleButtomSheetState extends State<AddModuleButtomSheet> {
                             ),
                             onPressed: () {
                               if (titleController.text.trim().isNotEmpty && descriptionController.text.trim().isNotEmpty) {
-                                courseCreatingBloc.add(
-                                  AddModule(
-                                    context: context,
-                                    title: titleController.text,
-                                    description: descriptionController.text,
-                                    type: _selectedIndex,
-                                  ),
-                                );
+                                
                               }
                             },
                             child: const Text(
@@ -171,11 +164,9 @@ class _ModuleTypesState extends State<ModuleTypes> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        _buildSelectableItem(0, 'Default module'),
+        _buildSelectableItem(0, 'Default material'),
         const SizedBox(width: 10),
-        _buildSelectableItem(1, 'Quiz'),
-        const SizedBox(width: 10),
-        _buildSelectableItem(2, 'Online lesson'),
+        _buildSelectableItem(1, 'Video material'),
       ],
     );
   }

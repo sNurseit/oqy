@@ -6,6 +6,8 @@ import 'package:oqy/features/auth/view/auth_screen.dart';
 import 'package:oqy/features/auth/view/register_screen.dart';
 import 'package:oqy/features/course/view/course_screen.dart';
 import 'package:oqy/features/course_creating/view/course_creating_screen.dart';
+import 'package:oqy/features/course_creating/view/material_edit_screen.dart';
+import 'package:oqy/features/course_creating/view/module_screen.dart';
 import 'package:oqy/features/course_learning/view/my_learning_screen.dart';
 import 'package:oqy/features/home/view/home_screen.dart';
 import 'package:oqy/features/main/view/main_screen.dart';
@@ -62,6 +64,14 @@ class AppRouter extends _$AppRouter{
     AutoRoute(
       page: CourseRoute.page,
       path: '/course',
+    ),
+    AutoRoute(
+      page: ModuleRoute.page,
+      path: '/module',
+    ),
+    AutoRoute(
+      page: MaterialEditRoute.page,
+      path: '/material-edit',
     ),
     AutoRoute(
       page: CourseCreatingRoute.page,

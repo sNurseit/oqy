@@ -24,7 +24,7 @@ class TrainingModel extends ChangeNotifier {
   }
 
   Future<List<Course>> getCreatedCourses() async {
-    _cretatedCourses = (await _courseService.myCreated())!;
+    _cretatedCourses = ( await _courseService.myCreated())!;
     return _cretatedCourses;
   }
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:oqy/domain/dto/module_type.dart';
-import 'package:oqy/features/course_creating/bloc/course_creating_bloc.dart';
+import 'package:oqy/domain/entity/module.dart';
+import 'package:oqy/features/course_creating/bloc/course_creating_bloc/course_creating_bloc.dart';
 import 'package:oqy/features/course_creating/widgets/add_module_buttom_sheet.dart';
 
 class CourseCreatingDrawerWidget extends StatelessWidget {
@@ -19,11 +19,16 @@ class CourseCreatingDrawerWidget extends StatelessWidget {
       child: BlocBuilder<CourseCreatingBloc, CourseCreatingState>(
         builder: (context, state) {
           if (state is CourseCreatingLoaded) {
-            final modules = state.courseModules;
+            final modules = state.course!.modules;
+            final quizzes = state.course!.quizzes;
+
+            final combinedItems = [...?modules, ...?quizzes];
+            combinedItems.sort((a, b) => a.step.compareTo(b.step));
+
             return Column(
               children: [
                 DrawerHeader(
-                  child: Container(
+                  child: Container( 
                     width: double.infinity,
                     color: const Color.fromARGB(255, 179, 199, 187),
                   ),
@@ -34,33 +39,36 @@ class CourseCreatingDrawerWidget extends StatelessWidget {
                       if (newIndex > oldIndex) {
                         newIndex -= 1;
                       }
-                      final ModuleType item = modules.removeAt(oldIndex);
-                      modules.insert(newIndex, item);
-                      courseCreatingBloc.add(ChangeModuleStep(moduleTypes: modules));
+                      final item = combinedItems.removeAt(oldIndex);
+                      combinedItems.insert(newIndex, item);
                     },
                     children: [
-                      for (int index = 0; index < modules.length; index++)
+                      for (int index = 0; index < combinedItems.length; index++)
                         ListTile(
-                          key: ValueKey(modules[index].uuid),
+                          key: ValueKey(combinedItems[index].step),
                           leading: Icon(
-                            modules[index].type == "module"
+                            combinedItems[index] is Module
                                 ? Icons.view_module_outlined
                                 : Icons.quiz_rounded,
                           ),
                           onTap: () {
-                            // Ваш код для обработки нажатия на ListTile
+                            courseCreatingBloc.add(NavigateToModule(buildContext: context, moduleType: combinedItems[index]));                          
                           },
-                          title: Text(modules[index].title),
+                          title: Text(
+                            combinedItems[index].title,
+                            style: theme.textTheme.bodyMedium,
+                            maxLines: 2,
+                          ),
                           trailing: PopupMenuButton<String>(
                             color: Colors.white,
-                            icon: const Icon(Icons.more_horiz_outlined), 
+                            icon: const Icon(Icons.more_vert_outlined), 
                             onSelected: (value) {
                               switch (value) {
                                 case 'edit':
-                                  
+                                  // Handle edit logic here
                                   break;
                                 case 'delete':
-                                  
+                                  // Handle delete logic here
                                   break;
                               }
                             },
@@ -108,26 +116,6 @@ class CourseCreatingDrawerWidget extends StatelessWidget {
           }
           return Container();
         },
-      ),
-    );
-  }
-}
-
-
-class ModulesScreen extends StatelessWidget {
-  final int index;
-  const ModulesScreen({super.key, required this.index});
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Modules'),
-      ),
-      body: const Center(
-        child: Text('Modules Screen'),
-      ),
-      endDrawer: CourseCreatingDrawerWidget(
-        index: index,
       ),
     );
   }

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:oqy/domain/entity/course.dart';
 import 'package:oqy/domain/entity/course_category.dart';
-import 'package:oqy/features/course_creating/bloc/course_creating_bloc.dart';
+import 'package:oqy/features/course_creating/bloc/course_creating_bloc/course_creating_bloc.dart';
 import 'package:oqy/features/course_creating/widgets/course_creating_drawer_widget.dart';
 import 'package:oqy/features/course_creating/widgets/searchable_dropdown_widget.dart';
 import 'package:oqy/widgets/custom_switch_list_tile.dart';
@@ -48,8 +48,7 @@ class _CourseCreatingScreenState extends State<CourseCreatingScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       bottomNavigationBar: BottomAppBar(
-        color: theme.secondaryHeaderColor,
-      
+        color: Colors.transparent,
         child: Padding(
           padding: const EdgeInsets.only(top: 10),
           child: ElevatedButton(
@@ -88,7 +87,7 @@ class _CourseCreatingScreenState extends State<CourseCreatingScreen> {
       appBar: AppBar(),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+          padding: const EdgeInsets.symmetric( horizontal: 8),
           child: RefreshIndicator(
             onRefresh: () async {
               final completer = Completer();
@@ -192,7 +191,6 @@ class _CourseCreatingScreenState extends State<CourseCreatingScreen> {
         ),
       ),
       endDrawer:  CourseCreatingDrawerWidget( index: -1),
-      
     );
   }
 

@@ -22,7 +22,7 @@ class ReviewServiceImpl extends ReviewService {
           .toList();
       return reviews;
     } catch (e) {
-      throw Exception(e.toString());
+      throw  Exception();
     }
   }
 

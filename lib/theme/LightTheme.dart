@@ -1,6 +1,4 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:oqy/theme/app_colors.dart';
 import 'package:oqy/theme/app_fonts.dart';
 
@@ -33,17 +31,15 @@ class LightTheme {
 
 
           bodySmall: TextStyle(
-            color: AppFontColors.fontMid,
+            color: AppFontColors.mainFont,
             fontSize: 14,
             fontFamily: AppFonts.mainFont,
           ),
           bodyMedium: TextStyle(
-            color: AppFontColors.fontMid,
+            color: AppFontColors.mainFont,
             fontSize: 16,
             fontFamily: AppFonts.mainFont,
           ),
-
-
 
           labelMedium:  TextStyle(
             color: AppFontColors.fontLink,

@@ -53,7 +53,6 @@ class _FormWidget extends StatelessWidget {
                style: Theme.of(context).textTheme.titleLarge,
              ),
             const SizedBox(height: 25.0,),
-            const ErrorText(),
             const InputLogin(),
             const SizedBox(height: 25.0,),
             const InputPassword(),

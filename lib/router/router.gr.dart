@@ -56,6 +56,27 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const MainScreen(),
       );
     },
+    MaterialEditRoute.name: (routeData) {
+      final args = routeData.argsAs<MaterialEditRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: MaterialEditScreen(
+          key: args.key,
+          materialStep: args.materialStep,
+          moduleStep: args.moduleStep,
+        ),
+      );
+    },
+    ModuleRoute.name: (routeData) {
+      final args = routeData.argsAs<ModuleRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: ModuleScreen(
+          key: args.key,
+          moduleId: args.moduleId,
+        ),
+      );
+    },
     MyLearningRoute.name: (routeData) {
       final pathParams = routeData.inheritedPathParams;
       final args = routeData.argsAs<MyLearningRouteArgs>(
@@ -228,6 +249,86 @@ class MainRoute extends PageRouteInfo<void> {
   static const String name = 'MainRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [MaterialEditScreen]
+class MaterialEditRoute extends PageRouteInfo<MaterialEditRouteArgs> {
+  MaterialEditRoute({
+    Key? key,
+    required int materialStep,
+    required int moduleStep,
+    List<PageRouteInfo>? children,
+  }) : super(
+          MaterialEditRoute.name,
+          args: MaterialEditRouteArgs(
+            key: key,
+            materialStep: materialStep,
+            moduleStep: moduleStep,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'MaterialEditRoute';
+
+  static const PageInfo<MaterialEditRouteArgs> page =
+      PageInfo<MaterialEditRouteArgs>(name);
+}
+
+class MaterialEditRouteArgs {
+  const MaterialEditRouteArgs({
+    this.key,
+    required this.materialStep,
+    required this.moduleStep,
+  });
+
+  final Key? key;
+
+  final int materialStep;
+
+  final int moduleStep;
+
+  @override
+  String toString() {
+    return 'MaterialEditRouteArgs{key: $key, materialStep: $materialStep, moduleStep: $moduleStep}';
+  }
+}
+
+/// generated route for
+/// [ModuleScreen]
+class ModuleRoute extends PageRouteInfo<ModuleRouteArgs> {
+  ModuleRoute({
+    Key? key,
+    required int moduleId,
+    List<PageRouteInfo>? children,
+  }) : super(
+          ModuleRoute.name,
+          args: ModuleRouteArgs(
+            key: key,
+            moduleId: moduleId,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'ModuleRoute';
+
+  static const PageInfo<ModuleRouteArgs> page = PageInfo<ModuleRouteArgs>(name);
+}
+
+class ModuleRouteArgs {
+  const ModuleRouteArgs({
+    this.key,
+    required this.moduleId,
+  });
+
+  final Key? key;
+
+  final int moduleId;
+
+  @override
+  String toString() {
+    return 'ModuleRouteArgs{key: $key, moduleId: $moduleId}';
+  }
 }
 
 /// generated route for

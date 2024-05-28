@@ -19,7 +19,7 @@ class MyCreatedListWidget extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
           child: FilledButton(
             onPressed: ()=>model.navigateTeCourseCreating(myContext,0),
-            child: const Text('Creaet your own course'),
+            child: const Text('Create your own course'),
           ),
         ),
         Expanded(

@@ -8,3 +8,10 @@ class ModuleType{
     this.uuid = '$id-$type-$step';
   }
 }
+
+
+abstract class StepItem {
+  int? get id;
+  int get step;
+  String get title;
+}

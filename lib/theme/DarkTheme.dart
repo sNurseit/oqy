@@ -29,7 +29,7 @@ class DarkTheme {
 
 
           bodySmall: TextStyle(
-            color: AppFontColors.fontLight,
+            color: AppFontColors.fontWhite,
             fontSize: 14,
             fontFamily: AppFonts.mainFont,
           ),

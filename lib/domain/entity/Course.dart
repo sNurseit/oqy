@@ -84,8 +84,9 @@ class Course {
   }
 
   Map<String,dynamic> toJson(){
+    dynamic imageBase = null;
     if (image != null){
-      image = 'data:image/png;base64,$image';
+      imageBase = 'data:image/png;base64,$image';
     }
     return {
       'id': id,
@@ -95,13 +96,12 @@ class Course {
       'price': price,
       'modules': modules!=null ? modules!.map((module) => module.toJson()).toList(): [],
       'onlineLessons': onlineLessons!=null ? onlineLessons!.map((onlineLesson) => onlineLesson.toJson()).toList(): [],
-      'quizzes': quizzes!=null ? quizzes!.map((quiz) => quiz.toJson()).toList():[],
+      'quizzes': quizzes!=null ? quizzes!.map((quiz) => quiz.toJson()).toList(): [],
       'averageRating': averageRating,
       'enrollmentCount': enrollmentCount,
       'reviewCount': reviewCount,
       'categoryCode': categoryCode,
-      'coursePicture': image,
+      'coursePicture': imageBase,
     };
   }
-
 }

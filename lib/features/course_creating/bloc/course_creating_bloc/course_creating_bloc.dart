@@ -1,29 +1,38 @@
 import 'dart:async';
-import 'dart:io';
+import 'package:auto_route/auto_route.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:oqy/domain/dto/module_type.dart';
 import 'package:oqy/domain/entity/course.dart';
 import 'package:oqy/domain/entity/course_category.dart';
+import 'package:oqy/domain/entity/material_entity.dart';
 import 'package:oqy/domain/entity/module.dart';
 import 'package:oqy/domain/entity/online_lesson.dart';
 import 'package:oqy/domain/entity/quiz.dart';
+import 'package:oqy/router/router.dart';
 import 'package:oqy/service/course_category_service.dart';
 import 'package:oqy/service/course_service_impl.dart';
+import 'package:oqy/service/module_service.dart';
 
 part 'course_creating_event.dart';
 part 'course_creating_state.dart';
 
+
+
+
 class CourseCreatingBloc extends Bloc<CourseCreatingEvent, CourseCreatingState> {
   CourseService courseService;
   CourseCategoryService courseCategoryService;
+  ModuleService moduleService;
+
   Course course = Course.empty();
   List<CourseCategory>? categoryList;
   List<ModuleType> courseModules = [];
-
   CourseCreatingBloc({
     required this.courseService, 
-    required this.courseCategoryService
+    required this.courseCategoryService,
+    required this.moduleService,
   }) : super(CourseCreatingInitial()) {
 
     on<LoadCourseCreating>((event, emit) async {
@@ -37,14 +46,14 @@ class CourseCreatingBloc extends Bloc<CourseCreatingEvent, CourseCreatingState> 
           updateModules(course.modules!, course.quizzes!);
           emit(CourseCreatingLoaded(course: course, category: categoryList!, courseModules:courseModules)); 
         } catch(e){
-          print(e.toString());
-          emit(CourseCategoryError(e.toString()));
+          emit(CourseCategoryError('Something wrong'));
         } finally{
           event.completer?.complete();
         }
       } else{
         emit(CourseCreatingLoading());
         final List<CourseCategory> categoryList = await courseCategoryService.getAllCategories();
+        course = Course.empty();
         emit(CourseCreatingLoaded(course: course, category: categoryList, courseModules:courseModules));
         event.completer?.complete();
       }
@@ -56,21 +65,92 @@ class CourseCreatingBloc extends Bloc<CourseCreatingEvent, CourseCreatingState> 
         categoryList = await courseCategoryService.getAllCategories();
         emit(CourseCategoryLoaded(categoryList!));
       } catch (e) {
-        emit(CourseCategoryError(e.toString()));
+        emit(CourseCategoryError('Something wrong'));
       } finally{
         event.completer?.complete();
       }
     });
 
+    on<NavigateToModule>((event,emit){
+      if(event.moduleType is Module){
+        print('fucking id is ${event.moduleType.id!}');
+        AutoRouter.of(event.buildContext).push(ModuleRoute(moduleId:event.moduleType.id!));
+      } else{
+      }
+/*
+      if(module == null){
+        Quiz quiz = course.quizzes!.firstWhere(
+          (quiz) => quiz.step == event.moduleType.step,
+        );
+        //AutoRouter.of(event.buildContext).replace(route);
+      }
+      else{
+      }
+*/
+    });
+
+    on<NavigateToMaterial>((event,emit){
+      try{
+        AutoRouter.of(event.buildContext).push(MaterialEditRoute(materialStep: event.materialStep,moduleStep: event.moduleStep));        
+      } catch(e){
+        throw Exception(e);
+      }
+    });
+
+    on<LoadMaterial>((event,emit){
+      try{
+        bool materialFound = false;
+        emit(MaterialLoading());
+        course.modules!.forEach((module) { 
+          if(module.step == event.moduleStep){
+            print('MODULES STEP IS ${event.moduleStep}');
+            module.materials!.forEach((material) {
+              if(material.step == event.step){
+                print('Material STEP IS ${event.step}');
+                materialFound = true;
+                emit(MaterialLoaded(material: material));
+                return;
+              }
+            });
+          }
+        });
+        if (!materialFound){
+          emit(MaterialLoadingError('No found'));
+        }
+      } catch(e){
+        emit(MaterialLoadingError(e.toString()));
+        throw Exception(e);
+      }
+    });
+
+    on<LoadModule>((event,emit) async {
+      try{
+        emit(ModuleLoading());
+        for (int index = 0; index < course.modules!.length; index++){
+          if(course.modules![index].step == event.step){
+            if(course.modules![index].id != null){
+              Module requestModule = await moduleService.findById(course.modules![index].id!);
+              course.modules![index].materials = requestModule.materials;
+            }
+            emit(ModuleLoaded(module: course.modules![index]));
+            return;
+          }
+        }
+      }
+      catch(e){
+        throw Exception(e);
+      }
+    });
+
     on<ChangeModuleStep>((event, emit) {
       emit(CourseCreatingLoading());
-      print('changing this shit');
+
       List<ModuleType> moduleTypes = event.moduleTypes;
       List<Module> modules = [];
       List<Quiz> quizzes = [];
       int step = 1;
       
-      moduleTypes.forEach((moduleType) {
+      for (var moduleType in moduleTypes) {
         if (moduleType.type == 'module') {
           Module? module = getModuleByStep(moduleType.step);
           if (module != null) {
@@ -85,18 +165,26 @@ class CourseCreatingBloc extends Bloc<CourseCreatingEvent, CourseCreatingState> 
           }
         }
         step++;
-      });
-
+      }
       course.modules = modules;
       course.quizzes = quizzes;
-
       emit(CourseCreatingLoaded(
         course: course,
         category: categoryList!,
         courseModules: moduleTypes,
       ));
     });
-    on<AddModule>((event, emit){
+
+    on<PopNavigate>((event,emit){
+      emit(CourseCreatingLoading());
+      emit(CourseCreatingLoaded(course: course, category: categoryList!, courseModules:courseModules));
+      Navigator.of(event.buildContext).pop();
+    });
+
+
+
+    on<AddModule>((event, emit) async {
+      emit(CourseCreatingLoading());
       final title = event.title;
       final description = event.description;
       Map<String,String> validatedInputs = validateModuleInputs(event.title, event.description, event.type);
@@ -106,17 +194,13 @@ class CourseCreatingBloc extends Bloc<CourseCreatingEvent, CourseCreatingState> 
         int totalStep = course.quizzes!.length + course.modules!.length+1;
         switch(event.type){
           case 0:
-            course.modules!.add(
-              Module(
-                title: title,
-                description:description,
-                step:totalStep+1,
-              )
-            );
+            final module = await moduleService.create(Module(id: null, title: title, step: totalStep+1, courseId: course.id, ));
+            course.modules!.add(module);
             break;
           case 1:
             course.quizzes!.add(
               Quiz(
+                id:null,
                 title: title,
                 instruction:description,
                 step:totalStep+1,
@@ -127,12 +211,12 @@ class CourseCreatingBloc extends Bloc<CourseCreatingEvent, CourseCreatingState> 
             course.onlineLessons!.add(
               OnlineLesson(
                 title: title,
-                description: description
+                description: description,
               )
             );
             break;
         }
-        updateModules(course.modules!, course.quizzes!);
+        Navigator.of(event.context).pop();
         emit(CourseCreatingLoaded(course: course, category: categoryList!, courseModules:courseModules));
       }
     });
@@ -149,7 +233,8 @@ class CourseCreatingBloc extends Bloc<CourseCreatingEvent, CourseCreatingState> 
           final List<CourseCategory> categoryList = await courseCategoryService.getAllCategories();
           emit(CourseCreatingLoaded(course: course, category: categoryList, courseModules:courseModules));
         } catch (e){
-          emit(CourseCreatingError(e.toString()));
+          print(e.toString());
+          emit(CourseCreatingError('Something wrong'));
         } finally{
           event.completer?.complete();
         }

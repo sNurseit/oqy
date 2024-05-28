@@ -9,6 +9,7 @@ environment:
   sdk: 3.3.2
 
 dependencies:
+  rich_editor: ^0.0.8 
   flutter:
     sdk: flutter
   flutter_rating_bar: ^4.0.1
@@ -19,6 +20,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   lottie: ^3.1.0
   flutter_quill: ^9.3.6
+  flutter_slidable: ^3.0.1
+  permission_handler: ^10.0.0
   flutter_bloc: ^8.1.5
   get_it: ^7.7.0
   equatable: ^2.0.5
@@ -28,7 +31,7 @@ dependencies:
   web_socket_channel: ^2.0.0
   flutter_localizations:
     sdk: flutter
-
+  
 dev_dependencies:
   pedantic_mono: any
   build_runner: null
@@ -51,5 +54,6 @@ flutter:
           weight: 700
         - asset: assets/fonts/GothicA1-Regular.ttf
           weight: 400
-flutter_intl:
+
+flutter_intl: 
   enabled: true

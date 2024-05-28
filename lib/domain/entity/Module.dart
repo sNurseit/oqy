@@ -1,21 +1,25 @@
-import 'package:oqy/domain/entity/material.dart';
+import 'package:oqy/domain/dto/module_type.dart';
+import 'package:oqy/domain/entity/material_entity.dart';
 
-class Module{
+class Module extends StepItem{
+  @override
   int? id;
   int? courseId;
-  String? title;
+  @override
+  String title;
   String? description;
-  int? step;
+  @override
+  int step;
   int? totalSteps;
-  List<MaterialEntity>? materials;
+  List<MaterialEntity>? materials = [];
 
   Module({
-    this.id,
+    required this.id,
     this.courseId,
-    this.title,
+    required this.title,
     this.description,
     this.materials,
-    this.step,
+    required this.step,
     this.totalSteps,
   });
 
@@ -27,7 +31,8 @@ class Module{
       description: json['description'],
       step: json['step'],
       totalSteps: json['totalSteps'],
-      materials: json['materials'],
+      materials: json['materials']!=null
+        ? List<MaterialEntity>.from(json['materials'].map((material) => MaterialEntity.fromJson(material))) : [],
     );
   }
   
@@ -43,7 +48,24 @@ class Module{
       'description': description,
       'totalSteps': totalSteps,
       'step': step,
-      'materials': materialsJson,
+      'materials': materialsJson ?? [],
+      'moduleType':'module',
     };
   }
+
+  void removeMaterialById(int materialId) {
+    materials?.removeWhere((material) => material.id == materialId);
+  }
+
+  void updateMaterialById(MaterialEntity material) {
+    if (materials != null) {
+      for (int i = 0; i < materials!.length; i++) {
+        if (materials![i].id == material.id) {
+          materials![i] = material;
+          break;
+        }
+      }
+    }
+  }
+  
 }
