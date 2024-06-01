@@ -10,12 +10,13 @@ class Quiz extends StepItem {
   String? durationString;
   @override
   String title;
-  String? instruction;
+  @override
+  String? description;
   @override
   int step;
   List<Question>? questions;
   QuizPoint? quizPoint;
-  String? uuid;
+
 
   Quiz({
     required this.id,
@@ -23,41 +24,43 @@ class Quiz extends StepItem {
     this.duration,
     this.durationString,
     required this.title,
-    this.instruction,
+    this.description,
     required this.step,
     this.questions,
     this.quizPoint,
-    this.uuid,
   });
 
   factory Quiz.fromJson(Map<String, dynamic> json) {
+    
     return Quiz(
       id: json['id'],
       courseId: json['courseId'] ,
       duration: json['duration'] != null ? Duration(seconds: json['duration']) : null,
       durationString: json['durationString'],
       title: json['title'],
-      instruction: json['instruction'] ,
+      description: json['instruction'] ,
       step: json['step'],
-      questions: (json['questions'] as List<dynamic>?)
-          ?.map((questionJson) => Question.fromJson(questionJson as Map<String, dynamic>))
-          .toList(),
+      questions: json['questions']!=null
+        ? List<Question>.from(json['questions'].map((question) => Question.fromJson(question))) : [],
       quizPoint: json['quizPoint'] != null ? QuizPoint.fromJson(json['quizPoint'] as Map<String, dynamic>) : null,
     );
   }
 
   Map<String, dynamic> toJson() {
+    List<Map<String, dynamic>>?questionsJson;
+    if (questions != null) {
+      questionsJson = questions!.map((question) => question.toJson()).toList();
+    }
     return {
       'id': id,
       'courseId': courseId,
       'duration': duration?.inSeconds,
       'durationString': durationString,
       'title': title,
-      'instruction': instruction,
+      'instruction': description,
       'step': step,
-      'questions': questions?.map((question) => question.toJson()).toList(),
+      'questions': questionsJson??[],
       'quizPoint': quizPoint?.toJson(),
-      'moduleType':'quiz',
     };
   }
 }

@@ -14,6 +14,7 @@ import 'package:oqy/router/router.dart';
 import 'package:oqy/service/course_category_service.dart';
 import 'package:oqy/service/course_service_impl.dart';
 import 'package:oqy/service/module_service.dart';
+import 'package:oqy/service/quiz_service.dart';
 
 part 'course_creating_event.dart';
 part 'course_creating_state.dart';
@@ -25,14 +26,17 @@ class CourseCreatingBloc extends Bloc<CourseCreatingEvent, CourseCreatingState> 
   CourseService courseService;
   CourseCategoryService courseCategoryService;
   ModuleService moduleService;
+  QuizService quizService;
 
   Course course = Course.empty();
   List<CourseCategory>? categoryList;
   List<ModuleType> courseModules = [];
+
   CourseCreatingBloc({
     required this.courseService, 
     required this.courseCategoryService,
     required this.moduleService,
+    required this.quizService,
   }) : super(CourseCreatingInitial()) {
 
     on<LoadCourseCreating>((event, emit) async {
@@ -43,6 +47,7 @@ class CourseCreatingBloc extends Bloc<CourseCreatingEvent, CourseCreatingState> 
           }
           course = await courseService.myCreatedCourse(event.courseId!);
           categoryList = await courseCategoryService.getAllCategories();
+          course.quizzes = await quizService.findAllByCourseId(event.courseId!);
           updateModules(course.modules!, course.quizzes!);
           emit(CourseCreatingLoaded(course: course, category: categoryList!, courseModules:courseModules)); 
         } catch(e){
@@ -73,8 +78,7 @@ class CourseCreatingBloc extends Bloc<CourseCreatingEvent, CourseCreatingState> 
 
     on<NavigateToModule>((event,emit){
       if(event.moduleType is Module){
-        print('fucking id is ${event.moduleType.id!}');
-        AutoRouter.of(event.buildContext).push(ModuleRoute(moduleId:event.moduleType.id!));
+        AutoRouter.of(event.buildContext).push(ModuleRoute(moduleId:event.moduleType.id!, ));
       } else{
       }
 /*
@@ -97,31 +101,6 @@ class CourseCreatingBloc extends Bloc<CourseCreatingEvent, CourseCreatingState> 
       }
     });
 
-    on<LoadMaterial>((event,emit){
-      try{
-        bool materialFound = false;
-        emit(MaterialLoading());
-        course.modules!.forEach((module) { 
-          if(module.step == event.moduleStep){
-            print('MODULES STEP IS ${event.moduleStep}');
-            module.materials!.forEach((material) {
-              if(material.step == event.step){
-                print('Material STEP IS ${event.step}');
-                materialFound = true;
-                emit(MaterialLoaded(material: material));
-                return;
-              }
-            });
-          }
-        });
-        if (!materialFound){
-          emit(MaterialLoadingError('No found'));
-        }
-      } catch(e){
-        emit(MaterialLoadingError(e.toString()));
-        throw Exception(e);
-      }
-    });
 
     on<LoadModule>((event,emit) async {
       try{
@@ -182,36 +161,47 @@ class CourseCreatingBloc extends Bloc<CourseCreatingEvent, CourseCreatingState> 
     });
 
 
-
     on<AddModule>((event, emit) async {
       emit(CourseCreatingLoading());
-      final title = event.title;
-      final description = event.description;
+
       Map<String,String> validatedInputs = validateModuleInputs(event.title, event.description, event.type);
       if(validatedInputs.isNotEmpty){
         emit(CourseCreatingErrorList(validatedInputs));
       } else{
-        int totalStep = course.quizzes!.length + course.modules!.length+1;
         switch(event.type){
-          case 0:
-            final module = await moduleService.create(Module(id: null, title: title, step: totalStep+1, courseId: course.id, ));
-            course.modules!.add(module);
+          case 0:            
+            if(event.id !=null){
+              final module = await moduleService.update(Module(id: event.id, title: event.title, description: event.description , step: event.step!, courseId: course.id, ));
+              course.updateModuleById(module);
+            }else{
+              final combinedItems = [...?course.modules, ...?course.quizzes];
+              final module = await moduleService.create(Module(id: null, title: event.title, step:getMaxStep(combinedItems), courseId: course.id, ));
+              course.modules!.add(module);
+            }
             break;
           case 1:
-            course.quizzes!.add(
-              Quiz(
-                id:null,
-                title: title,
-                instruction:description,
-                step:totalStep+1,
-              )
-            );
+             if(event.id !=null){
+              final quiz = await quizService.update(
+                  Quiz(
+                    id: event.id,                    
+                    title: event.title,
+                    description:event.description,
+                    step: event.step!,
+                    courseId: course.id,
+                  )
+              );
+              course.updateQuizById(quiz);
+            }else{
+              final combinedItems = [...?course.modules, ...?course.quizzes];
+              final quiz = await quizService.create(Quiz(id: null, title: event.title, description:event.description, step:getMaxStep(combinedItems), courseId: course.id, ));
+              course.quizzes!.add(quiz);
+            }
             break;
           case 2:
             course.onlineLessons!.add(
               OnlineLesson(
-                title: title,
-                description: description,
+                title: event.title,
+                description: event.description,
               )
             );
             break;
@@ -246,6 +236,13 @@ class CourseCreatingBloc extends Bloc<CourseCreatingEvent, CourseCreatingState> 
     return course.modules?.firstWhere((module) => module.step == step, );
   }
 
+  int getMaxStep(List<dynamic> items) {
+    if (items.isEmpty) {
+      return 0;
+    }
+    return items.map((item) => item.step).reduce((a, b) => a > b ? a : b);
+  }
+  
   Quiz? getQuizByStep(int step) {
     return course.quizzes?.firstWhere((quiz) => quiz.step == step, );
   }
@@ -263,8 +260,8 @@ class CourseCreatingBloc extends Bloc<CourseCreatingEvent, CourseCreatingState> 
           ModuleType(
             id: modules[moduleId].id, 
             type: 'module', 
-            title: modules[moduleId].title!,
-            step: modules[moduleId].step!,
+            title: modules[moduleId].title,
+            step: modules[moduleId].step,
           )
         );
         modulesLength --;
@@ -275,8 +272,8 @@ class CourseCreatingBloc extends Bloc<CourseCreatingEvent, CourseCreatingState> 
           ModuleType(
             id: quizes[quizId].id, 
             type: 'quiz', 
-            title: quizes[quizId].title!,
-            step: quizes[quizId].step!,
+            title: quizes[quizId].title,
+            step: quizes[quizId].step,
           )
         );
         quizesLength --;
@@ -285,7 +282,6 @@ class CourseCreatingBloc extends Bloc<CourseCreatingEvent, CourseCreatingState> 
     }
     courseModules = typeList;
   }
-
   Map<String, String> validateModuleInputs(String title,  String description, int type){
       Map<String, String> inputValidations ={};
       if(title.isEmpty){

@@ -75,8 +75,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                               builder: (context, state) {
                                 if (state is ProfileLoaded) {
                                   return Column(
-                                    children: [
-                                      const SizedBox(height: 80),
+                                    children: [ 
+                                      const SizedBox(height: 120),
                                       ProfilePictureWidget(picture: state.profile.picture),
                                       const SizedBox(height: 10),
                                       Text(

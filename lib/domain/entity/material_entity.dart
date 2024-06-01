@@ -1,6 +1,7 @@
 class MaterialEntity {
   int? id;
   int? moduleId;
+  int? courseId;
   String? title;
   int? step;
   String? content;
@@ -9,6 +10,7 @@ class MaterialEntity {
   MaterialEntity({
     this.id,
     this.moduleId,
+    this.courseId,
     this.title,
     this.step,
     this.content,

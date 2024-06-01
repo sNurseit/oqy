@@ -62,13 +62,6 @@ final class MaterialLoading extends CourseCreatingState {
   @override
   List<Object?> get props => [];
 }
-final class  MaterialLoadingError extends CourseCreatingState {
-  final String message;
-  MaterialLoadingError(this.message);
-  @override
-  List<Object?> get props => [message];
-}
-
 final class CourseCreatingError extends CourseCreatingState {
   final String message;
   CourseCreatingError(this.message);

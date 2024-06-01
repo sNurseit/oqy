@@ -56,11 +56,13 @@ class AddModule extends CourseCreatingEvent{
   final String title;
   final String description;
   final int type;
+  final int? id;
+  final int? step;
 
-  AddModule({required this.context,required this.title, required this.description, required this.type,});
+  AddModule({required this.context,required this.title, required this.description, required this.type, required this.id, this.step});
 
   @override
-  List<Object?> get props =>[title, description, type];
+  List<Object?> get props =>[title, description, type, id];
 }
 
 class ChangeModuleStep extends CourseCreatingEvent{
@@ -95,6 +97,7 @@ class NavigateToMaterial extends CourseCreatingEvent{
 class NavigateToModule extends CourseCreatingEvent {
   final BuildContext buildContext;
   final StepItem moduleType;
+
   
   NavigateToModule({required this.buildContext, required this.moduleType});
   @override

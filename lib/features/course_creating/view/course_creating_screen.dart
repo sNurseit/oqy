@@ -47,17 +47,17 @@ class _CourseCreatingScreenState extends State<CourseCreatingScreen> {
     final theme = Theme.of(context);
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.transparent,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 10),
-          child: ElevatedButton(
-            style:  ElevatedButton.styleFrom(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: SizedBox(
+          height: 45,
+          width: double.infinity,
+          child: FloatingActionButton.extended(
               backgroundColor: theme.primaryColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
-            ),
             onPressed: () {
               final course = Course(
                 image: picture,
@@ -74,15 +74,13 @@ class _CourseCreatingScreenState extends State<CourseCreatingScreen> {
                 courseCreatingBloc.add(PostCourseMainInformation(course: course));
               }
             },
-            child: const Text(
-              'Save',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-              ),
+            label: const Text(
+              "Save",
+              style: TextStyle(color: Colors.white, fontSize: 16),
             ),
+            icon: const Icon(Icons.save_rounded, color: Colors.white,)
           ),
-        )
+        ),
       ),
       appBar: AppBar(),
       body: SafeArea(
@@ -184,6 +182,22 @@ class _CourseCreatingScreenState extends State<CourseCreatingScreen> {
                     onTryAgain: () => courseCreatingBloc.add(LoadCourseCreating(courseId: widget.courseId)),
                   );
                 }
+                /*
+                        TODO
+                                final snackBar = SnackBar(
+          content: Row(
+            children: [
+              Icon(Icons.check),
+              SizedBox(width: 8),
+              Text('Сохранено в закладках'),
+            ],
+          ),
+          
+          duration: Duration(seconds: 2), // Время отображения Snackbar
+        );
+
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                */
                 return const Center(child: CircularProgressIndicator());
               },
             ),

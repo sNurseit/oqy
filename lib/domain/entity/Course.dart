@@ -104,4 +104,26 @@ class Course {
       'coursePicture': imageBase,
     };
   }
+
+  void updateModuleById(Module module) {
+    if (modules != null) {
+      for (int i = 0; i < modules!.length; i++) {
+        if (modules![i].id == module.id) {
+          modules![i] = module;
+          break;
+        }
+      }
+    }
+  }
+
+  void updateQuizById(Quiz quiz) {
+    if (quizzes != null) {
+      for (int i = 0; i < quizzes!.length; i++) {
+        if (quizzes![i].id == quiz.id) {
+          quizzes![i] = quiz;
+          break;
+        }
+      }
+    }
+  }
 }

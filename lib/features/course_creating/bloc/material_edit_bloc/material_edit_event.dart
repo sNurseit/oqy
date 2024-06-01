@@ -1,8 +1,13 @@
 part of 'material_edit_bloc.dart';
 
-sealed class MaterialEditEvent extends Equatable {
-  const MaterialEditEvent();
+abstract class MaterialEditEvent extends Equatable{}
 
+class LoadMaterialEdit extends MaterialEditEvent{
+  final Completer? completer;
+  final int id;
+  final int moduleId;
+
+  LoadMaterialEdit({required this.id, required this.moduleId, this.completer});
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [completer,id,moduleId];
 }

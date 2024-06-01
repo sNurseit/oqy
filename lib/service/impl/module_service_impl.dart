@@ -17,20 +17,21 @@ class ModuleServiceImpl extends ModuleService{
 
   @override
   Future<Module> findById(int id) async {
+    Response response = await dio.get('$getModuleUrl/$id');
     try{
-      Response response = await dio.get('$getModuleUrl/$id');
       return  Module.fromJson(response.data);
     } catch(e){
       print(e.toString());
-      throw Exception(e);
+      throw Exception();
     }
   }
   
   @override
   Future<Module> create(Module module) async {
+    print(module.toJson());
+    Response response = await dio.post(url, data: module.toJson());
     try{
-      Response response = await dio.post(url, data: module);
-      return  Module.fromJson(response.data);
+      return Module.fromJson(response.data);
     } catch(e){
       throw Exception(e);
     }
@@ -41,17 +42,17 @@ class ModuleServiceImpl extends ModuleService{
     try{
       await dio.delete('$url/$id');
     } catch(e){
-      throw Exception(e);
+      throw Exception();
     }
   }
   
   @override
   Future<Module> update(Module module) async {
+    Response response = await dio.put('$url/${module.id}', data: module.toJson());
     try{
-      Response response = await dio.put(url, data: module);
       return  Module.fromJson(response.data);
     } catch(e){
-      throw Exception(e);
+      throw Exception();
     }
   }
 }

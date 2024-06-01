@@ -8,10 +8,12 @@ import 'package:oqy/service/impl/course_category_service_impl.dart';
 import 'package:oqy/service/impl/material_service_impl.dart';
 import 'package:oqy/service/impl/module_service_impl.dart';
 import 'package:oqy/service/impl/profile_service_impl.dart';
+import 'package:oqy/service/impl/quiz_service_impl.dart';
 import 'package:oqy/service/impl/review_service_impl.dart';
 import 'package:oqy/service/material_service.dart';
 import 'package:oqy/service/module_service.dart';
 import 'package:oqy/service/profile_service.dart';
+import 'package:oqy/service/quiz_service.dart';
 import 'package:oqy/service/review_service.dart';
 
 void main() {
@@ -30,7 +32,10 @@ void main() {
   GetIt.I.registerLazySingleton<MaterialService>(
     ()=>MaterialServiceImpl(dio: Dio())
   );
+  GetIt.I.registerLazySingleton<QuizService>(
+    ()=>QuizServiceImpl(dio: Dio())
+  );
   GetIt.I.registerLazySingleton<CourseService>(()=>CourseService());
-
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const OqyApp());
 }

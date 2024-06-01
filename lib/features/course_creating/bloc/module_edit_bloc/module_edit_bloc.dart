@@ -31,6 +31,7 @@ class ModuleEditBloc extends Bloc<ModuleEditEvent, ModuleEditState> {
 
     on<DeleteMaterial>((event, emit) async {
       try{
+        emit(ModuleEditLoading());
         await materialService.deleteById(event.materialId);
         module?.removeMaterialById(event.materialId);
         emit(ModuleEditLoaded(module: module!));
@@ -41,26 +42,38 @@ class ModuleEditBloc extends Bloc<ModuleEditEvent, ModuleEditState> {
 
     on<AddMaterial>((event,emit) async {
       try{
-        final material = await materialService.create(event.material);
-        module!.materials!.add(material);
+        emit(ModuleEditLoading());
+        if(event.material.id !=null){
+          final material = await materialService.update(event.material);
+          module!.updateMaterialById(material);
+        }else{
+          final material = event.material;
+          if(module!.materials != null){
+            material.step = getMaxStep(module!.materials!);
+          } else{
+            material.step = 1;
+          }
+          module!.materials!.add(await materialService.create(material));
+        }
         emit(ModuleEditLoaded(module: module!));
       } catch(e){
         ModuleEditError(errorMessage: e.toString());
       }
     });
 
-    on<UpdateMaterial>((event,emit) async {
+    on<NavigateToMyMaterial>((event,emit){
       try{
-        final material = await materialService.update(event.material);
-        module!.updateMaterialById(material);
-        emit(ModuleEditLoaded(module: module!));
+        AutoRouter.of(event.context).push(MaterialEditRoute(materialStep: event.materialId, moduleStep: module!.step));
       } catch(e){
-        ModuleEditError(errorMessage: e.toString());
+        emit(ModuleEditLoaded(module: module!));
       }
     });
 
-    on<NavigateToMaterial>((event,emit){
-      AutoRouter.of(event.context).push(MaterialEditRoute(materialStep: event.materialId, moduleStep: module!.step));
-    });
+  }
+  int getMaxStep(List<dynamic> items) {
+    if (items.isEmpty) {
+      return 0;
+    }
+    return items.map((item) => item.step).reduce((a, b) => a > b ? a : b);
   }
 }

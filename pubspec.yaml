@@ -10,6 +10,7 @@ environment:
 
 dependencies:
   rich_editor: ^0.0.8 
+  font_awesome_flutter:
   flutter:
     sdk: flutter
   flutter_rating_bar: ^4.0.1
@@ -22,6 +23,7 @@ dependencies:
   flutter_quill: ^9.3.6
   flutter_slidable: ^3.0.1
   permission_handler: ^10.0.0
+  chewie: ^1.2.2
   flutter_bloc: ^8.1.5
   get_it: ^7.7.0
   equatable: ^2.0.5
@@ -29,6 +31,7 @@ dependencies:
   awesome_select: ^6.0.0
   image_picker: ^0.8.4+4
   web_socket_channel: ^2.0.0
+  video_player: ^2.2.12
   flutter_localizations:
     sdk: flutter
   

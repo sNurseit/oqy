@@ -11,8 +11,8 @@ class CourseCreatingDrawerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final courseCreatingBloc = context.read<CourseCreatingBloc>();
-
     final theme = Theme.of(context);
+
     return Drawer(
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       backgroundColor: theme.cardColor,
@@ -21,78 +21,85 @@ class CourseCreatingDrawerWidget extends StatelessWidget {
           if (state is CourseCreatingLoaded) {
             final modules = state.course!.modules;
             final quizzes = state.course!.quizzes;
-
             final combinedItems = [...?modules, ...?quizzes];
             combinedItems.sort((a, b) => a.step.compareTo(b.step));
 
             return Column(
               children: [
                 DrawerHeader(
-                  child: Container( 
+                  child: Container(
                     width: double.infinity,
                     color: const Color.fromARGB(255, 179, 199, 187),
                   ),
                 ),
+                Text('Quizes and modules'),
                 Expanded(
-                  child: ReorderableListView(
-                    onReorder: (int oldIndex, int newIndex) {
-                      if (newIndex > oldIndex) {
-                        newIndex -= 1;
-                      }
-                      final item = combinedItems.removeAt(oldIndex);
-                      combinedItems.insert(newIndex, item);
-                    },
-                    children: [
-                      for (int index = 0; index < combinedItems.length; index++)
-                        ListTile(
-                          key: ValueKey(combinedItems[index].step),
+                  child: ListView.builder(
+                    itemCount: combinedItems.length,
+                    itemBuilder: (context, index) {
+                      final item = combinedItems[index];
+                      final key = GlobalKey();
+                      return GestureDetector(
+                        key: key,
+                        onLongPress: () {
+                          final RenderBox renderBox = key.currentContext!.findRenderObject() as RenderBox;
+                          final position = renderBox.localToGlobal(Offset.zero);
+                          showMenu(
+                            context: context,
+                            position: RelativeRect.fromLTRB(
+                              position.dx+20,
+                              position.dy+20,
+                              position.dx + renderBox.size.width,
+                              position.dy + renderBox.size.height,
+                            ),
+                            items: const [
+                              PopupMenuItem<String>(
+                                value: 'edit',
+                                child: ListTile(
+                                  leading: Icon(Icons.edit),
+                                  title: Text('Edit'),
+                                ),
+                              ),
+                              PopupMenuItem<String>(
+                                value: 'delete',
+                                child: ListTile(
+                                  leading: Icon(Icons.delete),
+                                  title: Text('Delete'),
+                                ),
+                              ),
+                            ],
+                          ).then((value) {
+                            if (value == 'edit') {
+                              showModalBottomSheet(
+                                isScrollControlled: true,
+                                context: context,
+                                builder: (context) => AddModuleButtomSheet(
+                                  stepItem: item,
+                                ),
+                              );
+                            } else if (value == 'delete') {
+                              // Handle delete logic here
+                            }
+                          });
+                        },
+                        child: ListTile(
                           leading: Icon(
-                            combinedItems[index] is Module
-                                ? Icons.view_module_outlined
-                                : Icons.quiz_rounded,
+                            item is Module ? Icons.view_module_outlined : Icons.quiz_rounded,
                           ),
                           onTap: () {
-                            courseCreatingBloc.add(NavigateToModule(buildContext: context, moduleType: combinedItems[index]));                          
+                            courseCreatingBloc.add(NavigateToModule(
+                              buildContext: context,
+                              moduleType: item,
+                            ));
                           },
                           title: Text(
-                            combinedItems[index].title,
+                            item.title,
                             style: theme.textTheme.bodyMedium,
                             maxLines: 2,
                           ),
-                          trailing: PopupMenuButton<String>(
-                            color: Colors.white,
-                            icon: const Icon(Icons.more_vert_outlined), 
-                            onSelected: (value) {
-                              switch (value) {
-                                case 'edit':
-                                  // Handle edit logic here
-                                  break;
-                                case 'delete':
-                                  // Handle delete logic here
-                                  break;
-                              }
-                            },
-                            itemBuilder: (BuildContext context) {
-                              return [
-                                const PopupMenuItem<String>(
-                                  value: 'edit',
-                                  child: ListTile(
-                                    leading: Icon(Icons.edit),
-                                    title: Text('Edit'),
-                                  ),
-                                ),
-                                const PopupMenuItem<String>(
-                                  value: 'delete',
-                                  child: ListTile(
-                                    leading: Icon(Icons.delete),
-                                    title: Text('Delete'),
-                                  ),
-                                ),
-                              ];
-                            },
-                          ),
-                        )
-                    ],
+                        ),
+                      );
+                    },
                   ),
                 ),
                 const Divider(),

@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
+import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:oqy/features/course_creating/bloc/course_creating_bloc/course_creating_bloc.dart';
-import 'package:oqy/widgets/custom_text_field.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:oqy/features/course_creating/bloc/material_edit_bloc/material_edit_bloc.dart';
+import 'package:video_player/video_player.dart';
 
 @RoutePage()
 class MaterialEditScreen extends StatefulWidget {
@@ -21,41 +25,85 @@ class MaterialEditScreen extends StatefulWidget {
 }
 
 class _MaterialEditScreenState extends State<MaterialEditScreen> {
-  final titleController = TextEditingController();
   late QuillController quillController;
+  VideoPlayerController? _videoController;
+  ChewieController? _chewieController;
+  String? videoPath;
 
   @override
   void initState() {
     super.initState();
-    context.read<CourseCreatingBloc>().add(LoadMaterial(
-          step: widget.materialStep,
-          moduleStep: widget.moduleStep,
-        ));
+    context.read<MaterialEditBloc>().add(
+        LoadMaterialEdit(id: widget.materialStep, moduleId: widget.moduleStep));
   }
 
+  Future<void> _pickVideo() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickVideo(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      try {
+        final file = File(pickedFile.path);
+        final controller = VideoPlayerController.file(file);
+        await controller.initialize();
+        setState(() {
+          videoPath = pickedFile.path;
+          _videoController = controller;
+          _chewieController = ChewieController(
+            videoPlayerController: _videoController!,
+            aspectRatio: _videoController!.value.aspectRatio,
+            autoPlay: true,
+            looping: false,
+            materialProgressColors: ChewieProgressColors(
+              playedColor: Colors.white,
+              handleColor: Colors.white,
+              backgroundColor: Colors.grey,
+              bufferedColor: Colors.white54,
+            ),
+            placeholder: Container(
+              color: Colors.grey,
+            ),
+            autoInitialize: true,
+          );
+        });
+      } catch (e) {
+        print("Error initializing video player: $e");
+        // Handle error appropriately
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _videoController?.dispose();
+    _chewieController?.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final courseCreatingBloc = context.read<CourseCreatingBloc>();
+    final materialBloc = context.read<MaterialEditBloc>();
     final theme = Theme.of(context);
 
-    return Scaffold(
-      appBar: AppBar(),
-      body: BlocBuilder<CourseCreatingBloc, CourseCreatingState>(
-        builder: (context, state) {
-          if (state is MaterialLoaded) {
-            print('material loaded');
-            final material = state.material;
-            quillController = QuillController.basic();
-            return ListView(
-              children: [
-                CustomTextField(
-                  labelText: "Title",
-                  hintText: 'Enter title',
-                  maxLines: 1,
-                  maxLength: 50,
-                  controller: titleController,
+    return BlocBuilder<MaterialEditBloc, MaterialEditState>(
+      builder: (context, state) {
+        if (state is MaterialEditLoaded) {
+          final material = state.material;
+          quillController = QuillController.basic();
+          return Scaffold(
+            appBar: AppBar(
+              title: Text(material.title!, style: theme.textTheme.labelMedium),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: GestureDetector(
+                    child: Text('save', style: theme.textTheme.labelMedium),
+                    onTap: () => Navigator.of(context).pop(),
+                  ),
                 ),
+              ],
+            ),
+            body: ListView(
+              children: [
                 if (material.type == 'text') ...[
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -68,34 +116,59 @@ class _MaterialEditScreenState extends State<MaterialEditScreen> {
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: QuillEditor.basic(
-                        configurations: QuillEditorConfigurations(
-                          controller: quillController,
-                          readOnly: false,
-                          sharedConfigurations: const QuillSharedConfigurations(
-                            locale: Locale('ru'),
-                          ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: QuillEditor.basic(
+                      configurations: QuillEditorConfigurations(
+                        controller: quillController,
+                        readOnly: false,
+                        sharedConfigurations: const QuillSharedConfigurations(
+                          locale: Locale('ru'),
                         ),
                       ),
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: (){},
-                    child: Text('Select Image'),
+                    onPressed: () {},
+                    child: const Text('Select Image'),
                   ),
-                ] else
-                  Text('Video'),
+                ] else ...[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      children: [
+                        ElevatedButton(
+                          onPressed: _pickVideo,
+                          child: const Text('Select Video'),
+                        ),
+                        if (videoPath != null) ...[
+                          const SizedBox(height: 10),
+                          _chewieController != null &&
+                                  _chewieController!.videoPlayerController.value.isInitialized
+                              ? AspectRatio(
+                                  aspectRatio: _chewieController!.aspectRatio!,
+                                  child: Chewie(controller: _chewieController!),
+                                )
+                              : Container(
+                                  height: 200,
+                                  child: const Center(
+                                      child: CircularProgressIndicator()),
+                                ),
+                        ],
+                      ],
+                    ),
+                  ),
+                ],
               ],
-            );
-          } else if (state is MaterialLoadingError) {
-            return Text(state.message);
-          }
-          return const Center(child: CircularProgressIndicator());
-        },
-      ),
+            ),
+          );
+        } else if (state is MaterialLoadingError) {
+          return Scaffold(appBar: AppBar(), body: Text(state.message));
+        }
+        return Scaffold(
+            appBar: AppBar(),
+            body: const Center(child: CircularProgressIndicator()));
+      },
     );
   }
 }

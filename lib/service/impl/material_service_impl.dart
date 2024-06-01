@@ -7,7 +7,7 @@ import 'package:oqy/domain/entity/material_entity.dart';
 import 'package:oqy/service/material_service.dart';
 
 class MaterialServiceImpl extends MaterialService{
-  final url = ApiConstants.getModule;
+  final url = ApiConstants.material;
   final Dio dio;
 
   MaterialServiceImpl({required this.dio}){
@@ -17,7 +17,8 @@ class MaterialServiceImpl extends MaterialService{
   @override
   Future<MaterialEntity> create(MaterialEntity material) async {
     try {
-      Response response = await dio.post(url, data: material);
+      print(material.toJson());
+      Response response = await dio.post(url, data: material.toJson());
       return MaterialEntity.fromJson(response.data);
     } catch (e) {
       throw Exception(e);
@@ -27,7 +28,7 @@ class MaterialServiceImpl extends MaterialService{
   @override
   Future<void> deleteById(int id) async {
     try {
-      dio.delete('$url/$id');
+      dio.delete('$url/material/$id');
     } catch (e) {
       throw Exception(e);
     }
@@ -46,7 +47,7 @@ class MaterialServiceImpl extends MaterialService{
   @override
   Future<MaterialEntity> update(MaterialEntity material) async {
     try {
-      Response response = await dio.put('$url/${material.id}', data: material);
+      Response response = await dio.put('$url/${material.id}', data: material.toJson());
       return MaterialEntity.fromJson(response.data);
     } catch (e) {
       throw Exception(e);

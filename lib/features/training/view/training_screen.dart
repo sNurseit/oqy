@@ -32,6 +32,7 @@ class TrainingWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final model = context.read<TrainingModel>();
     final theme = Theme.of(context);
     return Scaffold(
       body:DefaultTabController(
@@ -58,6 +59,29 @@ class TrainingWidget extends StatelessWidget {
               MyCreatedListWidget(),
             ],
           ),
+          floatingActionButton: Container(
+            height: 50,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: SizedBox(
+                width: double.infinity,
+                child: FloatingActionButton.extended(
+                  backgroundColor: theme.primaryColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  onPressed: ()=> model.navigateTeCourseCreating(context, 0),
+                  
+                  label: const Text(
+                    "Create your own course",
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                  icon: const Icon(Icons.add, color: Colors.white),
+                ),
+              ),
+            ),
+          ),
+          floatingActionButtonLocation:  FloatingActionButtonLocation.centerFloat,
         ),
       ),
     );

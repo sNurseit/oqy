@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:oqy/domain/dto/module_type.dart';
+import 'package:oqy/domain/entity/material_entity.dart';
 import 'package:oqy/features/course_creating/bloc/course_creating_bloc/course_creating_bloc.dart';
 import 'package:oqy/features/course_creating/bloc/module_edit_bloc/module_edit_bloc.dart';
 import 'package:oqy/widgets/custom_text_field.dart';
 import 'package:provider/provider.dart';
 
 class AddMaterialBottomSheet extends StatefulWidget {
-  final ModuleType? moduleType;
-  const AddMaterialBottomSheet({this.moduleType, Key? key}) : super(key: key);
+  MaterialEntity material;
+  AddMaterialBottomSheet({required this.material, Key? key}) : super(key: key);
 
   @override
   _AddMaterialBottomSheetState createState() => _AddMaterialBottomSheetState();
@@ -25,12 +25,11 @@ class _AddMaterialBottomSheetState extends State<AddMaterialBottomSheet> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final bloc = Provider.of<ModuleEditBloc>(context, listen: false);
-
     final titleController = TextEditingController();
-    final descriptionController = TextEditingController();
-    if(widget.moduleType!=null){
-      titleController.text = widget.moduleType!.title;
-    }
+    if(widget.material.title !=null){
+      titleController.text = widget.material.title!;
+    } 
+
     return LayoutBuilder(
       builder: (context, constraints) {
         return SingleChildScrollView(
@@ -75,17 +74,6 @@ class _AddMaterialBottomSheetState extends State<AddMaterialBottomSheet> {
                           },
                         ),
                         const SizedBox(height: 10),
-                        CustomTextField(
-                          labelText: 'Description',
-                          maxLines: 3,
-                          maxLength: 200,
-                          hintText: 'Enter description',
-                          controller: descriptionController,
-                          onChanged: (value) {
-                            descriptionController.text = value;
-                          },
-                        ),
-                        const SizedBox(height: 10),
                         ModuleTypes(
                           selectedIndex: _selectedIndex,
                           onSelectItem: (index) {
@@ -103,8 +91,10 @@ class _AddMaterialBottomSheetState extends State<AddMaterialBottomSheet> {
                               ),
                             ),
                             onPressed: () {
-                              if (titleController.text.trim().isNotEmpty && descriptionController.text.trim().isNotEmpty) {
-                                
+                              if (titleController.text.trim().isNotEmpty ) {
+                                widget.material.title = titleController.text;
+                                widget.material.type =  _selectedIndex == 0? 'text' :'video';
+                                bloc.add(AddMaterial(material: widget.material));
                               }
                             },
                             child: const Text(

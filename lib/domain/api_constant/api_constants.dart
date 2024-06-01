@@ -17,4 +17,8 @@ class ApiConstants{
 
   static const String getModule = 'http://10.0.2.2:8000/gateway/core/api/modules/module';
   static const String module = 'http://10.0.2.2:8000/gateway/core/api/modules';
+  
+  static const String quiz = 'http://10.0.2.2:8000/gateway/core/api/quizzes';  
+
+  static const String material = 'http://10.0.2.2:8000/gateway/core/api/materials';
 }

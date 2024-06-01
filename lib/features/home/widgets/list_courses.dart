@@ -16,8 +16,8 @@ class ListCourses extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final courses = Provider.of<HomeModel>(context).model;
     final model = Provider.of<HomeModel>(context);
+    final courses = model.model;
     final myContext = context;
     final theme = Theme.of(context);
     if (courses == null || courses.isEmpty) {

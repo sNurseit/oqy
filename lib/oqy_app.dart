@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
+import 'package:oqy/features/course_creating/bloc/material_edit_bloc/material_edit_bloc.dart';
 import 'package:oqy/features/course_creating/bloc/module_edit_bloc/module_edit_bloc.dart';
 import 'package:oqy/features/profile/bloc/profile_bloc.dart';
 import 'package:oqy/router/router.dart';
@@ -10,6 +11,7 @@ import 'package:oqy/service/course_service_impl.dart';
 import 'package:oqy/service/material_service.dart';
 import 'package:oqy/service/module_service.dart';
 import 'package:oqy/service/profile_service.dart';
+import 'package:oqy/service/quiz_service.dart';
 import 'package:oqy/theme/DarkTheme.dart';
 import 'package:oqy/theme/LightTheme.dart';
 import 'package:provider/provider.dart';
@@ -35,13 +37,15 @@ class _OqyAppState extends State<OqyApp> {
         Provider<CourseCreatingBloc>(create: (_) =>  
           CourseCreatingBloc(courseService: GetIt.I<CourseService>(), 
           courseCategoryService: GetIt.I<CourseCategoryService>(),
-          moduleService: GetIt.I<ModuleService>()
+          moduleService: GetIt.I<ModuleService>(),
+          quizService: GetIt.I<QuizService>(),
           ),
         ),
         Provider<ModuleEditBloc>(create: (_)=> ModuleEditBloc(
           moduleService: GetIt.I<ModuleService>(),
           materialService: GetIt.I<MaterialService>()),
         ),
+        Provider<MaterialEditBloc>(create: (_)=> MaterialEditBloc(materialService: GetIt.I<MaterialService>())),
         ChangeNotifierProvider<LocaleProvider>(create: (_) => LocaleProvider()),
       ],
       child: Consumer<LocaleProvider>(

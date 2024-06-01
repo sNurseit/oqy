@@ -12,11 +12,11 @@ class LoadModuleEdit extends ModuleEditEvent{
   List<Object?> get props => [moduleId, completer];
 }
 
-class NavigateToMaterial extends ModuleEditEvent {
+class NavigateToMyMaterial extends ModuleEditEvent {
   final BuildContext context;
   final int materialId;
 
-  NavigateToMaterial({required this.context,required this.materialId});
+  NavigateToMyMaterial({required this.context, required this.materialId});
   @override
   List<Object?> get props => [context, materialId];
 }

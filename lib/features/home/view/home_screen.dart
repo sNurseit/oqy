@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:oqy/features/home/widgets/list_courses.dart';
+import 'package:oqy/features/home/widgets/row_courses.dart';
 
 @RoutePage()
 class HomeScreen extends StatefulWidget {
@@ -21,11 +22,11 @@ class _HomeScreenState extends State<HomeScreen> {
         title: const Text('OQY'),
         titleTextStyle: theme.textTheme.titleMedium,
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.notifications_outlined)),
+          IconButton(onPressed: () {}, icon: const Icon(Icons.favorite_outline), ),
         ],
         toolbarHeight: 60,
       ),
-      body: ListCourses.create(),
+      body: RowCourses.create(),
     );
   }
 }

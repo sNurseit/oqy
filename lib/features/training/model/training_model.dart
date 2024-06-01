@@ -6,6 +6,7 @@ import 'package:oqy/service/course_service_impl.dart';
 
 class TrainingModel extends ChangeNotifier {
   final _courseService =CourseService();
+  int? createdCourseLength;
   List<Course> _courses = [];
   get courses=>_courses;
 

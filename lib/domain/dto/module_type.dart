@@ -14,4 +14,5 @@ abstract class StepItem {
   int? get id;
   int get step;
   String get title;
+  String? get description;
 }
