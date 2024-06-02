@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
@@ -54,20 +53,19 @@ class _MaterialEditScreenState extends State<MaterialEditScreen> {
             autoPlay: true,
             looping: false,
             materialProgressColors: ChewieProgressColors(
-              playedColor: Colors.white,
-              handleColor: Colors.white,
-              backgroundColor: Colors.grey,
-              bufferedColor: Colors.white54,
+              playedColor: Colors.blueAccent,
+              handleColor: Colors.blueAccent,
+              backgroundColor: Colors.white10,
+              bufferedColor: Colors.white10,
             ),
             placeholder: Container(
-              color: Colors.grey,
+              color: Colors.black,
             ),
             autoInitialize: true,
           );
         });
       } catch (e) {
-        print("Error initializing video player: $e");
-        // Handle error appropriately
+        throw Exception(e);
       }
     }
   }
@@ -91,13 +89,17 @@ class _MaterialEditScreenState extends State<MaterialEditScreen> {
           quillController = QuillController.basic();
           return Scaffold(
             appBar: AppBar(
-              title: Text(material.title!, style: theme.textTheme.labelMedium),
+              title: Text(material.title!),
               actions: [
                 Padding(
                   padding: const EdgeInsets.only(right: 8.0),
                   child: GestureDetector(
                     child: Text('save', style: theme.textTheme.labelMedium),
-                    onTap: () => Navigator.of(context).pop(),
+                    onTap: () {
+                      if (videoPath != null) {
+                        materialBloc.add(UploadVideo(videoFile: File(videoPath!)));
+                      }
+                    },
                   ),
                 ),
               ],
@@ -145,9 +147,21 @@ class _MaterialEditScreenState extends State<MaterialEditScreen> {
                           const SizedBox(height: 10),
                           _chewieController != null &&
                                   _chewieController!.videoPlayerController.value.isInitialized
-                              ? AspectRatio(
-                                  aspectRatio: _chewieController!.aspectRatio!,
-                                  child: Chewie(controller: _chewieController!),
+                              ? Column(
+                                  children: [
+                                    AspectRatio(
+                                      aspectRatio: _chewieController!.aspectRatio!,
+                                      child: Chewie(controller: _chewieController!),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        if (videoPath != null) {
+                                          materialBloc.add(UploadVideo(videoFile: File(videoPath!)));
+                                        }
+                                      },
+                                      child: const Text('Upload video'),
+                                    ),
+                                  ],
                                 )
                               : Container(
                                   height: 200,
@@ -166,8 +180,9 @@ class _MaterialEditScreenState extends State<MaterialEditScreen> {
           return Scaffold(appBar: AppBar(), body: Text(state.message));
         }
         return Scaffold(
-            appBar: AppBar(),
-            body: const Center(child: CircularProgressIndicator()));
+          appBar: AppBar(),
+          body: const Center(child: CircularProgressIndicator())
+        );
       },
     );
   }

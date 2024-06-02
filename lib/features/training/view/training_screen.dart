@@ -34,54 +34,44 @@ class TrainingWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final model = context.read<TrainingModel>();
     final theme = Theme.of(context);
-    return Scaffold(
-      body:DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: theme.secondaryHeaderColor,
-            elevation: 0, 
-            title:  TabBar(
-              indicatorSize: TabBarIndicatorSize.tab,
-              automaticIndicatorColorAdjustment:false,
-              indicatorColor: theme.primaryColor, 
-              unselectedLabelColor: theme.unselectedWidgetColor,
-              tabs: const [
-                Tab(text: "My training"),
-                Tab(text: "My courses"),
+
+    return DefaultTabController(
+      length: 2, // Number of tabs
+      child: Scaffold(
+        body: NestedScrollView(
+          headerSliverBuilder: (context, innerBoxIsScrolled) => [
+            SliverAppBar(
+              title:const Text("Training", style: TextStyle(fontSize: 24),),
+              actions: [
+                IconButton(
+                  onPressed: () => model.navigateTeCourseCreating(context, 0),
+                  icon: const Icon(Icons.add),
+                ),
               ],
+              pinned: true,
+              floating: true,
+              snap: false,
+              bottom: PreferredSize(
+                preferredSize: const Size.fromHeight(kToolbarHeight),
+                child: TabBar(
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  automaticIndicatorColorAdjustment: false,
+                  indicatorColor: theme.primaryColor,
+                  unselectedLabelColor: theme.unselectedWidgetColor,
+                  tabs: const [
+                    Tab(text: "My training"),
+                    Tab(text: "My courses"),
+                  ],
+                ),
+              ),
             ),
-            titleTextStyle: theme.textTheme.titleMedium,
-          ),
+          ],
           body: const TabBarView(
             children: [
               MyTrainingListWidget(),
               MyCreatedListWidget(),
             ],
           ),
-          floatingActionButton: Container(
-            height: 50,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: SizedBox(
-                width: double.infinity,
-                child: FloatingActionButton.extended(
-                  backgroundColor: theme.primaryColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  onPressed: ()=> model.navigateTeCourseCreating(context, 0),
-                  
-                  label: const Text(
-                    "Create your own course",
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
-                  icon: const Icon(Icons.add, color: Colors.white),
-                ),
-              ),
-            ),
-          ),
-          floatingActionButtonLocation:  FloatingActionButtonLocation.centerFloat,
         ),
       ),
     );

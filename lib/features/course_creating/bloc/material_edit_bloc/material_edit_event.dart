@@ -11,3 +11,13 @@ class LoadMaterialEdit extends MaterialEditEvent{
   @override
   List<Object?> get props => [completer,id,moduleId];
 }
+
+class UploadVideo extends MaterialEditEvent{
+  final Completer? completer;
+  final File videoFile;
+
+  UploadVideo({required this.videoFile, this.completer});
+
+  @override
+  List<Object?> get props => [videoFile, completer];
+}

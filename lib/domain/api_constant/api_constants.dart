@@ -21,4 +21,6 @@ class ApiConstants{
   static const String quiz = 'http://10.0.2.2:8000/gateway/core/api/quizzes';  
 
   static const String material = 'http://10.0.2.2:8000/gateway/core/api/materials';
+
+  static const String file = 'http://10.0.2.2:8000/gateway/file/test';
 }

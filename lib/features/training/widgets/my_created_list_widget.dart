@@ -19,7 +19,7 @@ class MyCreatedListWidget extends StatelessWidget {
     itemBuilder: (BuildContext context, int index) {
       final course = courses[index];
       return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Column(
           children: [
             GestureDetector(

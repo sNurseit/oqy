@@ -11,6 +11,7 @@ class Course {
   String? description;
   String? language;
   String? price;
+  int? creatorId;
   List<Module>? modules =[];
   List<OnlineLesson>? onlineLessons =[];
   List<Quiz>? quizzes =[];
@@ -26,6 +27,7 @@ class Course {
   Course({
     this.id,
     this.title,
+    this.creatorId,
     this.description,
     this.language,
     this.price,
@@ -62,6 +64,7 @@ class Course {
     return Course(
       id: json['id'],
       title: json['title'],
+      creatorId: json['creatorId'],
       description: json['description'],
       language: json['language'],
       price: json['price'],

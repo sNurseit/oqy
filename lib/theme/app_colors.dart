@@ -8,7 +8,7 @@ abstract class AppLightColors{
   static const main= Color.fromRGBO(48, 123, 166, 1);
   static const mainCard= Color.fromRGBO(255, 255, 255, 1);
   static const scCard = Color.fromRGBO(255, 255, 255, 1);
-  static const bottomBarBackground= Color.fromRGBO(255,255,255,0.8);
+  static const bottomBarBackground= Color.fromRGBO(255,255,255,1);
 }
 
 abstract class AppFontColors{

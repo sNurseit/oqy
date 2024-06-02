@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:oqy/domain/entity/material_entity.dart';
 
 abstract class MaterialService{
@@ -6,4 +8,5 @@ abstract class MaterialService{
   Future<void> deleteById(int id);
   Future<MaterialEntity> create(MaterialEntity material);
   Future<MaterialEntity> update(MaterialEntity material);
+  Future<String> uploadVideo(File videoFile);
 }

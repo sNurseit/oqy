@@ -35,12 +35,14 @@ class CourseService {
 
     Future<Course> getOneCourse(int courseId) async {
         try {
+            print(courseId);
             Response response = await _dio.get('$courseApi/$courseId');
             if (response.statusCode == 200) {
-                Course course = Course.fromJson(response.data);
-                return course;
+              print(response.data);
+              Course course = Course.fromJson(response.data);
+              return course;
             } else {
-                throw Exception('Failed to load content. Status code: ${response.statusCode}');
+              throw Exception('Failed to load content. Status code: ${response.statusCode}');
             }
         } catch (error) {
             throw Exception('Failed to make the request: $error');

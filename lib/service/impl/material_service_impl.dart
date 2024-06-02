@@ -1,5 +1,8 @@
 
 
+import 'dart:convert';
+import 'dart:io';
+import 'package:path/path.dart' as path;
 import 'package:dio/dio.dart';
 import 'package:oqy/domain/api_constant/api_constants.dart';
 import 'package:oqy/domain/config/auth_config.dart';
@@ -8,6 +11,7 @@ import 'package:oqy/service/material_service.dart';
 
 class MaterialServiceImpl extends MaterialService{
   final url = ApiConstants.material;
+  final fileUrl = ApiConstants.file;
   final Dio dio;
 
   MaterialServiceImpl({required this.dio}){
@@ -53,5 +57,25 @@ class MaterialServiceImpl extends MaterialService{
       throw Exception(e);
     }
   }
-
+  
+  @override
+  Future<String> uploadVideo(File videoFile) async {
+    try {
+      final fileName = path.basename(videoFile.path);
+      
+      final bytes = await videoFile.readAsBytes();
+      final base64Video = base64Encode(bytes);
+      
+      // Формируем данные для отправки
+      final formData = FormData.fromMap({
+        'file': base64Video,
+        'fileName': fileName,
+      });
+      
+      Response response = await dio.post(fileUrl, data: formData);
+      return response.data;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
 }

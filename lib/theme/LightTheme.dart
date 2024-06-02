@@ -16,7 +16,7 @@ class LightTheme {
 
           titleMedium: TextStyle( 
             color: AppFontColors.mainFont,
-            fontSize: 26,
+            fontSize: 20,
             fontWeight: FontWeight.w700,
             fontFamily: AppFonts.mainFont,
           ),

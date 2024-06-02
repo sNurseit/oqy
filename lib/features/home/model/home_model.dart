@@ -18,7 +18,7 @@ class HomeModel extends ChangeNotifier {
   }
 
   void navigateToCourseDetails (BuildContext context, int index) {
-    AutoRouter.of(context).push( CourseRoute(courseId: index));
+    AutoRouter.of(context).push(CourseRoute(courseId: index));
   }
 
 }
