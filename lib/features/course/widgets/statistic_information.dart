@@ -17,9 +17,9 @@ class StatisticInformationWidget extends StatelessWidget {
     return Container(
       width: 110,
       height: 80,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius:  BorderRadius.all(Radius.circular(16)),
+      decoration:  BoxDecoration(
+        color: theme.cardColor,
+        borderRadius: const BorderRadius.all(Radius.circular(16)),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

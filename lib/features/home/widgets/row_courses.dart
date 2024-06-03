@@ -1,9 +1,7 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:oqy/features/home/model/home_model.dart';
-import 'package:oqy/theme/app_colors.dart';
 import 'package:provider/provider.dart';
 
 class RowCourses extends StatelessWidget {
@@ -30,11 +28,11 @@ class RowCourses extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+        const Padding(
+          padding:  EdgeInsets.symmetric(horizontal: 20),
           child: Text('Top 10 courses'),
         ),
-        Container(
+        SizedBox(
           height: 200,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,

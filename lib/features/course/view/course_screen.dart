@@ -1,17 +1,15 @@
 import 'dart:typed_data';
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:oqy/features/course/model/course_model.dart';
+import 'package:oqy/features/course/widgets/comment_bottom_sheet.dart';
 import 'package:oqy/features/course/widgets/course_module_list.dart';
 import 'package:oqy/features/course/widgets/expandable_text.dart';
 import 'package:oqy/features/course/widgets/horizontal_comment.dart';
+import 'package:oqy/features/course/widgets/information_container.dart';
 import 'package:oqy/features/course/widgets/statistic_information.dart';
-import 'package:oqy/generated/l10n.dart';
-import 'package:oqy/theme/app_colors.dart';
 import 'package:provider/provider.dart';
+
 @immutable
 @RoutePage()  
 class CourseScreen extends StatefulWidget {
@@ -21,8 +19,6 @@ class CourseScreen extends StatefulWidget {
     Key? key,
     @PathParam() required this.courseId,
   }) : super(key: key);
-
-
 
   @override
   State<CourseScreen> createState() => _CourseScreenState();
@@ -40,14 +36,11 @@ class _CourseScreenState extends State<CourseScreen> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_)=>_model,
-      child:  CourseDetails(courseId: widget.courseId),
+      create: (_) => _model,
+      child: CourseDetails(courseId: widget.courseId),
     );
   }
-
-
 }
-
 
 class CourseDetails extends StatefulWidget {
   final int courseId;
@@ -63,34 +56,35 @@ class _CourseDetailsState extends State<CourseDetails> {
 
   @override
   Widget build(BuildContext context) {
-
     final theme = Theme.of(context);
     final course = context.watch<CourseModel>().course;
     final model = context.read<CourseModel>();
-    final scrollController = ScrollController();
-
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
-      body: course==null? const Center(child: CircularProgressIndicator(),) : NestedScrollView(
-        headerSliverBuilder: (context, innerBoxIsScrolled) => [
-          SliverAppBar(
-              expandedHeight: 350,
-              pinned: true,
-              floating: true,
-              snap: false, 
-              leading: IconButton(
-                style:ButtonStyle(
-                  padding:MaterialStateProperty.all<EdgeInsets?>(EdgeInsets.all(8)),
-                  backgroundColor: MaterialStateProperty.all<Color?>(AppLightColors.mainBackground.withOpacity(0.5)),
-                ),
-                color: Colors.black,
-                icon: const Icon(
-                  Icons.arrow_back_ios_new,
-                ),
-                onPressed: () => Navigator.of(context).pop(),
-              ),                 
-              backgroundColor:Colors.white,
+      body: course == null
+          ? const Center(child: CircularProgressIndicator())
+          : NestedScrollView(
+              headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                SliverAppBar(
+                  expandedHeight: 350,
+                  pinned: true,
+                  floating: true,
+                  snap: false,
+                  leading: IconButton(
+                    style: ButtonStyle(
+                      padding: MaterialStateProperty.all<EdgeInsets?>(
+                          const EdgeInsets.all(8)),
+                      backgroundColor: MaterialStateProperty.all<Color?>(
+                          theme.secondaryHeaderColor.withOpacity(0.5)),
+                    ),
+                    color: theme.focusColor,
+                    icon: const Icon(
+                      Icons.arrow_back_ios_new,
+                    ),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                  backgroundColor: theme.cardColor,
                   flexibleSpace: FlexibleSpaceBar(
                     titlePadding: const EdgeInsets.only(left: 16, bottom: 16),
                     background: Hero(
@@ -113,21 +107,23 @@ class _CourseDetailsState extends State<CourseDetails> {
                   ),
                   actions: [
                     IconButton(
-                      style:ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color?>(AppLightColors.mainBackground.withOpacity(0.5)),
-                        padding:MaterialStateProperty.all<EdgeInsets?>(const EdgeInsets.all(8)),
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color?>(
+                            theme.secondaryHeaderColor.withOpacity(0.5)),
+                        padding: MaterialStateProperty.all<EdgeInsets?>(
+                            const EdgeInsets.all(8)),
                       ),
-                      color: Colors.black,
+                      color: theme.focusColor,
                       onPressed: () {},
                       icon: const Icon(Icons.favorite_outline),
                     ),
                   ],
                   bottom: PreferredSize(
-                    preferredSize: const Size.fromHeight(95),
-                    child:Container(
-                      decoration: const BoxDecoration(
-                        color: AppLightColors.mainBackground,
-                        borderRadius: BorderRadius.only(
+                    preferredSize: const Size.fromHeight(64),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: theme.cardColor,
+                        borderRadius: const BorderRadius.only(
                           topLeft: Radius.circular(20),
                           topRight: Radius.circular(20),
                         ),
@@ -139,113 +135,147 @@ class _CourseDetailsState extends State<CourseDetails> {
                               padding: const EdgeInsets.all(16.0),
                               child: Text(
                                 course.title ?? "",
-                                style: theme.textTheme.titleMedium,
-                                maxLines: 2,
+                                style: theme.textTheme.titleMedium
+                                    ?.copyWith(fontSize: 20),
+                                maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
-                            const Divider(height: 1,),
                           ],
                         ),
                       ),
-                    )
+                    ),
                   ),
-          ),
-        ],
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 10,
-              ),
-
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    StatisticInformationWidget(
-                      text: '${course.language}', 
-                      description: 'Language', 
-                      icon: Icons.language
-                    ),
-                    StatisticInformationWidget(
-                      text: '${course.reviewCount}', 
-                      description: 'Reviews', 
-                      icon: Icons.reviews 
-                    ),
-                    StatisticInformationWidget(
-                      text: '${course.enrollmentCount}', 
-                      description: 'Enrollments', 
-                      icon: Icons.monetization_on 
-                    ),
-                  ],
-                )
-              ),
-              const SizedBox(height: 20,),
-
-              Container(
-                width: double.infinity,
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(16))
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: ExpandableText(text: course.description, minLength: 5,),
-                ),
-              ),
-              
-              const SizedBox(height: 10),
-                            Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              ],
+              body: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Rating'),
-                    Row(
-                      children: [
-                        RatingBarIndicator(
-                          rating: double.parse(course.averageRating.toStringAsFixed(1)),
-                          itemBuilder: (context, index) => const Icon(
-                          Icons.star,
-                            color: AppFontColors.fontLink,
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          StatisticInformationWidget(
+                              text: '${course.language}',
+                              description: 'Language',
+                              icon: Icons.language),
+                          StatisticInformationWidget(
+                              text:
+                                  '${double.parse(course.averageRating.toStringAsFixed(1))}(${course.reviewCount})',
+                              description: 'Rating',
+                              icon: Icons.reviews),
+                          StatisticInformationWidget(
+                              text: '${course.enrollmentCount}',
+                              description: 'Enrollments',
+                              icon: Icons.monetization_on),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    InformationContaierWidget(
+                      informationWidget: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.info_outline_rounded,
+                            color: theme.focusColor,
                           ),
-                          itemCount: 5,
-                          itemSize: 24.0,
-                          direction: Axis.horizontal,
-                          unratedColor: theme.unselectedWidgetColor,
-                        ),
-                        const SizedBox(width: 10,),
-                        Text("${double.parse(course.averageRating.toStringAsFixed(1))}(${course.reviewCount})", style: theme.textTheme.displaySmall,),
-                      ],
+                          const SizedBox(width: 5),
+                          Text(
+                            'Information',
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      child: ExpandableText(
+                        text: course.description,
+                        minLength: 5,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    GestureDetector(
+                      child: const HorizontalCommentScroll(),
+                      onTap: () {
+                        showModalBottomSheet(
+                          isScrollControlled: true,
+                          context: context,
+                          builder: (context) => ChangeNotifierProvider.value(
+                            value: model,
+                            child: SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.85,
+                              child: const CommentBottomSheet(),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 10),
+                    InformationContaierWidget(
+                      informationWidget: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Modules',
+                            style: theme.textTheme.bodyMedium?.copyWith(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                'Modules: ${course.modules.length} ',
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  fontSize: 14,
+                                ),
+                              ),
+                              Text(
+                                ' Quizes: ${course.quizzes.length} ',
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  fontSize: 14,
+                                ),
+                              ),
+                              Text(
+                                ' Online lessons: ${course.onlineLessons.length} ',
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                        ],
+                      ),
+                      child: CourseModelList(stepItems: model.stepItems),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(
-                height: 10,
-              ),
-              HorizontalCommentScroll(),
-              
-            ],
-          ),
-        ),
-      ),
+            ),
       bottomNavigationBar: BottomAppBar(
-        color: theme.secondaryHeaderColor,
+        color: theme.secondaryHeaderColor.withOpacity(0.8),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            course != null? 
-            Text('${course.price}',style: theme.textTheme.labelMedium)
-            :const Text("Free"),
+            course != null
+                ? Text('${course.price}', style: theme.textTheme.labelMedium)
+                : const Text("Free"),
             FilledButton(
-              onPressed:() => model.buyCourse(course.id, context),
-              child: Text('Buy now', style: theme.textTheme.displayLarge?.copyWith(color: Colors.white),)
+              onPressed: () => model.buyCourse(course.id, context),
+              child: Text(
+                'Buy now',
+                style:
+                    theme.textTheme.displayLarge?.copyWith(color: Colors.white),
+              ),
             )
           ],
         ),
@@ -253,89 +283,3 @@ class _CourseDetailsState extends State<CourseDetails> {
     );
   }
 }
-
-
-
-/*
- NestedScrollView(
-        controller: scrollController,
-        : <Widget>[
-
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16), 
-            child: Column(
-              children: [
-                Text(
-                  course.title ?? "",
-                  maxLines: 3,
-                  style: theme.textTheme.titleMedium,
-                ),
-                Row(
-                    children: [
-                      RatingBarIndicator(
-                        rating: course.averageRating,
-                        itemBuilder: (context, index) => const Icon(
-                        Icons.star,
-                        color: AppFontColors.fontLink,
-                        ),
-                        itemCount: 5,
-                        itemSize: 24.0,
-                        direction: Axis.horizontal,
-                        unratedColor: theme.unselectedWidgetColor,
-                      ),
-                      const SizedBox(width: 10,),
-                      Text("${course.averageRating}(${course.reviewCount})", style: theme.textTheme.displaySmall,),
-                  
-                    ],
-                  ),
-                
-                const SizedBox(
-                  height: 20,
-                ),
-                Text(course.description, maxLines: 5,),
-                const SizedBox(
-                  height: 20,
-                ),
-
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(S.of(context).studyPlan, style: theme.textTheme.displayLarge,),
-                Text("${course.moduleCount} modules, ${course.quizCount ?? 0} quizes, ${course.materialCount ?? 0} materials"),
-              ],
-            )
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          const Center(
-            child:  CourseModelList(),
-          ),
-        ]
-      ),
-      bottomNavigationBar: BottomAppBar(
-        color: theme.secondaryHeaderColor,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            course != null? 
-            Text('${course.price}',style: theme.textTheme.labelMedium) 
-            :const Text("Free"),
-            FilledButton(
-              onPressed:() => model.buyCourse(course.id, context),
-              child: Text('Buy now', style: theme.textTheme.displayLarge,)
-            )
-          ],
-        ),
-      ),
-
-*/

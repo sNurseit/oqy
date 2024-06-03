@@ -7,8 +7,8 @@ import 'package:oqy/widgets/custom_text_field.dart';
 import 'package:provider/provider.dart';
 
 class AddMaterialBottomSheet extends StatefulWidget {
-  MaterialEntity material;
-  AddMaterialBottomSheet({required this.material, Key? key}) : super(key: key);
+  final MaterialEntity material;
+  const AddMaterialBottomSheet({required this.material, Key? key}) : super(key: key);
 
   @override
   _AddMaterialBottomSheetState createState() => _AddMaterialBottomSheetState();

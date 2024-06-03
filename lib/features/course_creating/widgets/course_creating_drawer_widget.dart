@@ -6,7 +6,7 @@ import 'package:oqy/features/course_creating/widgets/add_module_buttom_sheet.dar
 
 class CourseCreatingDrawerWidget extends StatelessWidget {
   final int index;
-  CourseCreatingDrawerWidget({Key? key, required this.index}) : super(key: key);
+  const CourseCreatingDrawerWidget({Key? key, required this.index}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

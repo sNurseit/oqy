@@ -25,5 +25,5 @@ abstract class AppDarkColors{
   static const mainCard= Color.fromRGBO(38, 38, 38, 1);
   static const scCard = Color.fromRGBO(51, 51, 51, 1);
   static const main= Color.fromRGBO(48, 123, 166, 1);
-  static const bottomBarBackground= Color.fromRGBO(51, 51, 51, 0.8);
+  static const bottomBarBackground= Color.fromRGBO(51, 51, 51, 1);
 }

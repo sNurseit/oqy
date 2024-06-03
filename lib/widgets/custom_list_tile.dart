@@ -20,7 +20,7 @@ class CustomListTile extends StatelessWidget {
       leading: Icon(icon),
       title: Text(
         title,
-         maxLines: 2,
+        maxLines: 2,
         style: theme.textTheme.bodySmall,
       ),
       trailing: const Icon(Icons.keyboard_arrow_right),

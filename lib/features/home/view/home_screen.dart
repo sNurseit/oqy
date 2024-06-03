@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:oqy/features/home/widgets/list_courses.dart';
 import 'package:oqy/features/home/widgets/row_courses.dart';
 
 @RoutePage()

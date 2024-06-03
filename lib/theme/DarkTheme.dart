@@ -22,7 +22,7 @@ class DarkTheme {
           ),
           titleMedium: TextStyle( 
             color: AppFontColors.fontWhite,
-            fontSize: 26,
+            fontSize: 20,
             fontWeight: FontWeight.w700,
             fontFamily: AppFonts.mainFont,
           ),
@@ -34,7 +34,7 @@ class DarkTheme {
             fontFamily: AppFonts.mainFont,
           ),
           bodyMedium: TextStyle(
-            color: AppFontColors.fontLight,
+            color: AppFontColors.fontWhite,
             fontSize: 16,
             fontFamily: AppFonts.mainFont,
           ),
@@ -79,7 +79,7 @@ class DarkTheme {
           ),
         ),
 
-        focusColor: AppFontColors.fontLight,
+        focusColor: AppFontColors.fontWhite,
         hintColor: AppFontColors.fontLight,
         secondaryHeaderColor:AppDarkColors.bottomBarBackground,
         unselectedWidgetColor: AppDarkColors.unselectedItem,

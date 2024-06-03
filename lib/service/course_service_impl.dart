@@ -35,10 +35,8 @@ class CourseService {
 
     Future<Course> getOneCourse(int courseId) async {
         try {
-            print(courseId);
             Response response = await _dio.get('$courseApi/$courseId');
             if (response.statusCode == 200) {
-              print(response.data);
               Course course = Course.fromJson(response.data);
               return course;
             } else {

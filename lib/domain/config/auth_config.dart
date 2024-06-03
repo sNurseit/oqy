@@ -10,6 +10,7 @@ class AuthInterceptor extends Interceptor {
     if (accessToken != null) {
       // Добавляем токен к заголовкам запроса
       options.headers['Authorization'] = accessToken;
+      options.headers['Content-Type'] = 'application/json';
     }
 
     return super.onRequest(options, handler);

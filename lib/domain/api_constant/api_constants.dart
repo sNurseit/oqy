@@ -13,7 +13,7 @@ class ApiConstants{
   static const String myCreated= 'http://10.0.2.2:8000/gateway/core/api/courses/my-created';
 
   static const String courseCategories = 'http://10.0.2.2:8000/gateway/core/api/course-category/all';
-  static const String reviews = 'http://10.0.2.2:8000/gateway/core/api/reviews/course-id';
+  static const String reviews = 'http://10.0.2.2:8000/gateway/core/api/reviews';
 
   static const String getModule = 'http://10.0.2.2:8000/gateway/core/api/modules/module';
   static const String module = 'http://10.0.2.2:8000/gateway/core/api/modules';

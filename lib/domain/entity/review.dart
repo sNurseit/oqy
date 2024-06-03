@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class Review {
   final int? id;
   final int? courseId;
@@ -18,6 +20,7 @@ class Review {
   });
 
   factory Review.fromJson(Map<String, dynamic> json) {
+    final String formattedDate = DateFormat('dd.MM.yyyy').format(DateTime.parse(json['dispatchDate']));
     return Review(
       id: json['id'] as int,
       courseId: json['courseId'] as int,
@@ -25,7 +28,19 @@ class Review {
       rating: json['rating'] as int,
       review: json['review'] as String,
       fullName: json['fullName'] as String,
-      dispatchDate: json['dispatchDate'] as String,
+      dispatchDate: formattedDate,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'courseId': courseId,
+      'userId': userId,
+      'rating': rating,
+      'review': review,
+      'fullName': fullName,
+      'dispatchDate': dispatchDate,
+    };
   }
 }

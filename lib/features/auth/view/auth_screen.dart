@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:oqy/features/auth/model/auth_model.dart';
-import 'package:oqy/features/auth/widgets/error_text.dart';
 import 'package:oqy/features/auth/widgets/input_login.dart';
 import 'package:oqy/features/auth/widgets/input_password.dart';
 import 'package:oqy/features/auth/widgets/login_button.dart';

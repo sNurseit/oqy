@@ -19,7 +19,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Timer(const Duration(milliseconds: 350), (){
+    Timer(const Duration(milliseconds: 500), (){
       AutoRouter.of(context).replace(const AuthRoute());
     });
 
