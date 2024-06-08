@@ -9,16 +9,24 @@ class HomeModel extends ChangeNotifier {
   List<Course> _model = [];
   get model=>_model;
 
+  List<Course> _topCourses = [];
+  get topCourses=>_topCourses;
+
   HomeModel(){
     getAllCourses();
+   // getTopTen();
   }
   Future<void> getAllCourses()async {
-    _model = (await _courseService.getAllCourses())!;
+    _topCourses = (await _courseService.getAllCourses())!;
+    notifyListeners();
+  }
+  Future<void> getTopTen()async {
+    _topCourses = (await _courseService.topTen())!;
     notifyListeners();
   }
 
-  void navigateToCourseDetails (BuildContext context, int index) {
-    AutoRouter.of(context).push(CourseRoute(courseId: index));
+  void navigateToCourseDetails (BuildContext context, int id) {
+    AutoRouter.of(context).push(CourseRoute(courseId: id));
   }
 
 }

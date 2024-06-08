@@ -27,7 +27,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 }
 
 class _FormWidget extends StatelessWidget {
-  const _FormWidget({Key? key});
+  const _FormWidget();
 
   static Widget create(){
     return ChangeNotifierProvider(

@@ -29,7 +29,7 @@ class Module extends StepItem{
       courseId: json['courseId'],
       title: json['title'],
       description: json['description'],
-      step: json['step'],
+      step: json['step'] ?? 0,
       totalSteps: json['totalSteps'],
       materials: json['materials']!=null
         ? List<MaterialEntity>.from(json['materials'].map((material) => MaterialEntity.fromJson(material))) : [],

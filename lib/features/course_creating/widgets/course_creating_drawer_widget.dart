@@ -32,7 +32,7 @@ class CourseCreatingDrawerWidget extends StatelessWidget {
                     color: const Color.fromARGB(255, 179, 199, 187),
                   ),
                 ),
-                Text('Quizes and modules'),
+                const Text('Quizes and modules'),
                 Expanded(
                   child: ListView.builder(
                     itemCount: combinedItems.length,

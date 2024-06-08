@@ -1,21 +1,17 @@
 
-/*
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:oqy/domain/config/web_socket_config.dart';
 import 'package:oqy/domain/entity/message.dart';
-import 'package:oqy/service/chat_service.dart';
+import 'package:oqy/domain/entity/profile.dart';
 
 @RoutePage()
 class ChatScreen extends StatefulWidget {
-  final String roomId;
-  final ChatService chatService;
-  final WebSocketConfig webSocketConfig;
+  final Profile profile;
+
 
   const ChatScreen({super.key, 
-    required this.roomId,
-    required this.chatService,
-    required this.webSocketConfig,
+    required this.profile,
   });
 
   @override
@@ -23,22 +19,23 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  final WebSocketConfig webSocketConfig = WebSocketConfig();
   late Future<List<Message>> _futureMessages;
   final TextEditingController _controller = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _futureMessages = widget.chatService.getMessages(widget.roomId)!;
-    widget.webSocketConfig.connect(widget.roomId);
+    //_futureMessages = widget.chatService.getMessages(widget.roomId)!;
+   // webSocketConfig.connect(widget.roomId);
   }
 
   @override
   void dispose() {
-    widget.webSocketConfig.disconnect();
+    webSocketConfig.disconnect();
     super.dispose();
   }
-
+/*
   void _sendMessage() {
     if (_controller.text.isNotEmpty) {
       final message = Message(
@@ -52,12 +49,12 @@ class _ChatScreenState extends State<ChatScreen> {
       _controller.clear();
     }
   }
-
+*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Chat Room ${widget.roomId}'),
+      //  title: Text('Chat Room ${widget.roomId}'),
       ),
       body: Column(
         children: [
@@ -98,7 +95,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
                 IconButton(
                   icon: Icon(Icons.send),
-                  onPressed: _sendMessage,
+                  onPressed:(){} //_sendMessage,
                 ),
               ],
             ),
@@ -108,4 +105,3 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 }
-*/

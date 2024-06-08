@@ -1,4 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:oqy/domain/dto/confirmation_dto.dart';
 import 'package:oqy/domain/entity/register.dart';
 import 'package:oqy/service/impl/auth_service_impl.dart';
@@ -14,7 +16,7 @@ class RegisterModel extends ChangeNotifier {
   late ConfirmationDto? confirmationDto;
 
   String errorText = "";
-  final _authService = AuthService();
+  final _authService = GetIt.I<AuthService>();
   bool isLoading = false;
   bool openBottomSheet =false;
   bool registered = false;

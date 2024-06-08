@@ -18,6 +18,15 @@ class GetProfile extends ProfileEvent{
   List<Object?> get props => [completer];
 }
 
+
+class FetchProfile extends ProfileEvent{
+  final BuildContext context;
+  final String type;
+  FetchProfile({required this.context, required this.type});
+  @override
+  List<Object?> get props => [];
+}
+
 class ChangeDataProfile extends ProfileEvent{
   final Profile? profile;
   ChangeDataProfile({ required this.profile});

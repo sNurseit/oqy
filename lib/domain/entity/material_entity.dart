@@ -22,7 +22,7 @@ class MaterialEntity {
       id: json['id'],
       moduleId: json['moduleId'],
       title: json['title'],
-      step: json['step'],
+      step: json['step']?? 0,
       content: json['content'],
       type: json['type'],
     );

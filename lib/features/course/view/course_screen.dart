@@ -6,7 +6,7 @@ import 'package:oqy/features/course/widgets/comment_bottom_sheet.dart';
 import 'package:oqy/features/course/widgets/course_module_list.dart';
 import 'package:oqy/features/course/widgets/expandable_text.dart';
 import 'package:oqy/features/course/widgets/horizontal_comment.dart';
-import 'package:oqy/features/course/widgets/information_container.dart';
+import 'package:oqy/widgets/information_container.dart';
 import 'package:oqy/features/course/widgets/statistic_information.dart';
 import 'package:provider/provider.dart';
 

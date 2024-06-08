@@ -1,5 +1,8 @@
+import 'dart:typed_data';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:oqy/domain/entity/course.dart';
 import 'package:oqy/features/training/model/training_model.dart';
 import 'package:oqy/features/training/widgets/my_created_list_widget.dart';
 import 'package:oqy/features/training/widgets/my_training_list_widget.dart';
@@ -44,7 +47,7 @@ class TrainingWidget extends StatelessWidget {
               title:const Text("Training", style: TextStyle(fontSize: 24),),
               actions: [
                 IconButton(
-                  onPressed: () => model.navigateTeCourseCreating(context, 0),
+                  onPressed: () => model.navigateToCourseCreating(context, 0),
                   icon: const Icon(Icons.add),
                 ),
               ],

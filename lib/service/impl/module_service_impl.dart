@@ -12,7 +12,6 @@ class ModuleServiceImpl extends ModuleService{
 
   ModuleServiceImpl({required this.dio}){
     dio.interceptors.add(AuthInterceptor());
-    dio.options.headers['Content-Type'] = 'application/json';
   }
 
   @override
@@ -21,14 +20,12 @@ class ModuleServiceImpl extends ModuleService{
     try{
       return  Module.fromJson(response.data);
     } catch(e){
-      print(e.toString());
       throw Exception();
     }
   }
   
   @override
   Future<Module> create(Module module) async {
-    print(module.toJson());
     Response response = await dio.post(url, data: module.toJson());
     try{
       return Module.fromJson(response.data);

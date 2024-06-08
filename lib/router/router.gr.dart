@@ -15,10 +15,30 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    AdminRoute.name: (routeData) {
+      final args = routeData.argsAs<AdminRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: AdminScreen(
+          profile: args.profile,
+          key: args.key,
+        ),
+      );
+    },
     AuthRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const AuthScreen(),
+      );
+    },
+    ChatRoute.name: (routeData) {
+      final args = routeData.argsAs<ChatRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: ChatScreen(
+          key: args.key,
+          profile: args.profile,
+        ),
       );
     },
     CourseCreatingRoute.name: (routeData) {
@@ -67,6 +87,23 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    ModeratorRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const ModeratorScreen(),
+      );
+    },
+    ModuleLearnRoute.name: (routeData) {
+      final args = routeData.argsAs<ModuleLearnRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: ModuleLearnScreen(
+          module: args.module,
+          materialIndex: args.materialIndex,
+          key: args.key,
+        ),
+      );
+    },
     ModuleRoute.name: (routeData) {
       final args = routeData.argsAs<ModuleRouteArgs>();
       return AutoRoutePage<dynamic>(
@@ -90,10 +127,32 @@ abstract class _$AppRouter extends RootStackRouter {
         ),
       );
     },
+    OnlineLessonRoute.name: (routeData) {
+      final args = routeData.argsAs<OnlineLessonRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: OnlineLessonScreen(
+          courseId: args.courseId,
+          roomId: args.roomId,
+          key: args.key,
+        ),
+      );
+    },
     ProfileRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const ProfileScreen(),
+      );
+    },
+    QuizEditRoute.name: (routeData) {
+      final args = routeData.argsAs<QuizEditRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: QuizEditScreen(
+          id: args.id,
+          courseId: args.courseId,
+          key: args.key,
+        ),
       );
     },
     RegisterRoute.name: (routeData) {
@@ -134,6 +193,43 @@ abstract class _$AppRouter extends RootStackRouter {
 }
 
 /// generated route for
+/// [AdminScreen]
+class AdminRoute extends PageRouteInfo<AdminRouteArgs> {
+  AdminRoute({
+    required Profile profile,
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
+          AdminRoute.name,
+          args: AdminRouteArgs(
+            profile: profile,
+            key: key,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'AdminRoute';
+
+  static const PageInfo<AdminRouteArgs> page = PageInfo<AdminRouteArgs>(name);
+}
+
+class AdminRouteArgs {
+  const AdminRouteArgs({
+    required this.profile,
+    this.key,
+  });
+
+  final Profile profile;
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'AdminRouteArgs{profile: $profile, key: $key}';
+  }
+}
+
+/// generated route for
 /// [AuthScreen]
 class AuthRoute extends PageRouteInfo<void> {
   const AuthRoute({List<PageRouteInfo>? children})
@@ -145,6 +241,43 @@ class AuthRoute extends PageRouteInfo<void> {
   static const String name = 'AuthRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [ChatScreen]
+class ChatRoute extends PageRouteInfo<ChatRouteArgs> {
+  ChatRoute({
+    Key? key,
+    required Profile profile,
+    List<PageRouteInfo>? children,
+  }) : super(
+          ChatRoute.name,
+          args: ChatRouteArgs(
+            key: key,
+            profile: profile,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'ChatRoute';
+
+  static const PageInfo<ChatRouteArgs> page = PageInfo<ChatRouteArgs>(name);
+}
+
+class ChatRouteArgs {
+  const ChatRouteArgs({
+    this.key,
+    required this.profile,
+  });
+
+  final Key? key;
+
+  final Profile profile;
+
+  @override
+  String toString() {
+    return 'ChatRouteArgs{key: $key, profile: $profile}';
+  }
 }
 
 /// generated route for
@@ -295,6 +428,63 @@ class MaterialEditRouteArgs {
 }
 
 /// generated route for
+/// [ModeratorScreen]
+class ModeratorRoute extends PageRouteInfo<void> {
+  const ModeratorRoute({List<PageRouteInfo>? children})
+      : super(
+          ModeratorRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ModeratorRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [ModuleLearnScreen]
+class ModuleLearnRoute extends PageRouteInfo<ModuleLearnRouteArgs> {
+  ModuleLearnRoute({
+    required StepItem module,
+    required int materialIndex,
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
+          ModuleLearnRoute.name,
+          args: ModuleLearnRouteArgs(
+            module: module,
+            materialIndex: materialIndex,
+            key: key,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'ModuleLearnRoute';
+
+  static const PageInfo<ModuleLearnRouteArgs> page =
+      PageInfo<ModuleLearnRouteArgs>(name);
+}
+
+class ModuleLearnRouteArgs {
+  const ModuleLearnRouteArgs({
+    required this.module,
+    required this.materialIndex,
+    this.key,
+  });
+
+  final StepItem module;
+
+  final int materialIndex;
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'ModuleLearnRouteArgs{module: $module, materialIndex: $materialIndex, key: $key}';
+  }
+}
+
+/// generated route for
 /// [ModuleScreen]
 class ModuleRoute extends PageRouteInfo<ModuleRouteArgs> {
   ModuleRoute({
@@ -371,6 +561,49 @@ class MyLearningRouteArgs {
 }
 
 /// generated route for
+/// [OnlineLessonScreen]
+class OnlineLessonRoute extends PageRouteInfo<OnlineLessonRouteArgs> {
+  OnlineLessonRoute({
+    required int courseId,
+    required int roomId,
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
+          OnlineLessonRoute.name,
+          args: OnlineLessonRouteArgs(
+            courseId: courseId,
+            roomId: roomId,
+            key: key,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'OnlineLessonRoute';
+
+  static const PageInfo<OnlineLessonRouteArgs> page =
+      PageInfo<OnlineLessonRouteArgs>(name);
+}
+
+class OnlineLessonRouteArgs {
+  const OnlineLessonRouteArgs({
+    required this.courseId,
+    required this.roomId,
+    this.key,
+  });
+
+  final int courseId;
+
+  final int roomId;
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'OnlineLessonRouteArgs{courseId: $courseId, roomId: $roomId, key: $key}';
+  }
+}
+
+/// generated route for
 /// [ProfileScreen]
 class ProfileRoute extends PageRouteInfo<void> {
   const ProfileRoute({List<PageRouteInfo>? children})
@@ -382,6 +615,49 @@ class ProfileRoute extends PageRouteInfo<void> {
   static const String name = 'ProfileRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [QuizEditScreen]
+class QuizEditRoute extends PageRouteInfo<QuizEditRouteArgs> {
+  QuizEditRoute({
+    required int id,
+    required int courseId,
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
+          QuizEditRoute.name,
+          args: QuizEditRouteArgs(
+            id: id,
+            courseId: courseId,
+            key: key,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'QuizEditRoute';
+
+  static const PageInfo<QuizEditRouteArgs> page =
+      PageInfo<QuizEditRouteArgs>(name);
+}
+
+class QuizEditRouteArgs {
+  const QuizEditRouteArgs({
+    required this.id,
+    required this.courseId,
+    this.key,
+  });
+
+  final int id;
+
+  final int courseId;
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'QuizEditRouteArgs{id: $id, courseId: $courseId, key: $key}';
+  }
 }
 
 /// generated route for

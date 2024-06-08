@@ -20,13 +20,13 @@ class OnlineLesson {
   // From JSON
   factory OnlineLesson.fromJson(Map<String, dynamic> json) {
     return OnlineLesson(
-      id: json['id'] as int?,
-      courseId: json['courseId'] as int?,
-      title: json['title'] as String?,
-      description: json['description'] as String?,
+      id: json['id'],
+      courseId: json['courseId'],
+      title: json['title'],
+      description: json['description'],
       dateOfStart: json['dateOfStart'] != null ? DateTime.parse(json['dateOfStart']) : null,
       date: json['date'] != null ? DateTime.parse(json['date']) : null,
-      time: json['time'] as String?,
+      time: json['time'] ,
     );
   }
 

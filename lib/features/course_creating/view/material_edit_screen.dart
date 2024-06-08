@@ -116,6 +116,7 @@ class _MaterialEditScreenState extends State<MaterialEditScreen> {
                           locale: Locale('ru'),
                         ),
                       ),
+                      
                     ),
                   ),
                   Padding(
@@ -163,9 +164,9 @@ class _MaterialEditScreenState extends State<MaterialEditScreen> {
                                     ),
                                   ],
                                 )
-                              : Container(
+                              : const SizedBox(
                                   height: 200,
-                                  child: const Center(
+                                  child: Center(
                                       child: CircularProgressIndicator()),
                                 ),
                         ],

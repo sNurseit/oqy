@@ -6,7 +6,7 @@ class CategoryDropDown extends StatelessWidget {
   final List<CourseCategory> categories;
   final Function(CourseCategory?) onCategorySelected;
 
-  CategoryDropDown({
+  const CategoryDropDown({
     Key? key,
     required this.categories,
     required this.onCategorySelected,

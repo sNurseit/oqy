@@ -7,24 +7,27 @@ class InputLogin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final model = context.read<AuthModel>();
     return  TextField(
+      cursorColor: theme.primaryColor,
+      style: theme.textTheme.displayLarge,
       controller: model.loginTextController,
       decoration: InputDecoration(
-        filled: false,
-            border:  OutlineInputBorder(
-              borderSide: BorderSide(color: Theme.of(context).focusColor),
-              borderRadius: BorderRadius.circular(6.0),
-            ),
-            labelText: "Email",
-            contentPadding: const EdgeInsets.symmetric(horizontal: 17,vertical: 20),
-            labelStyle:  TextStyle(
-              color:  Theme.of(context).hintColor,
-            ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Theme.of(context).primaryColor), // Цвет рамки при активном состоянии
-            borderRadius: BorderRadius.circular(6.0),
-          ),
+      filled: false,
+        border:  OutlineInputBorder(
+          borderSide: BorderSide(color: theme.focusColor),
+          borderRadius: BorderRadius.circular(6.0),
+        ),
+        labelText: "Email",
+        contentPadding: const EdgeInsets.symmetric(horizontal: 17,vertical: 20),
+        labelStyle: TextStyle(
+          color: theme.hintColor,
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: theme.primaryColor),
+          borderRadius: BorderRadius.circular(6.0),
+        ),
       ),
     );
   }

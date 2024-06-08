@@ -28,7 +28,7 @@ class _AuthScreenState extends State<AuthScreen> {
 }
 
 class _FormWidget extends StatelessWidget {
-  const _FormWidget({super.key});
+  const _FormWidget();
 
   static Widget create(){
     return ChangeNotifierProvider(
@@ -41,7 +41,7 @@ class _FormWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     
     return  Padding(
-        padding: EdgeInsets.symmetric(horizontal: 40.0),
+        padding: const EdgeInsets.symmetric(horizontal: 40.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,

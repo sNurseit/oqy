@@ -1,6 +1,8 @@
-
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:oqy/domain/entity/course.dart';
 import 'package:oqy/features/home/model/home_model.dart';
 import 'package:provider/provider.dart';
 
@@ -16,113 +18,103 @@ class RowCourses extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = Provider.of<HomeModel>(context);
-    final courses = model.model;
-    final myContext = context;
+    final courses = model.topCourses;
     final theme = Theme.of(context);
 
     if (courses == null || courses.isEmpty) {
-      return const Center(child: CircularProgressIndicator());
+      return Container();
     }
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding:  EdgeInsets.symmetric(horizontal: 20),
-          child: Text('Top 10 courses'),
+        const SizedBox(height: 50,),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: Text('Top 10 courses', style: theme.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold, fontSize: 18),),
         ),
         SizedBox(
-          height: 200,
+          height: 250, 
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: courses.length,
             itemBuilder: (BuildContext context, int index) {
               final course = courses[index];
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: GestureDetector(
-                  onTap: ()=>model.navigateToCourseDetails(myContext, course.id),
-                  child: Card.filled(
-                    color: theme.cardColor,
-                    child: Column(
-                      children: [
-                        Container(
-                          constraints: const BoxConstraints(
-                            maxHeight: 200,
-                            minHeight: 120,
-                            minWidth: 200,
-                            maxWidth: 200,
-                          ),
-                          decoration: const BoxDecoration(
-                          ),
-                          child: ClipRRect(
-                            borderRadius: const BorderRadius.only(topRight: Radius.circular(12), topLeft: Radius.circular(12)),
-                            child: Hero(
-                              tag: 'course_image_${course.id}',
-                              child: Image.memory(
-                                course.imageBytes,
-                                fit: BoxFit.fitWidth,
-                              ),
-                            ),
-                          ),
-                        ),
-                       /* Padding(
-                          padding: const EdgeInsets.all(8),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Flexible(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      course.title,
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 2,
-                                    ),
-                                    const SizedBox(height: 8,),
-                                    Text(
-                                      course.description,
-                                      maxLines: 2,
-                                      style: theme.textTheme.bodySmall,
-                                    ),
-                                    const SizedBox(height: 10,),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        RatingBarIndicator(
-                                          rating: course.averageRating,
-                                          itemBuilder: (context, index) => const Icon(
-                                            Icons.star,
-                                            color: AppFontColors.fontLink,
-                                          ),
-                                          itemCount: 5,
-                                          itemSize: 16.0,
-                                          direction: Axis.horizontal,
-                                          unratedColor: theme.unselectedWidgetColor,
-                                        ),
-                                        Text('${course.price}',
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ),
-                              
-                            ],
-                          
-                          ),
-                        ),*/
-                      ],
-                    ),
-                  ),
-                )
-              );
-            }
+              return _buildCourseItem(context, course);
+            },
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildCourseItem(BuildContext context, Course course) {
+    final theme = Theme.of(context);
+    final model = context.read<HomeModel>();
+    final imageBytes = Uint8List.fromList(course.imageBytes!);
+
+    return SizedBox(
+      width: 200,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            GestureDetector(
+              onTap: () => model.navigateToCourseDetails(context, course.id!),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: 200,
+                    height: 150, // Reduced height to fit within the ListView
+                    decoration: const BoxDecoration(),
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(5),
+                      ),
+                      child: Hero(
+                        tag: 'course_image_${course.id}',
+                        child: Image.memory(
+                          imageBytes,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8.0),
+                    child: Text(
+                      course.title!,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  RatingBarIndicator(
+                    rating: course.averageRating ?? 0.0,
+                    itemBuilder: (context, index) => Icon(
+                      Icons.star,
+                      color: theme.primaryColor,
+                    ),
+                    unratedColor: Colors.grey,
+                    itemCount: 5,
+                    itemSize: 20,
+                    direction: Axis.horizontal,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

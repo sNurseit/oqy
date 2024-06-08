@@ -5,6 +5,6 @@ class ErrorText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return Text("oshibka");
+    return const Text("oshibka");
   }
 }

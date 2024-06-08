@@ -109,6 +109,9 @@ class _CourseCreatingScreenState extends State<CourseCreatingScreen> {
                         onPhotoSelected: (base64Photo) {
                           picture = base64Photo;
                         },
+                        notSelected: Container(
+                          child: Text('SelectPhoto')
+                        ),
                       ),
                       const SizedBox(height: 10),
                       CustomTextField(

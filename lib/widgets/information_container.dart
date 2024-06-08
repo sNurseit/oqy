@@ -23,7 +23,7 @@ class InformationContaierWidget extends StatelessWidget {
               const SizedBox(height: 10,),
               child,
             ],
-              ),
+          ),
       ),
     );
   }

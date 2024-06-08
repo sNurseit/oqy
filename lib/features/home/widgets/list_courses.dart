@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:oqy/features/home/model/home_model.dart';
+import 'package:oqy/features/home/model/course_list_model.dart';
 import 'package:oqy/theme/app_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -9,14 +9,14 @@ class ListCourses extends StatelessWidget {
 
   static Widget create() {
     return ChangeNotifierProvider.value(
-      value: HomeModel(),
+      value: HomeListModel(),
       child: const ListCourses(),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    final model = Provider.of<HomeModel>(context);
+    final model = Provider.of<HomeListModel>(context);
     final courses = model.model;
     final myContext = context;
     final theme = Theme.of(context);

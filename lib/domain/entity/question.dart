@@ -1,11 +1,12 @@
 import 'package:oqy/domain/entity/answer.dart';
 
 class Question {
-  final int? id;
-  final int? quizId;
-  final String? question;
-  final String? image;
-  final List<Answer>? answers;
+  int? id;
+  int? quizId;
+  String? question;
+  String? image;
+  List<Answer>? answers = [];
+  bool changed = false;
 
   Question({
     this.id,
@@ -15,27 +16,24 @@ class Question {
     this.answers,
   });
 
-  // From JSON
   factory Question.fromJson(Map<String, dynamic> json) {
     return Question(
       id: json['id'] as int?,
       quizId: json['quizId'] as int?,
       question: json['question'] as String?,
       image: json['image'] as String?,
-      answers: (json['answers'] as List<dynamic>?)
-          ?.map((answerJson) => Answer.fromJson(answerJson as Map<String, dynamic>))
-          .toList(),
+      answers: json['answers']!=null
+        ? List<Answer>.from(json['answers'].map((answers) => Answer.fromJson(answers))) : [],
     );
   }
 
-  // To JSON
   Map<String, dynamic> toJson() {
     return {
       'id': id,
       'quizId': quizId,
       'question': question,
       'image': image,
-      'answers': answers?.map((answer) => answer.toJson()).toList(),
+      'answers': answers!=null ? answers?.map((answer) => answer.toJson()).toList() : [],
     };
   }
 }

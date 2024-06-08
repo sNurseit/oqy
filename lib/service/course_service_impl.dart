@@ -32,10 +32,26 @@ class CourseService {
             throw Exception('Failed to make the request: $error');
         }
     }
+    Future<List<Course>?> topTen() async {
+        try {
+            Response response = await _dio.get('$courseApi/top');
+            if (response.statusCode == 200) {
+                List<Course> courses = (response.data as List)
+                    .map((courseJson) => Course.fromJson(courseJson))
+                    .toList();
+                return courses;
+            } else {
+                throw Exception('Failed to load content. Status code: ${response.statusCode}');
+            }
+        } catch (error) {
+            throw Exception('Failed to make the request: $error');
+        }
+    }
 
     Future<Course> getOneCourse(int courseId) async {
         try {
             Response response = await _dio.get('$courseApi/$courseId');
+
             if (response.statusCode == 200) {
               Course course = Course.fromJson(response.data);
               return course;
@@ -69,7 +85,7 @@ class CourseService {
     try {
       final response = await _dio.post(
         buy,
-        data: {'courseId': courseId}
+        queryParameters: {'courseId': courseId}
       );       
       return response.statusCode ;
     } 
@@ -122,7 +138,6 @@ class CourseService {
 
   Future<Course> create(Course course) async{
     try {
-      print(course.toJson());
       Response response = await _dio.post(
         '$courseApi/info',
         data: course.toJson(),

@@ -24,6 +24,7 @@ class Course {
   String? categoryCode;
   List<int>? imageBytes;
   String? image;
+  String? status;
   Course({
     this.id,
     this.title,
@@ -43,6 +44,7 @@ class Course {
     this.imageBytes,
     this.categoryCode,
     this.image,
+    this.status, 
   });
 
   factory Course.empty(){
@@ -71,7 +73,7 @@ class Course {
       modules: json['modules']!=null 
         ? List<Module>.from(json['modules'].map((module) => Module.fromJson(module))): [],
       onlineLessons: json['onlineLessons']!=null 
-        ? List<OnlineLesson>.from(json['onlineLessons'].map((module) => Module.fromJson(module))): [],
+        ? List<OnlineLesson>.from(json['onlineLessons'].map((onlineLesson) => OnlineLesson.fromJson(onlineLesson))): [],
       quizzes: json['quizes']!=null
         ? List<Quiz>.from(json['quizes'].map((module) => Module.fromJson(module))) : [],
       moduleCount: json['moduleCount'],
@@ -83,6 +85,7 @@ class Course {
       categoryCode: json['categoryCode'],
       imageBytes: base64.decode(pic),
       image: null,
+      status: json['status'],
     );
   }
 

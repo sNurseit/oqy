@@ -14,13 +14,13 @@ class DynamicText extends StatelessWidget {
   Widget build(BuildContext context) {
     return currentLength > maxLength ?
      Text(
-      '${text} ($currentLength/$maxLength)',
-      style: TextStyle(color: Colors.red)
+      '$text ($currentLength/$maxLength)',
+      style: const TextStyle(color: Colors.red)
     )
     :
      Text(
-      '${text} ($currentLength/$maxLength)',
-      style: TextStyle(color: Colors.black)
+      '$text ($currentLength/$maxLength)',
+      style: const TextStyle(color: Colors.black)
     );
   }
 }

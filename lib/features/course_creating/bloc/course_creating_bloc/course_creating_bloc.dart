@@ -80,6 +80,7 @@ class CourseCreatingBloc extends Bloc<CourseCreatingEvent, CourseCreatingState> 
       if(event.moduleType is Module){
         AutoRouter.of(event.buildContext).push(ModuleRoute(moduleId:event.moduleType.id!, ));
       } else{
+        AutoRouter.of(event.buildContext).push(QuizEditRoute(id: event.moduleType.id!, courseId: course.id!,));
       }
 /*
       if(module == null){
@@ -121,39 +122,7 @@ class CourseCreatingBloc extends Bloc<CourseCreatingEvent, CourseCreatingState> 
       }
     });
 
-    on<ChangeModuleStep>((event, emit) {
-      emit(CourseCreatingLoading());
-
-      List<ModuleType> moduleTypes = event.moduleTypes;
-      List<Module> modules = [];
-      List<Quiz> quizzes = [];
-      int step = 1;
-      
-      for (var moduleType in moduleTypes) {
-        if (moduleType.type == 'module') {
-          Module? module = getModuleByStep(moduleType.step);
-          if (module != null) {
-            module.step = step;
-            modules.add(module);
-          }
-        } else {
-          Quiz? quiz = getQuizByStep(moduleType.step);
-          if (quiz != null) {
-            quiz.step = step;
-            quizzes.add(quiz);
-          }
-        }
-        step++;
-      }
-      course.modules = modules;
-      course.quizzes = quizzes;
-      emit(CourseCreatingLoaded(
-        course: course,
-        category: categoryList!,
-        courseModules: moduleTypes,
-      ));
-    });
-
+    
     on<PopNavigate>((event,emit){
       emit(CourseCreatingLoading());
       emit(CourseCreatingLoaded(course: course, category: categoryList!, courseModules:courseModules));
@@ -223,7 +192,6 @@ class CourseCreatingBloc extends Bloc<CourseCreatingEvent, CourseCreatingState> 
           final List<CourseCategory> categoryList = await courseCategoryService.getAllCategories();
           emit(CourseCreatingLoaded(course: course, category: categoryList, courseModules:courseModules));
         } catch (e){
-          print(e.toString());
           emit(CourseCreatingError('Something wrong'));
         } finally{
           event.completer?.complete();

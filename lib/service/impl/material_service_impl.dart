@@ -21,7 +21,6 @@ class MaterialServiceImpl extends MaterialService{
   @override
   Future<MaterialEntity> create(MaterialEntity material) async {
     try {
-      print(material.toJson());
       Response response = await dio.post(url, data: material.toJson());
       return MaterialEntity.fromJson(response.data);
     } catch (e) {
@@ -73,6 +72,17 @@ class MaterialServiceImpl extends MaterialService{
       });
       
       Response response = await dio.post(fileUrl, data: formData);
+      return response.data;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+
+  @override
+  Future<String> getVideo(String videoName) async {
+    try {
+      Response response = await dio.get('$fileUrl/download/$videoName');
       return response.data;
     } catch (e) {
       throw Exception(e);

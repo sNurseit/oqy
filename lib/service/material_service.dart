@@ -9,4 +9,5 @@ abstract class MaterialService{
   Future<MaterialEntity> create(MaterialEntity material);
   Future<MaterialEntity> update(MaterialEntity material);
   Future<String> uploadVideo(File videoFile);
+  Future<String> getVideo(String videoName);
 }

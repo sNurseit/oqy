@@ -227,7 +227,7 @@ class _ModuleTypesState extends State<ModuleTypes> {
           child: Row(
             children: [
               Icon(icon ),
-              SizedBox(width: 5,),
+              const SizedBox(width: 5,),
               Text(
                 content,
                 style: TextStyle(

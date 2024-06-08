@@ -14,8 +14,8 @@ class ProfileLoading extends ProfileState{
 
 class ProfileLoaded extends ProfileState{
   final Profile profile;
-
-  ProfileLoaded({required this.profile});
+  final List<String> roles;
+  ProfileLoaded({required this.profile, required this.roles});
   
   @override
   List<Object?> get props =>[profile];

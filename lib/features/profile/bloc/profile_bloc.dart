@@ -4,7 +4,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:oqy/domain/entity/auth_response.dart';
 import 'package:oqy/domain/entity/profile.dart';
+import 'package:oqy/domain/provider/session_provider.dart';
 import 'package:oqy/router/router.dart';
 import 'package:oqy/service/profile_service.dart';
 
@@ -14,15 +16,17 @@ part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   Profile? profile;
-
+  AuthResponse? session;
   ProfileBloc(this.profileService) : super(ProfileInitial()) {
     on<LoadProfile>((event, emit) async {
       try{
+
         if (state is !ProfileLoaded) {
           emit(ProfileLoading());
         }
         profile = await profileService.getProfile();
-        emit(ProfileLoaded(profile: profile!));
+        session = await getSession();
+        emit(ProfileLoaded(profile: profile!, roles:session!.roles ));
       } catch (e){
         emit(ProfileLoadingFailure(exception: e));
       } finally{
@@ -31,7 +35,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     });
 
     on<GetProfile>((event,emit){
-      emit(ProfileLoaded(profile: profile!));
+      emit(ProfileLoaded(profile: profile!, roles:session!.roles));
       event.completer?.complete();
     });
 
@@ -60,6 +64,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       } 
     });
   }
-
+  Future<AuthResponse> getSession() async {
+    final authInfo = await SessionDataProvider().getSessions();
+    return authInfo;
+  }
   final ProfileService profileService;
 }

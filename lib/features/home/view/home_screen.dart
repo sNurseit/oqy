@@ -25,7 +25,12 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
         toolbarHeight: 60,
       ),
-      body: RowCourses.create(),
+      body: Column(
+        children: [
+          RowCourses.create(),
+         // ListCourses.create(),
+        ],
+      ),
     );
   }
 }

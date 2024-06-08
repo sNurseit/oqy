@@ -8,6 +8,12 @@ class TrainingModel extends ChangeNotifier {
   final _courseService =CourseService();
   int? createdCourseLength;
   List<Course> _courses = [];
+  List<Course> archive = [];
+  List<Course> active = [];
+  List<Course> rejected = [];
+  List<Course> not_checked = [];
+  List<Course> re_check = [];
+
   get courses=>_courses;
 
   List<Course> _cretatedCourses =[];
@@ -24,16 +30,46 @@ class TrainingModel extends ChangeNotifier {
     return _courses;
   }
 
-  Future<List<Course>> getCreatedCourses() async {
-    _cretatedCourses = ( await _courseService.myCreated())!;
-    return _cretatedCourses;
+  Future<void> getCreatedCourses() async {
+    _cretatedCourses = (await _courseService.myCreated())!;
+    
+    archive.clear();
+    active.clear();
+    rejected.clear();
+    not_checked.clear();
+    re_check.clear();
+
+    for (var course in _cretatedCourses) {
+      switch (course.status) {
+        case 'ARCHIVE':
+          archive.add(course);
+          break;
+        case 'ACTIVE':
+          active.add(course);
+          break;
+        case 'REJECTED':
+          rejected.add(course);
+          break;
+        case 'NOT_CHECKED':
+          not_checked.add(course);
+          break;
+        case 'RE_CHECK':
+          re_check.add(course);
+          break;
+        default:
+          break;
+      }
+    }
+
+    createdCourseLength = _cretatedCourses.length;
+    notifyListeners();
   }
 
   void navigateToCourseTraining (BuildContext context, int index) {
     AutoRouter.of(context).push( MyLearningRoute(courseId: index));
   }
 
-  void navigateTeCourseCreating(BuildContext context, int? index) {
+  void navigateToCourseCreating(BuildContext context, int? index) {
     index ??= 0;
     AutoRouter.of(context).push(CourseCreatingRoute(courseId: index));
   }

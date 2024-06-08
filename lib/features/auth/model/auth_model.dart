@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:oqy/router/router.dart';
 import 'package:oqy/service/impl/auth_service_impl.dart';
 
@@ -10,7 +11,7 @@ class AuthModel extends ChangeNotifier{
   final loginTextController =TextEditingController();
   final passwordTextController = TextEditingController();
   String errorText = "";
-  final _authService = AuthService();
+  final _authService = GetIt.I<AuthService>();
 
   Future<void> login(BuildContext context) async {
     final login= loginTextController.text;

@@ -34,13 +34,13 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
   @override
   Widget build(BuildContext context) {
 
-    final _profileBloc = Provider.of<ProfileBloc>(context, listen: false);
+    final profileBloc = Provider.of<ProfileBloc>(context, listen: false);
     return Scaffold(
-      endDrawer: const SettingDrawerWidget(),
+      endDrawer:  SettingDrawerWidget(),
       body: RefreshIndicator(
         onRefresh: () async {
           final completer = Completer();
-          _profileBloc.add(LoadProfile(completer:completer));
+          profileBloc.add(LoadProfile(completer:completer));
           return completer.future;
         },
         child: Stack(
@@ -71,7 +71,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                           expandedTitleScale: 1,
                           background: Center(
                             child: BlocBuilder<ProfileBloc, ProfileState>(
-                              bloc: _profileBloc,
+                              bloc: profileBloc,
                               builder: (context, state) {
                                 if (state is ProfileLoaded) {
                                   return Column(
@@ -88,7 +88,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                 }
                                 if (state is ProfileLoadingFailure) {
                                   return ErrorLoadingWidget(
-                                    onTryAgain: () => _profileBloc.add(LoadProfile()),
+                                    onTryAgain: () => profileBloc.add(LoadProfile()),
                                   );
                                 }
                                 return const Text('Loading');

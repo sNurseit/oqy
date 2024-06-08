@@ -14,12 +14,12 @@ class Quiz extends StepItem {
   String? description;
   @override
   int step;
-  List<Question>? questions;
+  List<Question>? questions =[];
   QuizPoint? quizPoint;
 
 
   Quiz({
-    required this.id,
+    this.id,
     this.courseId,
     this.duration,
     this.durationString,
